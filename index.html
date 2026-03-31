@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Control de Incumplimiento — El Salvador</title>
+<title>Control de Incumplimiento — Vista Protagónica</title>
 <style>
 :root{--azul:#1B3A6B;--azul-mid:#2E5FA3;--azul-light:#D6E4F7;--verde:#1A6B4A;--verde-light:#D4EDE3;--gris:#4A5568;--gris-light:#EDF2F7;--alerta:#B45309;--alerta-light:#FEF3C7;--critico:#7F1D1D;--critico-light:#FEE2E2;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F7FAFC;color:#2D3748;font-size:13px;line-height:1.5;}
-.page{max-width:1450px;margin:0 auto;padding:1.5rem;}
+.page{max-width:1400px;margin:0 auto;padding:1.5rem;}
 .header{margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid var(--azul);display:flex;justify-content:space-between;align-items:center;}
 .header h1{font-size:20px;font-weight:700;color:var(--azul);}
 
@@ -29,7 +29,7 @@ select#filtroDep{flex:1;background:#fff;font-weight:600;color:var(--azul);}
 .tabla-wrap{background:#fff;border-radius:10px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);overflow:hidden;border:1px solid #E2E8F0;}
 table{width:100%;border-collapse:collapse;}
 thead tr{background:var(--azul);}
-th{color:#fff;font-weight:600;padding:12px;text-align:left;cursor:pointer;white-space:nowrap;font-size:11px;}
+th{color:#fff;font-weight:600;padding:12px;text-align:left;cursor:pointer;white-space:nowrap;}
 th:hover{background:var(--azul-mid);}
 tbody td{padding:10px 12px;border-bottom:1px solid #E2E8F0;vertical-align:middle;}
 tbody tr:hover{background-color:#F8FAFC;}
@@ -37,13 +37,8 @@ tbody tr:hover{background-color:#F8FAFC;}
 .badge{display:inline-block;font-size:10px;padding:3px 8px;border-radius:12px;font-weight:700;white-space:nowrap;}
 .b-dir{background:#E0E7FF;color:#3730A3;}
 .b-doc{background:#FEF3C7;color:#92400E;}
-
-/* Colores de Criticidad segun archivo 3 */
-.crit-critico{background:#FEE2E2; color:#7F1D1D; border:1px solid #F87171;}
-.crit-alto{background:#FFEDD5; color:#9A3412; border:1px solid #FB923C;}
-.crit-medio{background:#FEF3C7; color:#92400E; border:1px solid #FBBF24;}
-.crit-bajo{background:#F1F5F9; color:#475569; border:1px solid #CBD5E0;}
-
+.b-nc{background:#F1F5F9;color:#475569;}
+.b-rg{background:#DBEAFE;color:#1E40AF;}
 .count-pill{padding:2px 8px;border-radius:10px;font-weight:800;}
 .high{background:var(--critico);color:#fff;}
 .low{background:var(--gris-light);color:var(--gris);}
@@ -58,26 +53,26 @@ tbody tr:hover{background-color:#F8FAFC;}
 <div class="page">
     <div class="header">
         <div>
-            <h1>Dashboard de Incumplimiento Docente</h1>
-            <p style="color:var(--gris)">Traducción Automática de Tipologías y Criticidad — El Salvador 2026</p>
+            <h1>Panel de Control de Incumplimientos</h1>
+            <p style="color:var(--gris)">Protagonismo de Personal y Reincidencia Histórica</p>
         </div>
         <div style="text-align:right; font-size:11px; color:var(--gris)">
-            Datos al 31 Mar 2026<br>Matriz de Criticidad Integrada
+            Actualizado: 31 Mar 2026<br>San Salvador, El Salvador
         </div>
     </div>
 
     <div class="kpi-row">
         <div class="kpi"><div class="kpi-label">Total Reportes</div><div class="kpi-value" id="k1">-</div></div>
-        <div class="kpi" style="border-left-color:var(--alerta)"><div class="kpi-label">Personal Único</div><div class="kpi-value" id="k2">-</div></div>
-        <div class="kpi" style="border-left-color:var(--critico)"><div class="kpi-label">Casos Críticos</div><div class="kpi-value" id="k3">-</div></div>
-        <div class="kpi" style="border-left-color:var(--verde)"><div class="kpi-label">Deptos. Afectados</div><div class="kpi-value" id="k4">-</div></div>
+        <div class="kpi" style="border-left-color:var(--alerta)"><div class="kpi-label">Docentes Únicos</div><div class="kpi-value" id="k2">-</div></div>
+        <div class="kpi" style="border-left-color:var(--critico)"><div class="kpi-label">Reincidentes (>1)</div><div class="kpi-value" id="k3">-</div></div>
+        <div class="kpi" style="border-left-color:var(--verde)"><div class="kpi-label">Deptos. Activos</div><div class="kpi-value" id="k4">-</div></div>
     </div>
 
     <div class="filter-bar">
         <div class="filter-group">
             <label>Departamento:</label>
             <select id="filtroDep" onchange="render()">
-                <option value="">-- Todos --</option>
+                <option value="">-- Todos los Departamentos --</option>
                 <option value="AHUACHAPAN">Ahuachapán</option>
                 <option value="CABAÑAS">Cabañas</option>
                 <option value="CHALATENANGO">Chalatenango</option>
@@ -95,7 +90,7 @@ tbody tr:hover{background-color:#F8FAFC;}
             </select>
         </div>
         <div class="search-row" style="margin-bottom:0; flex:1;">
-            <input id="busca" type="text" placeholder="Buscar por Nombre o Centro Educativo..." oninput="render()">
+            <input id="busca" type="text" placeholder="Buscar por Nombre del Profesor o Centro Educativo..." oninput="render()">
         </div>
     </div>
 
@@ -105,13 +100,12 @@ tbody tr:hover{background-color:#F8FAFC;}
                 <tr>
                     <th onclick="sc('nombre')">Nombre Director/Docente ↕</th>
                     <th onclick="sc('tipo')">Cargo ↕</th>
-                    <th onclick="sc('veces')">Frecuencia ↕</th>
-                    <th onclick="sc('cod')">Cod. ↕</th>
-                    <th>Categoría de Incumplimiento</th>
-                    <th>Criticidad</th>
-                    <th onclick="sc('fecha')">Fecha ↕</th>
+                    <th onclick="sc('veces')">Reportes Totales ↕</th>
+                    <th onclick="sc('cod')">Falta ↕</th>
+                    <th onclick="sc('fecha')">Última Fecha ↕</th>
                     <th onclick="sc('ce')">Centro Educativo ↕</th>
-                    <th>Depto</th>
+                    <th onclick="sc('dep')">Depto ↕</th>
+                    <th onclick="sc('pct')">% Impacto ↕</th>
                 </tr>
             </thead>
             <tbody id="tbody"></tbody>
@@ -120,61 +114,7 @@ tbody tr:hover{background-color:#F8FAFC;}
 </div>
 
 <script>
-// MATRIZ DE TRADUCCIÓN BASADA EN ARCHIVO 3
-const MATRIZ_INCUMPLIMIENTO = {
-    "RG": { cat: "Resistencia Grave", grupo: "Resistencia y Autoridad", crit: "CRÍTICO" },
-    "OB": { cat: "Obstrucción", grupo: "Resistencia y Autoridad", crit: "CRÍTICO" },
-    "DS": { cat: "Desacato", grupo: "Resistencia y Autoridad", crit: "ALTO" },
-    "DI": { cat: "Desacato Institucional", grupo: "Resistencia y Autoridad", crit: "ALTO" },
-    "ID": { cat: "Incumplimiento Directivo", grupo: "Resistencia y Autoridad", crit: "CRÍTICO" },
-    "FO": { cat: "Falsedad Operativa", grupo: "Falsedad y Fraude", crit: "CRÍTICO" },
-    "IF": { cat: "Información Falsa", grupo: "Falsedad y Fraude", crit: "CRÍTICO" },
-    "SC": { cat: "Simulación de Conexión", grupo: "Falsedad y Fraude", crit: "ALTO" },
-    "OC": { cat: "Omisión de Control", grupo: "Falsedad y Fraude", crit: "ALTO" },
-    "AD": { cat: "Abandono de Deber", grupo: "Negligencia y Ausencia", crit: "ALTO" },
-    "AI": { cat: "Ausencia Institucional", grupo: "Negligencia y Ausencia", crit: "MEDIO" },
-    "NP": { cat: "Negligencia Programada", grupo: "Negligencia y Ausencia", crit: "MEDIO" },
-    "PC": { cat: "Pasividad Crítica", grupo: "Fallas de Gestión", crit: "ALTO" },
-    "UD": { cat: "Uso Indebido", grupo: "Tecnológico", crit: "MEDIO" },
-    "UD-A": { cat: "Uso Indebido Agravado", grupo: "Tecnológico", crit: "CRÍTICO" },
-    "DT": { cat: "Desconexión Técnica", grupo: "Tecnológico", crit: "BAJO" },
-    "EQ": { cat: "Equipamiento Deficiente", grupo: "Tecnológico", crit: "MEDIO" },
-    "NF": { cat: "No Facilitador", grupo: "Fallas de Gestión", crit: "ALTO" },
-    "OS-D": { cat: "Omisión Supervisión Docente", grupo: "Fallas de Gestión", crit: "MEDIO" },
-    "RC": { cat: "Reporte Incompleto Crónico", grupo: "Fallas de Gestión", crit: "BAJO" },
-    "LD": { cat: "Liderazgo Deficiente", grupo: "Fallas de Gestión", crit: "MEDIO" },
-    "CP": { cat: "Conflicto de Interés", grupo: "Fallas de Gestión", crit: "ALTO" },
-    "NC": { cat: "No Cumplió (Genérico)", grupo: "Otros", crit: "MEDIO" }
-};
-
 const RAW=[{"id": "27438", "ce": "Centro Escolar Caserio El Salamar, Canton El Llano", "dep": "Usulután", "depk": "USULUTAN", "mod": "Standard", "tipo": "Director", "nombre": "Francisco Josue Cruz Ochoa", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.97}, {"id": "27436", "ce": "Complejo Educativo Cantón El Pedregal", "dep": "La Paz", "depk": "LA PAZ", "mod": "Piloto", "tipo": "Docente", "nombre": "Máximo Adán Coto Martínez", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 0, "reinc_doc": 1, "pct": 0.61}, {"id": "27435", "ce": "Centro Escolar Constitucion 1950", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Docente", "nombre": "Nora Silvia Prieto De Ayala", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 0, "reinc_doc": 1, "pct": 1.95}, {"id": "27434", "ce": "Centro Escolar Nuevo Lourdes", "dep": "La Libertad", "depk": "LA LIBERTAD", "mod": "Piloto", "tipo": "Docente", "nombre": "Iliana Ivette Rodas García", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 0, "reinc_doc": 1, "pct": 1.31}, {"id": "27404", "ce": "Centro Escolar Ingeniero Ramón Enrique Ventura Portillo", "dep": "San Miguel", "depk": "SAN MIGUEL", "mod": "Standard", "tipo": "Director", "nombre": "Xiomara Guadalupe Moreno Perla", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.16}, {"id": "27393", "ce": "Centro Escolar Caserío La Joya, Cantón La Pandeadura", "dep": "Ahuachapán", "depk": "AHUACHAPAN", "mod": "Standard", "tipo": "Director", "nombre": "Cida Jeanett Laguan Alarcón", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.59}, {"id": "27385", "ce": "Centro Escolar Caserio El Tablon, Canton San Juan De Merinos", "dep": "San Vicente", "depk": "SAN VICENTE", "mod": "Standard", "tipo": "Director", "nombre": "Steisy Nohemy Gomez Aguilar", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.24}, {"id": "27384", "ce": "Centro Escolar Cantón Las Delicias", "dep": "La Libertad", "depk": "LA LIBERTAD", "mod": "Control", "tipo": "Director", "nombre": "Raul Amilcar Landaverde Mejia", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.31}, {"id": "27382", "ce": "Complejo Educativo Católico Nuestra Señora De Las Gracias", "dep": "La Libertad", "depk": "LA LIBERTAD", "mod": "Standard", "tipo": "Director", "nombre": "Ricardo Ulises Pérez Alfaro", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.31}, {"id": "27381", "ce": "Escuela De Educacion Especial Monseñor Rodrigo Orlando Cabrera", "dep": "Usulután", "depk": "USULUTAN", "mod": "Standard", "tipo": "Director", "nombre": "Ana Onfalia Hernández Ruiz", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.97}, {"id": "27380", "ce": "Centro Escolar Colonia San Mauricio", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Director", "nombre": "Ana Margarita Ayala Arias", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.95}, {"id": "27379", "ce": "Centro Escolar Cantón San José Shangallo", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Director", "nombre": "Romeo Miguel Rogel", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.95}, {"id": "27378", "ce": "Instituto Nacional De La Colonia Santa Lucia", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Director", "nombre": "Jorge Porfirio Sevillano Paredes", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.95}, {"id": "27377", "ce": "Complejo Educativo República De Corea", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Director", "nombre": "Ana Bernarda Maravilla Meléndez", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.95}, {"id": "27375", "ce": "Centro Escolar General Francisco Morazán", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Director", "nombre": "Claudia Carolina Hernández De Oliva", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.95}, {"id": "27374", "ce": "Complejo Educativo Colonia El Milagro", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Director", "nombre": "Angel De Jesus Cruz Lemus", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.95}, {"id": "27373", "ce": "Centro Escolar General Francisco Menendez", "dep": "Ahuachapán", "depk": "AHUACHAPAN", "mod": "Control", "tipo": "Director", "nombre": "Juan Antonio Góchez Menéndez", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.59}, {"id": "27372", "ce": "Centro Escolar Cantón El Tejar", "dep": "La Unión", "depk": "LA UNION", "mod": "Standard", "tipo": "Director", "nombre": "Ana Jessica Hernández Ferrufino", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.27}, {"id": "27371", "ce": "Centro Escolar Caserio San Juan Arriba, Cantón San Juan", "dep": "Morazán", "depk": "MORAZAN", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 0.29}, {"id": "27335", "ce": "Complejo Educativo Caserío Lotificación San Ignacio, Cantón Galeano", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27330", "ce": "Centro Escolar Caserío El Ocotillo, Cantón La Uvilla", "dep": "Cabañas", "depk": "CABAÑAS", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 0.36}, {"id": "27328", "ce": "Instituto Nacional Maestro Alberto Masferrer", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Docente", "nombre": "Ronald Osvaldo Cruz Tanchez", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 0, "reinc_doc": 1, "pct": 1.95}, {"id": "27327", "ce": "Centro Escolar Canton El Angel", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Docente", "nombre": "Mario Arnulfo Mendez Vasquez", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": true, "reinc_dir": 0, "reinc_doc": 4, "pct": 1.95}, {"id": "27326", "ce": "Centro Escolar Canton El Angel", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Docente", "nombre": "Blanca Estela Huezo Ramirez", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": true, "reinc_dir": 0, "reinc_doc": 4, "pct": 1.95}, {"id": "27323", "ce": "Centro Escolar Canton El Angel", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Docente", "nombre": "Diana Audelia Pleitez Berrios", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": true, "reinc_dir": 0, "reinc_doc": 4, "pct": 1.95}, {"id": "27322", "ce": "Centro Escolar Canton El Angel", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Docente", "nombre": "Silvia Guadalupe Hernandez", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": true, "reinc_dir": 0, "reinc_doc": 4, "pct": 1.95}, {"id": "27321", "ce": "Complejo Educativo Jorge Larde", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Docente", "nombre": "Edyt Del Carmen Alvarenga De Rivas", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 0, "reinc_doc": 1, "pct": 1.95}, {"id": "27320", "ce": "Centro Escolar Edelmira Molina", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Docente", "nombre": "María Esmeralda Rivera De Quintanilla", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "26/03/2026", "reinc": false, "reinc_dir": 0, "reinc_doc": 1, "pct": 1.95}, {"id": "27347", "ce": "Centro Escolar Cantón El Guayabo", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Standard", "tipo": "Docente", "nombre": "Luis Felipe Sanchez Mijango", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "23/03/2026", "reinc": false, "reinc_dir": 0, "reinc_doc": 1, "pct": 1.95}, {"id": "27344", "ce": "Centro Escolar Caserio Rosario Ceren, Canton Joya De Ceren", "dep": "Sonsonate", "depk": "SONSONATE", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "23/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.93}, {"id": "27342", "ce": "Instituto Nacional De Apastepeque", "dep": "San Vicente", "depk": "SAN VICENTE", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-03", "fecha_dia": "23/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.24}, {"id": "27341", "ce": "Centro Escolar Caserío San José La Ceiba, Cantón San Fernando", "dep": "San Vicente", "depk": "SAN VICENTE", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-03", "fecha_dia": "23/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.24}, {"id": "27338", "ce": "Centro Escolar Asentamiento Buena Vista, Cantón La Unión", "dep": "Sonsonate", "depk": "SONSONATE", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "23/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.93}, {"id": "27337", "ce": "Centro Escolar Cantón El Balsamar", "dep": "Sonsonate", "depk": "SONSONATE", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "23/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.93}, {"id": "27336", "ce": "Centro Escolar Profesor Felix Canizalez P.", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "23/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27334", "ce": "Escuela De Educación Parvularia Presbítero Matías Romero", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "23/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27333", "ce": "Centro Escolar Monseñor Gregorio Rosa Chávez", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "23/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.95}, {"id": "27331", "ce": "Centro Escolar Ricardo Trigueros De León", "dep": "Ahuachapán", "depk": "AHUACHAPAN", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "23/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.59}, {"id": "27350", "ce": "Centro Escolar Canton San Jose", "dep": "La Unión", "depk": "LA UNION", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-03", "fecha_dia": "22/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.27}, {"id": "27411", "ce": "Centro Escolar Caserío Huilihuiste, Cantón San Antonio", "dep": "Usulután", "depk": "USULUTAN", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "20/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.97}, {"id": "27433", "ce": "Centro Escolar Milagro De La Paz", "dep": "San Miguel", "depk": "SAN MIGUEL", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "19/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.16}, {"id": "27369", "ce": "Complejo Educativo Cantón Paso De Gualache", "dep": "Usulután", "depk": "USULUTAN", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-03", "fecha_dia": "19/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.97}, {"id": "27365", "ce": "Centro Escolar Santiago De María", "dep": "Usulután", "depk": "USULUTAN", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "19/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.97}, {"id": "27439", "ce": "Complejo Educativo Fe Y Alegria", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Director", "nombre": "No Definido", "cod": "LD", "cod_desc": "Liderazgo", "mes": "2026-03", "fecha_dia": "17/03/2026", "reinc": true, "reinc_dir": 2, "reinc_doc": 0, "pct": 1.95}, {"id": "27437", "ce": "Centro Escolar De Santa Cruz Analquito", "dep": "Cuscatlán", "depk": "CUSCATLAN", "mod": "Piloto", "tipo": "Director", "nombre": "No Definido", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "16/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 0.44}, {"id": "27388", "ce": "Centro Escolar Profesor Oscar Armando Guerra Castro", "dep": "La Libertad", "depk": "LA LIBERTAD", "mod": "Piloto", "tipo": "Director", "nombre": "No Definido", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "10/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.31}, {"id": "27387", "ce": "Complejo Educativo Colonia Las Cañas", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "10/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.95}, {"id": "27386", "ce": "Centro Escolar Caserío Las Marías, Cantón Las Marias", "dep": "Sonsonate", "depk": "SONSONATE", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-03", "fecha_dia": "10/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.93}, {"id": "27391", "ce": "Complejo Educativo Colonia Villa Alegre", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Director", "nombre": "No Definido", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "09/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.95}, {"id": "27389", "ce": "Centro Escolar Canton Las Cañas", "dep": "Chalatenango", "depk": "CHALATENANGO", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "09/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 0.47}, {"id": "27392", "ce": "Instituto Nacional De San Antonio Silva", "dep": "San Miguel", "depk": "SAN MIGUEL", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "08/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.16}, {"id": "27394", "ce": "Centro Escolar Cantón Piletas", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-03", "fecha_dia": "05/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27395", "ce": "Centro Escolar Cantón Los Magueyes", "dep": "Ahuachapán", "depk": "AHUACHAPAN", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "04/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.59}, {"id": "27399", "ce": "Centro Escolar Caserío Valle Nuevo, Cantón Las Piedras", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "02/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27398", "ce": "Centro Escolar Caserio El Ahogado, Canton La Isla", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "02/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27397", "ce": "Centro Escolar Caserío La Cañada, Cantón Quebracho", "dep": "San Miguel", "depk": "SAN MIGUEL", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-03", "fecha_dia": "02/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.16}, {"id": "27396", "ce": "Centro Escolar Caserío La Lima, Cantón El Palmar", "dep": "La Libertad", "depk": "LA LIBERTAD", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-03", "fecha_dia": "02/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.31}, {"id": "27400", "ce": "Centro Escolar Humberto Parada Sandoval", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "RG", "cod_desc": "Reglamento", "mes": "2026-03", "fecha_dia": "01/03/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27402", "ce": "Complejo Educativo Jutta Steiner De Toruño", "dep": "La Libertad", "depk": "LA LIBERTAD", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-02", "fecha_dia": "28/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.31}, {"id": "27403", "ce": "Centro Escolar Cantón Santa Rita Cimarron", "dep": "Chalatenango", "depk": "CHALATENANGO", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-02", "fecha_dia": "27/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 0.47}, {"id": "27419", "ce": "Centro Escolar Caserio El Manzanillo, Canton El Molino", "dep": "La Unión", "depk": "LA UNION", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.27}, {"id": "27418", "ce": "Centro Escolar Caserío El Pedernal, Cantón El Molino", "dep": "La Unión", "depk": "LA UNION", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.27}, {"id": "27417", "ce": "Centro Escolar Canton El Molino", "dep": "La Unión", "depk": "LA UNION", "mod": "Control", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.27}, {"id": "27416", "ce": "Centro Escolar Cantón El Tablón", "dep": "San Miguel", "depk": "SAN MIGUEL", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.16}, {"id": "27415", "ce": "Centro Escolar Caserío Nueva Fortuna, Cantón Joya Del Pilar", "dep": "Usulután", "depk": "USULUTAN", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.97}, {"id": "27414", "ce": "Centro Escolar Caserío Quebracho, Cantón Samuria", "dep": "Usulután", "depk": "USULUTAN", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.97}, {"id": "27413", "ce": "Centro Escolar Canton El Hule Chacho", "dep": "Usulután", "depk": "USULUTAN", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.97}, {"id": "27412", "ce": "Centro Escolar Cantón La Tirana", "dep": "Usulután", "depk": "USULUTAN", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.97}, {"id": "27410", "ce": "Centro Escolar Caserio El Portezuelo", "dep": "Sonsonate", "depk": "SONSONATE", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": true, "reinc_dir": 2, "reinc_doc": 0, "pct": 1.93}, {"id": "27409", "ce": "Centro Escolar Caserío El Salamar, Cantón San Sebastian El Chingo", "dep": "La Paz", "depk": "LA PAZ", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 0.61}, {"id": "27408", "ce": "Centro Escolar Caserío Los Pinos, Cantón San Rafael", "dep": "Ahuachapán", "depk": "AHUACHAPAN", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.59}, {"id": "27407", "ce": "Centro Escolar Caserio El Portezuelo", "dep": "Sonsonate", "depk": "SONSONATE", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "20/02/2026", "reinc": true, "reinc_dir": 2, "reinc_doc": 0, "pct": 1.93}, {"id": "27431", "ce": "Centro Escolar Caserio El Despoblado, Canton Malpaso", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "18/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27430", "ce": "Centro Escolar Caserío Barra Salada, Cantón Salinas De Ayacachapa", "dep": "Sonsonate", "depk": "SONSONATE", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "18/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.93}, {"id": "27428", "ce": "Centro Escolar Catolico San Jorge", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "18/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27429", "ce": "Centro Escolar Caserío Los Encuentros, Cantón Acachapa Arriba", "dep": "Sonsonate", "depk": "SONSONATE", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "18/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.93}, {"id": "27427", "ce": "Centro Escolar Caserío Los Sitios, Cantón San José Camulian", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "18/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27426", "ce": "Centro Escolar Caserío El Pinalito, Cantón San Miguel Ingenio", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "18/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27425", "ce": "Centro Escolar Caserío Las Pavas, Cantón Las Pavas", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "18/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27424", "ce": "Centro Escolar Caserío El Guamilar, Cantón El Rosario", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "18/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27423", "ce": "Centro Escolar Caserío San Jose Las Cruces, Cantón San Miguel Ingenio", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "18/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27422", "ce": "Centro Escolar Caserío Cerro Las Flores, Cantón El Carmen", "dep": "Santa Ana", "depk": "SANTA ANA", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "18/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 2.86}, {"id": "27421", "ce": "Centro Escolar Caserío El Huiscoyol, Cantón La Laguna", "dep": "San Miguel", "depk": "SAN MIGUEL", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2026-02", "fecha_dia": "18/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.16}, {"id": "19051", "ce": "Centro Escolar Urbanizacion Las Margaritas", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Director", "nombre": "No Definido", "cod": "DS", "cod_desc": "Desempeño", "mes": "2026-02", "fecha_dia": "15/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.95}, {"id": "19002", "ce": "Complejo Educativo Fe Y Alegria", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Piloto", "tipo": "Director", "nombre": "No Definido", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-02", "fecha_dia": "13/02/2026", "reinc": true, "reinc_dir": 2, "reinc_doc": 0, "pct": 1.95}, {"id": "19001", "ce": "Escuela De Educacion Parvularia De Comasagua", "dep": "La Libertad", "depk": "LA LIBERTAD", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-02", "fecha_dia": "13/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.31}, {"id": "27432", "ce": "Escuela De Educacion Especial Nueva San Salvador", "dep": "La Libertad", "depk": "LA LIBERTAD", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "OB", "cod_desc": "Obligaciones", "mes": "2026-02", "fecha_dia": "10/02/2026", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.31}, {"id": "27405", "ce": "Complejo Educativo Catolico Nuestra Señora Del Rosario", "dep": "San Salvador", "depk": "SAN SALVADOR", "mod": "Standard", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "cod_desc": "No cumplió", "mes": "2025-03", "fecha_dia": "20/03/2025", "reinc": false, "reinc_dir": 1, "reinc_doc": 0, "pct": 1.95}];
-
-// MATRIZ DE TRADUCCIÓN BASADA EN ARCHIVO 3
-const MATRIZ_INCUMPLIMIENTO = {
-    "RG": { cat: "Resistencia Grave", grupo: "Resistencia y Autoridad", crit: "CRÍTICO" },
-    "OB": { cat: "Obstrucción", grupo: "Resistencia y Autoridad", crit: "CRÍTICO" },
-    "DS": { cat: "Desacato", grupo: "Resistencia y Autoridad", crit: "ALTO" },
-    "DI": { cat: "Desacato Institucional", grupo: "Resistencia y Autoridad", crit: "ALTO" },
-    "ID": { cat: "Incumplimiento Directivo", grupo: "Resistencia y Autoridad", crit: "CRÍTICO" },
-    "FO": { cat: "Falsedad Operativa", grupo: "Falsedad y Fraude", crit: "CRÍTICO" },
-    "IF": { cat: "Información Falsa", grupo: "Falsedad y Fraude", crit: "CRÍTICO" },
-    "SC": { cat: "Simulación de Conexión", grupo: "Falsedad y Fraude", crit: "ALTO" },
-    "OC": { cat: "Omisión de Control", grupo: "Falsedad y Fraude", crit: "ALTO" },
-    "AD": { cat: "Abandono de Deber", grupo: "Negligencia y Ausencia", crit: "ALTO" },
-    "AI": { cat: "Ausencia Institucional", grupo: "Negligencia y Ausencia", crit: "MEDIO" },
-    "NP": { cat: "Negligencia Programada", grupo: "Negligencia y Ausencia", crit: "MEDIO" },
-    "PC": { cat: "Pasividad Crítica", grupo: "Gestión Directiva", crit: "ALTO" },
-    "UD": { cat: "Uso Indebido", grupo: "Tecnológico", crit: "MEDIO" },
-    "UD-A": { cat: "Uso Indebido Agravado", grupo: "Tecnológico", crit: "CRÍTICO" },
-    "DT": { cat: "Desconexión Técnica", grupo: "Tecnológico", crit: "BAJO" },
-    "EQ": { cat: "Equipamiento Deficiente", grupo: "Tecnológico", crit: "MEDIO" },
-    "NF": { cat: "No Facilitador", grupo: "Gestión Directiva", crit: "ALTO" },
-    "OS-D": { cat: "Omisión Supervisión Docente", grupo: "Gestión Directiva", crit: "MEDIO" },
-    "RC": { cat: "Reporte Incompleto Crónico", grupo: "Gestión Directiva", crit: "BAJO" },
-    "LD": { cat: "Liderazgo Deficiente", grupo: "Gestión Directiva", crit: "MEDIO" },
-    "CP": { cat: "Conflicto de Interés", grupo: "Gestión Directiva", crit: "ALTO" },
-    "NC": { cat: "No Cumplió (Genérico)", grupo: "Otros", crit: "MEDIO" }
-};
 
 // Mapas de Datos
 const historialTotal = {};
@@ -183,6 +123,7 @@ RAW.forEach(r => {
     if(n !== "No Definido") historialTotal[n] = (historialTotal[n] || 0) + 1;
 });
 
+const COD_CLASS={NC:'b-nc',RG:'b-rg',DS:'b-ds',OB:'b-ob',LD:'b-ld'};
 const F={tipo:new Set(['Director','Docente']),mod:new Set(['Piloto','Standard','Control']),mes:new Set(['2026-02','2026-03','2025-03'])};
 let sk='veces', sd=-1;
 
@@ -214,13 +155,7 @@ function render(){
   // KPIs
   document.getElementById('k1').textContent = filtered.length;
   document.getElementById('k2').textContent = new Set(filtered.map(r=>r.nombre)).size;
-  
-  // Contar críticos segun matriz
-  const criticos = filtered.filter(r => {
-      const meta = MATRIZ_INCUMPLIMIENTO[r.cod] || {crit: "MEDIO"};
-      return meta.crit === "CRÍTICO";
-  }).length;
-  document.getElementById('k3').textContent = criticos;
+  document.getElementById('k3').textContent = new Set(filtered.filter(r => (historialTotal[r.nombre]||0) > 1).map(r=>r.nombre)).size;
   document.getElementById('k4').textContent = new Set(filtered.map(r=>r.dep)).size;
 
   const tb=document.getElementById('tbody'); tb.innerHTML='';
@@ -231,26 +166,23 @@ function render(){
     const vCount = historialTotal[n] || 1;
     const isHigh = vCount > 1 && n !== "No Definido";
     const pW = Math.round(r.pct/maxP*100);
-    const colorPct = r.pct >= 2 ? '#7F1D1D' : r.pct >= 1 ? '#B45309' : '#1A6B4A';
-
-    // Obtener traducción de matriz
-    const meta = MATRIZ_INCUMPLIMIENTO[r.cod] || { cat: r.cod_desc, grupo: "Otros", crit: "MEDIO" };
-    const critClass = `crit-${meta.crit.toLowerCase()}`;
+    const color = r.pct >= 2 ? '#7F1D1D' : r.pct >= 1 ? '#B45309' : '#1A6B4A';
 
     tb.innerHTML += `
       <tr>
         <td style="font-weight:700; color:var(--azul)">${n}</td>
         <td><span class="badge ${r.tipo==='Director'?'b-dir':'b-doc'}">${r.tipo}</span></td>
         <td style="text-align:center;"><span class="count-pill ${isHigh ? 'high' : 'low'}">${vCount}</span></td>
-        <td style="font-weight:bold; color:var(--gris)">${r.cod}</td>
-        <td>
-            <div style="font-weight:600;">${meta.cat}</div>
-            <div style="font-size:9px; color:var(--gris);">${meta.grupo}</div>
-        </td>
-        <td><span class="badge ${critClass}">${meta.crit}</span></td>
+        <td><span class="badge ${COD_CLASS[r.cod]}">${r.cod_desc}</span></td>
         <td style="color:var(--gris); font-size:11px;">${r.fecha_dia}</td>
         <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${r.ce}">${r.ce}</td>
         <td>${r.dep}</td>
+        <td>
+          <div class="pct-cell">
+            <div class="pct-bar"><div class="pct-fill" style="width:${pW}%; background:${color}"></div></div>
+            <span style="font-weight:700; color:${color}; font-size:10px;">${r.pct}%</span>
+          </div>
+        </td>
       </tr>`;
   });
 }
