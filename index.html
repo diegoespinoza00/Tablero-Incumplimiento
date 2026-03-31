@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Auditoría Total de Incumplimientos — El Salvador</title>
+<title>Consola de Auditoría Docente — El Salvador 2026</title>
 <style>
 :root{--azul:#1B3A6B;--azul-mid:#2E5FA3;--azul-light:#D6E4F7;--verde:#1A6B4A;--verde-light:#D4EDE3;--gris:#4A5568;--gris-light:#EDF2F7;--alerta:#B45309;--alerta-light:#FEF3C7;--critico:#7F1D1D;--critico-light:#FEE2E2;}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -21,7 +21,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .chip{padding:6px 14px; background:var(--gris-light); color:var(--gris); border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; user-select:none; transition:all 0.2s; border:1px solid transparent;}
 .chip.active{background:var(--azul); color:#fff;}
 
-input, select{padding:9px 12px; border:1px solid #CBD5E0; border-radius:8px; font-family:inherit; font-size:13px;}
+input, select{padding:9px 12px; border:1px solid #CBD5E0; border-radius:8px; font-family:inherit; font-size:13px; background:#fff;}
 
 .tabla-wrap{background:#fff;border-radius:10px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);overflow:hidden;}
 table{width:100%;border-collapse:collapse;}
@@ -30,11 +30,12 @@ th{color:#fff;font-weight:600;padding:12px;text-align:left;cursor:pointer;font-s
 tbody td{padding:10px 12px;border-bottom:1px solid #E2E8F0;}
 tbody td:first-child{font-weight:700; color:var(--azul);}
 
-.badge{display:inline-block;font-size:10px;padding:3px 8px;border-radius:12px;font-weight:700;}
-.crit-critico{background:#FEE2E2; color:#7F1D1D;}
-.crit-alto{background:#FFEDD5; color:#9A3412;}
-.crit-medio{background:#FEF3C7; color:#92400E;}
-.crit-bajo{background:#F1F5F9; color:#475569;}
+.badge{display:inline-block;font-size:10px;padding:3px 8px;border-radius:12px;font-weight:700;white-space:nowrap;}
+.crit-critico{background:#FEE2E2; color:#7F1D1D; border:1px solid #F87171;}
+.crit-alto{background:#FFEDD5; color:#9A3412; border:1px solid #FB923C;}
+.crit-medio{background:#FEF3C7; color:#92400E; border:1px solid #FBBF24;}
+.crit-bajo{background:#F1F5F9; color:#475569; border:1px solid #CBD5E0;}
+
 .count-pill{padding:2px 8px;border-radius:10px;font-weight:800;}
 .high{background:var(--critico);color:#fff;}
 
@@ -47,12 +48,12 @@ tbody td:first-child{font-weight:700; color:var(--azul);}
 
 <div class="page">
     <div class="header">
-        <div><h1>Consola de Auditoría Docente</h1><p>Vista de Integridad Total (88 registros) — El Salvador 2026</p></div>
+        <div><h1>Consola de Auditoría Docente</h1><p>Gestión de Tipologías Actualizada — El Salvador 2026</p></div>
     </div>
 
     <div class="kpi-row">
         <div class="kpi"><div class="kpi-label">TOTAL REPORTES</div><div class="kpi-value" id="k1">-</div></div>
-        <div class="kpi"><div class="kpi-label">PERSONAL IDENTIFICADO</div><div class="kpi-value" id="k2">-</div></div>
+        <div class="kpi"><div class="kpi-label">PERSONAL ÚNICO</div><div class="kpi-value" id="k2">-</div></div>
         <div class="kpi" style="border-left-color:var(--critico)"><div class="kpi-label">CASOS CRÍTICOS</div><div class="kpi-value" id="k3">-</div></div>
         <div class="kpi" style="border-left-color:var(--verde)"><div class="kpi-label">DEPTOS. ACTIVOS</div><div class="kpi-value" id="k4">-</div></div>
     </div>
@@ -60,7 +61,7 @@ tbody td:first-child{font-weight:700; color:var(--azul);}
     <div class="filter-panel">
         <div class="filter-row">
             <div class="filter-group" style="flex:1">
-                <label class="filter-label">Búsqueda Global (Nombre, CE o ID)</label>
+                <label class="filter-label">Búsqueda (Nombre o CE)</label>
                 <input id="busca" type="text" style="width:100%" placeholder="Escribe para filtrar..." oninput="render()">
             </div>
             <div class="filter-group">
@@ -71,13 +72,13 @@ tbody td:first-child{font-weight:700; color:var(--azul);}
                 </div>
             </div>
             <div class="filter-group">
-                <label class="filter-label">Departamento</label>
+                <label class="filter-label">Depto</label>
                 <select id="filtroDep" onchange="render()"><option value="">-- Todos --</option></select>
             </div>
         </div>
-        <div class="filter-row">
+        <div class="filter-row" style="margin-bottom:0">
             <div class="filter-group" style="flex:1">
-                <label class="filter-label">Categoría de Incumplimiento</label>
+                <label class="filter-label">Categoría de Incumplimiento (Nueva Columna D)</label>
                 <select id="filtroCat" style="width:100%" onchange="render()"><option value="">-- Todas las Categorías --</option></select>
             </div>
             <div class="filter-group">
@@ -85,7 +86,6 @@ tbody td:first-child{font-weight:700; color:var(--azul);}
                 <div style="display:flex; gap:8px;">
                     <input type="date" id="fechaIni" onchange="render()">
                     <input type="date" id="fechaFin" onchange="render()">
-                    <button class="chip" onclick="resetFechas()">Limpiar Fechas</button>
                 </div>
             </div>
         </div>
@@ -95,11 +95,11 @@ tbody td:first-child{font-weight:700; color:var(--azul);}
         <table>
             <thead>
                 <tr>
-                    <th onclick="sc('nombre')">Sujeto / ID ↕</th>
+                    <th onclick="sc('nombre')">Nombre / Sujeto ↕</th>
                     <th>Cargo</th>
-                    <th onclick="sc('veces')">Histórico ↕</th>
+                    <th onclick="sc('veces')">Frecuencia ↕</th>
                     <th>Cod.</th>
-                    <th>Definición de Falta</th>
+                    <th>Categoría Actualizada</th>
                     <th>Criticidad</th>
                     <th onclick="sc('fecha')">Fecha ↕</th>
                     <th>Centro Educativo</th>
@@ -112,22 +112,35 @@ tbody td:first-child{font-weight:700; color:var(--azul);}
 </div>
 
 <script>
+// MATRIZ ACTUALIZADA SEGÚN DOCUMENTO 4
 const MATRIZ = {
-    "RG": {cat: "Resistencia Grave", crit: "CRÍTICO"}, "OB": {cat: "Obstrucción", crit: "CRÍTICO"},
-    "DS": {cat: "Desacato Normativo", crit: "ALTO"}, "DI": {cat: "Desacato Institucional", crit: "ALTO"},
-    "ID": {cat: "Incumplimiento Directivo", crit: "CRÍTICO"}, "FO": {cat: "Falsedad Operativa", crit: "CRÍTICO"},
-    "IF": {cat: "Información Falsa", crit: "CRÍTICO"}, "SC": {cat: "Simulación de Conexión", crit: "ALTO"},
-    "OC": {cat: "Omisión de Control", crit: "ALTO"}, "AD": {cat: "Abandono de Deber", crit: "ALTO"},
-    "AI": {cat: "Ausencia Institucional", crit: "MEDIO"}, "NP": {cat: "Negligencia Programada", crit: "MEDIO"},
-    "PC": {cat: "Pasividad Crítica", crit: "ALTO"}, "UD": {cat: "Uso Indebido", crit: "MEDIO"},
-    "UD-A": {cat: "Uso Indebido Agravado", crit: "CRÍTICO"}, "DT": {cat: "Desconexión Técnica", crit: "BAJO"},
-    "EQ": {cat: "Equipamiento Deficiente", crit: "MEDIO"}, "NF": {cat: "No Facilitador", crit: "ALTO"},
-    "OS-D": {cat: "Omisión Supervisión Docente", crit: "MEDIO"}, "RC": {cat: "Reporte Incompleto Crónico", crit: "BAJO"},
-    "LD": {cat: "Liderazgo Deficiente", crit: "MEDIO"}, "CP": {cat: "Conflicto de Interés", crit: "ALTO"},
-    "NC": {cat: "No cumplió con protocolo", crit: "MEDIO"}
+    "RG": {cat: "Resistencia Grave", grupo: "Resistencia y Autoridad", crit: "CRÍTICO"},
+    "OB": {cat: "Obstrucción", grupo: "Resistencia y Autoridad", crit: "CRÍTICO"},
+    "DS": {cat: "Desacato", grupo: "Resistencia y Autoridad", crit: "ALTO"},
+    "DI": {cat: "Desacato Institucional", grupo: "Resistencia y Autoridad", crit: "ALTO"},
+    "ID": {cat: "Incumplimiento Directivo", grupo: "Resistencia y Autoridad", crit: "CRÍTICO"},
+    "FO": {cat: "Falsedad Operativa", grupo: "Falsedad y Fraude", crit: "CRÍTICO"},
+    "IF": {cat: "Información Falsa", grupo: "Falsedad y Fraude", crit: "CRÍTICO"},
+    "SC": {cat: "Simulación de Conexión", grupo: "Falsedad y Fraude", crit: "ALTO"},
+    "OC": {cat: "Omisión de Control", grupo: "Falsedad y Fraude", crit: "ALTO"},
+    "AD": {cat: "Abandono de Deber", grupo: "Negligencia y Ausencia", crit: "ALTO"},
+    "IHC": {cat: "Incumplimiento Horas clase", grupo: "Negligencia y Ausencia", crit: "ALTO"},
+    "AI": {cat: "Ausencia Institucional", grupo: "Negligencia y Ausencia", crit: "MEDIO"},
+    "NP": {cat: "Negligencia Programada / No Contesta", grupo: "Negligencia y Ausencia", crit: "MEDIO"},
+    "PC": {cat: "Pasividad Crítica", grupo: "Negligencia y Ausencia", crit: "ALTO"},
+    "UD": {cat: "Uso Indebido", grupo: "Incumplimiento Tecnológico", crit: "MEDIO"},
+    "UD-A": {cat: "Uso Indebido Agravado", grupo: "Incumplimiento Tecnológico", crit: "CRÍTICO"},
+    "DT": {cat: "Desconexión Técnica", grupo: "Incumplimiento Tecnológico", crit: "BAJO"},
+    "EQ": {cat: "Equipamiento Deficiente", grupo: "Incumplimiento Tecnológico", crit: "MEDIO"},
+    "NF": {cat: "No Facilitador", grupo: "Fallas de Gestión", crit: "ALTO"},
+    "OS-D": {cat: "Omisión Supervisión Docente", grupo: "Fallas de Gestión", crit: "MEDIO"},
+    "RC": {cat: "Reporte Incompleto Crónico", grupo: "Fallas de Gestión", crit: "BAJO"},
+    "LD": {cat: "Liderazgo Deficiente", grupo: "Fallas de Gestión", crit: "MEDIO"},
+    "CP": {cat: "Conflicto de Interés", grupo: "Fallas de Gestión", crit: "ALTO"},
+    "NC": {cat: "No cumplió", grupo: "Otros", crit: "MEDIO"}
 };
 
-// DATA COMPLETA (88 REGISTROS)
+// DATA COMPLETA (88 REGISTROS)[cite: 2]
 const RAW = [
     {"id":"27438","ce":"CENTRO ESCOLAR CASERIO EL SALAMAR","dep":"USULUTÁN","depk":"USULUTAN","tipo":"Director","nombre":"FRANCISCO JOSUE CRUZ OCHOA","cod":"NC","fecha_dia":"26/03/2026"},
     {"id":"27436","ce":"COMPLEJO EDUCATIVO CANTÓN EL PEDREGAL","dep":"LA PAZ","depk":"LA PAZ","tipo":"Docente","nombre":"Máximo Adán Coto Martínez","cod":"DS","fecha_dia":"26/03/2026"},
@@ -219,13 +232,13 @@ const RAW = [
     {"id":"27405","ce":"COMPLEJO EDUCATIVO CATOLICO","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/03/2025"}
 ];
 
+// PROCESO DE REINCIDENCIA
 const HISTORIAL = {}; RAW.forEach(r => { if(r.nombre !== "No Definido") HISTORIAL[r.nombre] = (HISTORIAL[r.nombre]||0)+1; });
 
 let f_tipo = new Set(['Director','Docente']), sk='veces', sd=-1;
 
 function parseDate(str) { const p = str.split('/'); return new Date(p[2], p[1]-1, p[0]); }
 function toggleChip(el){ el.classList.toggle('active'); const val = el.dataset.v; f_tipo.has(val) ? f_tipo.delete(val) : f_tipo.add(val); render(); }
-function resetFechas() { document.getElementById('fechaIni').value = ""; document.getElementById('fechaFin').value = ""; render(); }
 function sc(k){ sk===k ? sd*=-1 : (sk=k, sd=-1); render(); }
 
 function render(){
@@ -266,7 +279,7 @@ function render(){
     const tb = document.getElementById('tbody'); tb.innerHTML = '';
     filtered.forEach(r => {
         const m = MATRIZ[r.cod] || {cat: "Otro", crit: "MEDIO"};
-        const displayNombre = r.nombre === "No Definido" ? `<span style="color:#A0AEC0; font-weight:400; font-style:italic;">ID: ${r.id} (Sin asignar)</span>` : r.nombre;
+        const displayNombre = r.nombre === "No Definido" ? `<span style="color:#A0AEC0; font-weight:400; font-style:italic;">ID: ${r.id} (Sin identificar)</span>` : r.nombre;
         const vCount = HISTORIAL[r.nombre] || "-";
 
         tb.innerHTML += `<tr>
@@ -287,7 +300,7 @@ window.onload = () => {
     const dSel = document.getElementById('filtroDep');
     [...new Set(RAW.map(r=>r.depk))].sort().forEach(d => dSel.innerHTML += `<option value="${d}">${d}</option>`);
     const cSel = document.getElementById('filtroCat');
-    [...new Set(RAW.map(r => (MATRIZ[r.cod]||{}).cat))].filter(Boolean).sort().forEach(c => cSel.innerHTML += `<option value="${c}">${c}</option>`);
+    [...new Set(Object.values(MATRIZ).map(m=>m.cat))].sort().forEach(c => cSel.innerHTML += `<option value="${c}">${c}</option>`);
     render();
 }
 </script>
