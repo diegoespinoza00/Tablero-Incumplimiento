@@ -18,7 +18,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .filter-label{font-size:11px; font-weight:700; color:var(--gris); text-transform:uppercase; letter-spacing:0.5px;}
 
 .chip-group{display:flex; gap:8px;}
-.chip{padding:6px 14px; background:var(--gris-light); color:var(--gris); border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; user-select:none; transition:all 0.2s; border:1px solid transparent;}
+.chip{padding:6px 14px; background:var(--gris-light); color:var(--gris); border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; border:1px solid transparent;}
 .chip.active{background:var(--azul); color:#fff;}
 
 input, select{padding:9px 12px; border:1px solid #CBD5E0; border-radius:8px; font-family:inherit; font-size:13px; background:#fff;}
@@ -30,12 +30,11 @@ th{color:#fff;font-weight:600;padding:12px;text-align:left;cursor:pointer;font-s
 tbody td{padding:10px 12px;border-bottom:1px solid #E2E8F0;}
 tbody td:first-child{font-weight:700; color:var(--azul);}
 
-.badge{display:inline-block;font-size:10px;padding:3px 8px;border-radius:12px;font-weight:700;white-space:nowrap;}
-.crit-critico{background:#FEE2E2; color:#7F1D1D; border:1px solid #F87171;}
-.crit-alto{background:#FFEDD5; color:#9A3412; border:1px solid #FB923C;}
-.crit-medio{background:#FEF3C7; color:#92400E; border:1px solid #FBBF24;}
-.crit-bajo{background:#F1F5F9; color:#475569; border:1px solid #CBD5E0;}
-
+.badge{display:inline-block;font-size:10px;padding:3px 8px;border-radius:12px;font-weight:700;}
+.crit-critico{background:#FEE2E2; color:#7F1D1D;}
+.crit-alto{background:#FFEDD5; color:#9A3412;}
+.crit-medio{background:#FEF3C7; color:#92400E;}
+.crit-bajo{background:#F1F5F9; color:#475569;}
 .count-pill{padding:2px 8px;border-radius:10px;font-weight:800;}
 .high{background:var(--critico);color:#fff;}
 
@@ -48,21 +47,21 @@ tbody td:first-child{font-weight:700; color:var(--azul);}
 
 <div class="page">
     <div class="header">
-        <div><h1>Consola de Auditoría Docente</h1><p>Gestión de Tipologías Actualizada — El Salvador 2026</p></div>
+        <div><h1>Consola de Auditoría Docente</h1><p>Control de Tipologías y Reincidencia — 92 Registros Identificados</p></div>
     </div>
 
     <div class="kpi-row">
-        <div class="kpi"><div class="kpi-label">TOTAL REPORTES</div><div class="kpi-value" id="k1">-</div></div>
-        <div class="kpi"><div class="kpi-label">PERSONAL ÚNICO</div><div class="kpi-value" id="k2">-</div></div>
+        <div class="kpi"><div class="kpi-label">TOTAL TICKETS</div><div class="kpi-value" id="k1">92</div></div>
+        <div class="kpi"><div class="kpi-label">PERSONAL CON NOMBRE</div><div class="kpi-value" id="k2">-</div></div>
         <div class="kpi" style="border-left-color:var(--critico)"><div class="kpi-label">CASOS CRÍTICOS</div><div class="kpi-value" id="k3">-</div></div>
-        <div class="kpi" style="border-left-color:var(--verde)"><div class="kpi-label">DEPTOS. ACTIVOS</div><div class="kpi-value" id="k4">-</div></div>
+        <div class="kpi" style="border-left-color:var(--verde)"><div class="kpi-label">DEPTOS. AFECTADOS</div><div class="kpi-value" id="k4">-</div></div>
     </div>
 
     <div class="filter-panel">
         <div class="filter-row">
             <div class="filter-group" style="flex:1">
-                <label class="filter-label">Búsqueda (Nombre o CE)</label>
-                <input id="busca" type="text" style="width:100%" placeholder="Escribe para filtrar..." oninput="render()">
+                <label class="filter-label">Búsqueda Protagónica (Nombre o CE)</label>
+                <input id="busca" type="text" style="width:100%" placeholder="Escribe el nombre del director o docente..." oninput="render()">
             </div>
             <div class="filter-group">
                 <label class="filter-label">Cargo</label>
@@ -78,7 +77,7 @@ tbody td:first-child{font-weight:700; color:var(--azul);}
         </div>
         <div class="filter-row" style="margin-bottom:0">
             <div class="filter-group" style="flex:1">
-                <label class="filter-label">Categoría de Incumplimiento (Nueva Columna D)</label>
+                <label class="filter-label">Categoría de Incumplimiento</label>
                 <select id="filtroCat" style="width:100%" onchange="render()"><option value="">-- Todas las Categorías --</option></select>
             </div>
             <div class="filter-group">
@@ -95,11 +94,11 @@ tbody td:first-child{font-weight:700; color:var(--azul);}
         <table>
             <thead>
                 <tr>
-                    <th onclick="sc('nombre')">Nombre / Sujeto ↕</th>
+                    <th onclick="sc('nombre')">Nombre / Identificación ↕</th>
                     <th>Cargo</th>
-                    <th onclick="sc('veces')">Frecuencia ↕</th>
+                    <th onclick="sc('veces')">Frecuencia Hist. ↕</th>
                     <th>Cod.</th>
-                    <th>Categoría Actualizada</th>
+                    <th>Categoría Falta</th>
                     <th>Criticidad</th>
                     <th onclick="sc('fecha')">Fecha ↕</th>
                     <th>Centro Educativo</th>
@@ -112,127 +111,36 @@ tbody td:first-child{font-weight:700; color:var(--azul);}
 </div>
 
 <script>
-// MATRIZ ACTUALIZADA SEGÚN DOCUMENTO 4
 const MATRIZ = {
-    "RG": {cat: "Resistencia Grave", grupo: "Resistencia y Autoridad", crit: "CRÍTICO"},
-    "OB": {cat: "Obstrucción", grupo: "Resistencia y Autoridad", crit: "CRÍTICO"},
-    "DS": {cat: "Desacato", grupo: "Resistencia y Autoridad", crit: "ALTO"},
-    "DI": {cat: "Desacato Institucional", grupo: "Resistencia y Autoridad", crit: "ALTO"},
-    "ID": {cat: "Incumplimiento Directivo", grupo: "Resistencia y Autoridad", crit: "CRÍTICO"},
-    "FO": {cat: "Falsedad Operativa", grupo: "Falsedad y Fraude", crit: "CRÍTICO"},
-    "IF": {cat: "Información Falsa", grupo: "Falsedad y Fraude", crit: "CRÍTICO"},
-    "SC": {cat: "Simulación de Conexión", grupo: "Falsedad y Fraude", crit: "ALTO"},
-    "OC": {cat: "Omisión de Control", grupo: "Falsedad y Fraude", crit: "ALTO"},
-    "AD": {cat: "Abandono de Deber", grupo: "Negligencia y Ausencia", crit: "ALTO"},
-    "IHC": {cat: "Incumplimiento Horas clase", grupo: "Negligencia y Ausencia", crit: "ALTO"},
-    "AI": {cat: "Ausencia Institucional", grupo: "Negligencia y Ausencia", crit: "MEDIO"},
-    "NP": {cat: "Negligencia Programada / No Contesta", grupo: "Negligencia y Ausencia", crit: "MEDIO"},
-    "PC": {cat: "Pasividad Crítica", grupo: "Negligencia y Ausencia", crit: "ALTO"},
-    "UD": {cat: "Uso Indebido", grupo: "Incumplimiento Tecnológico", crit: "MEDIO"},
-    "UD-A": {cat: "Uso Indebido Agravado", grupo: "Incumplimiento Tecnológico", crit: "CRÍTICO"},
-    "DT": {cat: "Desconexión Técnica", grupo: "Incumplimiento Tecnológico", crit: "BAJO"},
-    "EQ": {cat: "Equipamiento Deficiente", grupo: "Incumplimiento Tecnológico", crit: "MEDIO"},
-    "NF": {cat: "No Facilitador", grupo: "Fallas de Gestión", crit: "ALTO"},
-    "OS-D": {cat: "Omisión Supervisión Docente", grupo: "Fallas de Gestión", crit: "MEDIO"},
-    "RC": {cat: "Reporte Incompleto Crónico", grupo: "Fallas de Gestión", crit: "BAJO"},
-    "LD": {cat: "Liderazgo Deficiente", grupo: "Fallas de Gestión", crit: "MEDIO"},
-    "CP": {cat: "Conflicto de Interés", grupo: "Fallas de Gestión", crit: "ALTO"},
-    "NC": {cat: "No cumplió", grupo: "Otros", crit: "MEDIO"}
+    "RG": {cat: "Resistencia Grave", crit: "CRÍTICO"},
+    "OB": {cat: "Obstrucción", crit: "CRÍTICO"},
+    "DS": {cat: "Desacato", crit: "ALTO"},
+    "DI": {cat: "Desacato Institucional", crit: "ALTO"},
+    "ID": {cat: "Incumplimiento Directivo", crit: "CRÍTICO"},
+    "FO": {cat: "Falsedad Operativa", crit: "CRÍTICO"},
+    "IF": {cat: "Información Falsa", crit: "CRÍTICO"},
+    "SC": {cat: "Simulación de Conexión", crit: "ALTO"},
+    "OC": {cat: "Omisión de Control", crit: "ALTO"},
+    "AD": {cat: "Abandono de Deber", crit: "ALTO"},
+    "IHC": {cat: "Incumplimiento Horas clase", crit: "ALTO"},
+    "AI": {cat: "Ausencia Institucional", crit: "MEDIO"},
+    "NP": {cat: "Negligencia Programada", crit: "MEDIO"},
+    "PC": {cat: "Pasividad Crítica", crit: "ALTO"},
+    "UD": {cat: "Uso Indebido", crit: "MEDIO"},
+    "UD-A": {cat: "Uso Indebido Agravado", crit: "CRÍTICO"},
+    "DT": {cat: "Desconexión Técnica", crit: "BAJO"},
+    "EQ": {cat: "Equipamiento Deficiente", crit: "MEDIO"},
+    "NF": {cat: "No Facilitador", crit: "ALTO"},
+    "OS-D": {cat: "Omisión Supervisión Docente", crit: "MEDIO"},
+    "RC": {cat: "Reporte Incompleto Crónico", crit: "BAJO"},
+    "LD": {cat: "Liderazgo Deficiente", crit: "MEDIO"},
+    "CP": {cat: "Conflicto de Interés", crit: "ALTO"},
+    "NC": {cat: "No cumplió", crit: "MEDIO"}
 };
 
-// DATA COMPLETA (88 REGISTROS)[cite: 2]
-const RAW = [
-    {"id":"27438","ce":"CENTRO ESCOLAR CASERIO EL SALAMAR","dep":"USULUTÁN","depk":"USULUTAN","tipo":"Director","nombre":"FRANCISCO JOSUE CRUZ OCHOA","cod":"NC","fecha_dia":"26/03/2026"},
-    {"id":"27436","ce":"COMPLEJO EDUCATIVO CANTÓN EL PEDREGAL","dep":"LA PAZ","depk":"LA PAZ","tipo":"Docente","nombre":"Máximo Adán Coto Martínez","cod":"DS","fecha_dia":"26/03/2026"},
-    {"id":"27435","ce":"CENTRO ESCOLAR CONSTITUCION 1950","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Docente","nombre":"Nora Silvia Prieto de Ayala","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27434","ce":"CENTRO ESCOLAR NUEVO LOURDES","dep":"LA LIBERTAD","depk":"LA LIBERTAD","tipo":"Docente","nombre":"ILIANA IVETTE RODAS GARCÍA","cod":"OB","fecha_dia":"26/03/2026"},
-    {"id":"27404","ce":"CENTRO ESCOLAR INGENIERO RAMÓN ENRIQUE VENTURA","dep":"SAN MIGUEL","depk":"SAN MIGUEL","tipo":"Director","nombre":"XIOMARA GUADALUPE MORENO PERLA","cod":"NC","fecha_dia":"26/03/2026"},
-    {"id":"27393","ce":"CENTRO ESCOLAR CASERÍO LA JOYA","dep":"AHUACHAPÁN","depk":"AHUACHAPAN","tipo":"Director","nombre":"CIDA JEANETT LAGUAN ALARCÓN","cod":"DS","fecha_dia":"26/03/2026"},
-    {"id":"27385","ce":"CENTRO ESCOLAR CASERIO EL TABLON","dep":"SAN VICENTE","depk":"SAN VICENTE","tipo":"Director","nombre":"STEISY NOHEMY GOMEZ Aguilar","cod":"DS","fecha_dia":"26/03/2026"},
-    {"id":"27384","ce":"CENTRO ESCOLAR CANTÓN LAS DELICIAS","dep":"LA LIBERTAD","depk":"LA LIBERTAD","tipo":"Director","nombre":"RAUL AMILCAR LANDAVERDE MEJIA","cod":"NC","fecha_dia":"26/03/2026"},
-    {"id":"27382","ce":"COMPLEJO EDUCATIVO CATÓLICO NUESTRA SEÑORA","dep":"LA LIBERTAD","depk":"LA LIBERTAD","tipo":"Director","nombre":"RICARDO ULISES PÉREZ ALFARO","cod":"DS","fecha_dia":"26/03/2026"},
-    {"id":"27381","ce":"ESCUELA DE EDUCACION ESPECIAL MONSEÑOR","dep":"USULUTÁN","depk":"USULUTAN","tipo":"Director","nombre":"ANA ONFALIA HERNÁNDEZ RUIZ","cod":"DS","fecha_dia":"26/03/2026"},
-    {"id":"27380","ce":"CENTRO ESCOLAR COLONIA SAN MAURICIO","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"ANA MARGARITA AYALA ARIAS","cod":"OB","fecha_dia":"26/03/2026"},
-    {"id":"27379","ce":"CENTRO ESCOLAR CANTÓN SAN JOSÉ SHANGALLO","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"ROMEO MIGUEL ROGEL","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27378","ce":"INSTITUTO NACIONAL DE LA COLONIA SANTA LUCIA","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"JORGE PORFIRIO SEVILLANO PAREDES","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27377","ce":"COMPLEJO EDUCATIVO REPÚBLICA DE COREA","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"ANA BERNARDA MARAVILLA MELÉNDEZ","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27375","ce":"CENTRO ESCOLAR GENERAL FRANCISCO MORAZÁN","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"CLAUDIA CAROLINA HERNÁNDEZ DE OLIVA","cod":"DS","fecha_dia":"26/03/2026"},
-    {"id":"27374","ce":"COMPLEJO EDUCATIVO COLONIA EL MILAGRO","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"ANGEL DE JESUS CRUZ LEMUS","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27373","ce":"CENTRO ESCOLAR GENERAL FRANCISCO MENENDEZ","dep":"AHUACHAPÁN","depk":"AHUACHAPAN","tipo":"Director","nombre":"JUAN ANTONIO GÓCHEZ MENÉNDEZ","cod":"DS","fecha_dia":"26/03/2026"},
-    {"id":"27372","ce":"CENTRO ESCOLAR CANTÓN EL TEJAR","dep":"LA UNIÓN","depk":"LA UNION","tipo":"Director","nombre":"ANA JESSICA HERNÁNDEZ FERRUFINO","cod":"DS","fecha_dia":"26/03/2026"},
-    {"id":"27371","ce":"CENTRO ESCOLAR CASERIO SAN JUAN ARRIBA","dep":"MORAZÁN","depk":"MORAZAN","tipo":"Director","nombre":"No Definido","cod":"DS","fecha_dia":"26/03/2026"},
-    {"id":"27335","ce":"COMPLEJO EDUCATIVO CASERÍO LOTIFICACIÓN","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"26/03/2026"},
-    {"id":"27330","ce":"CENTRO ESCOLAR CASERÍO EL OCOTILLO","dep":"CABAÑAS","depk":"CABAÑAS","tipo":"Director","nombre":"No Definido","cod":"OB","fecha_dia":"26/03/2026"},
-    {"id":"27328","ce":"INSTITUTO NACIONAL MAESTRO ALBERTO MASFERRER","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Docente","nombre":"Ronald Osvaldo Cruz Tanchez","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27327","ce":"CENTRO ESCOLAR CANTON EL ANGEL","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Docente","nombre":"MARIO ARNULFO MENDEZ VASQUEZ","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27326","ce":"CENTRO ESCOLAR CANTON EL ANGEL","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Docente","nombre":"BLANCA ESTELA HUEZO RAMIREZ","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27323","ce":"CENTRO ESCOLAR CANTON EL ANGEL","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Docente","nombre":"DIANA AUDELIA PLEITEZ BERRIOS","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27322","ce":"CENTRO ESCOLAR CANTON EL ANGEL","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Docente","nombre":"SILVIA GUADALUPE HERNANDEZ","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27321","ce":"COMPLEJO EDUCATIVO JORGE LARDE","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Docente","nombre":"Edyt del Carmen Alvarenga de Rivas","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27320","ce":"CENTRO ESCOLAR EDELMIRA MOLINA","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Docente","nombre":"María Esmeralda Rivera de Quintanilla","cod":"RG","fecha_dia":"26/03/2026"},
-    {"id":"27347","ce":"CENTRO ESCOLAR CANTÓN EL GUAYABO","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Docente","nombre":"LUIS FELIPE SANCHEZ MIJANGO","cod":"RG","fecha_dia":"23/03/2026"},
-    {"id":"27344","ce":"CENTRO ESCOLAR CASERIO ROSARIO CEREN","dep":"SONSONATE","depk":"SONSONATE","tipo":"Director","nombre":"No Definido","cod":"DS","fecha_dia":"23/03/2026"},
-    {"id":"27342","ce":"INSTITUTO NACIONAL DE APASTEPEQUE","dep":"SAN VICENTE","depk":"SAN VICENTE","tipo":"Director","nombre":"No Definido","cod":"OB","fecha_dia":"23/03/2026"},
-    {"id":"27341","ce":"CENTRO ESCOLAR CASERÍO SAN JOSÉ LA CEIBA","dep":"SAN VICENTE","depk":"SAN VICENTE","tipo":"Director","nombre":"No Definido","cod":"OB","fecha_dia":"23/03/2026"},
-    {"id":"27338","ce":"CENTRO ESCOLAR ASENTAMIENTO BUENA VISTA","dep":"SONSONATE","depk":"SONSONATE","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"23/03/2026"},
-    {"id":"27337","ce":"CENTRO ESCOLAR CANTÓN EL BALSAMAR","dep":"SONSONATE","depk":"SONSONATE","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"23/03/2026"},
-    {"id":"27336","ce":"CENTRO ESCOLAR PROFESOR FELIX CANIZALEZ P.","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"23/03/2026"},
-    {"id":"27334","ce":"ESCUELA DE EDUCACIÓN PARVULARIA","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"23/03/2026"},
-    {"id":"27333","ce":"CENTRO ESCOLAR MONSEÑOR GREGORIO ROSA","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"23/03/2026"},
-    {"id":"27331","ce":"CENTRO ESCOLAR RICARDO TRIGUEROS DE LEÓN","dep":"AHUACHAPÁN","depk":"AHUACHAPAN","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"23/03/2026"},
-    {"id":"27350","ce":"CENTRO ESCOLAR CANTON SAN JOSE","dep":"LA UNIÓN","depk":"LA UNION","tipo":"Director","nombre":"No Definido","cod":"OB","fecha_dia":"22/03/2026"},
-    {"id":"27411","ce":"CENTRO ESCOLAR CASERÍO HUILIHUISTE","dep":"USULUTÁN","depk":"USULUTAN","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/03/2026"},
-    {"id":"27433","ce":"CENTRO ESCOLAR MILAGRO DE LA PAZ","dep":"SAN MIGUEL","depk":"SAN MIGUEL","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"19/03/2026"},
-    {"id":"27369","ce":"COMPLEJO EDUCATIVO CANTÓN PASO DE GUALACHE","dep":"USULUTÁN","depk":"USULUTAN","tipo":"Director","nombre":"No Definido","cod":"OB","fecha_dia":"19/03/2026"},
-    {"id":"27365","ce":"CENTRO ESCOLAR SANTIAGO DE MARÍA","dep":"USULUTÁN","depk":"USULUTAN","tipo":"Director","nombre":"No Definido","cod":"RG","fecha_dia":"19/03/2026"},
-    {"id":"27439","ce":"COMPLEJO EDUCATIVO FE Y ALEGRIA","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"No Definido","cod":"LD","fecha_dia":"17/03/2026"},
-    {"id":"27437","ce":"CENTRO ESCOLAR DE SANTA CRUZ ANALQUITO","dep":"CUSCATLÁN","depk":"CUSCATLAN","tipo":"Director","nombre":"No Definido","cod":"RG","fecha_dia":"16/03/2026"},
-    {"id":"27388","ce":"CENTRO ESCOLAR PROFESOR OSCAR ARMANDO GUERRA","dep":"LA LIBERTAD","depk":"LA LIBERTAD","tipo":"Director","nombre":"No Definido","cod":"DS","fecha_dia":"10/03/2026"},
-    {"id":"27387","ce":"COMPLEJO EDUCATIVO COLONIA LAS CAÑAS","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"No Definido","cod":"RG","fecha_dia":"10/03/2026"},
-    {"id":"27386","ce":"CENTRO ESCOLAR CASERÍO LAS MARÍAS","dep":"SONSONATE","depk":"SONSONATE","tipo":"Director","nombre":"No Definido","cod":"OB","fecha_dia":"10/03/2026"},
-    {"id":"27391","ce":"COMPLEJO EDUCATIVO COLONIA VILLA ALEGRE","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"No Definido","cod":"DS","fecha_dia":"09/03/2026"},
-    {"id":"27389","ce":"CENTRO ESCOLAR CANTON LAS CAÑAS","dep":"CHALATENANGO","depk":"CHALATENANGO","tipo":"Director","nombre":"No Definido","cod":"DS","fecha_dia":"09/03/2026"},
-    {"id":"27392","ce":"INSTITUTO NACIONAL DE SAN ANTONIO SILVA","dep":"SAN MIGUEL","depk":"SAN MIGUEL","tipo":"Director","nombre":"No Definido","cod":"RG","fecha_dia":"08/03/2026"},
-    {"id":"27394","ce":"CENTRO ESCOLAR CANTÓN PILETAS","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"OB","fecha_dia":"05/03/2026"},
-    {"id":"27395","ce":"CENTRO ESCOLAR CANTÓN LOS MAGUEYES","dep":"AHUACHAPÁN","depk":"AHUACHAPAN","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"04/03/2026"},
-    {"id":"27399","ce":"CENTRO ESCOLAR CASERÍO VALLE NUEVO","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"02/03/2026"},
-    {"id":"27398","ce":"CENTRO ESCOLAR CASERIO EL AHOGADO","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"02/03/2026"},
-    {"id":"27397","ce":"CENTRO ESCOLAR CASERÍO LA CAÑADA","dep":"SAN MIGUEL","depk":"SAN MIGUEL","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"02/03/2026"},
-    {"id":"27396","ce":"CENTRO ESCOLAR CASERÍO LA LIMA","dep":"LA LIBERTAD","depk":"LA LIBERTAD","tipo":"Director","nombre":"No Definido","cod":"DS","fecha_dia":"02/03/2026"},
-    {"id":"27400","ce":"CENTRO ESCOLAR HUMBERTO PARADA SANDOVAL","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"RG","fecha_dia":"01/03/2026"},
-    {"id":"27402","ce":"COMPLEJO EDUCATIVO JUTTA STEINER","dep":"LA LIBERTAD","depk":"LA LIBERTAD","tipo":"Director","nombre":"No Definido","cod":"OB","fecha_dia":"28/02/2026"},
-    {"id":"27403","ce":"CENTRO ESCOLAR CANTÓN SANTA RITA CIMARRON","dep":"CHALATENANGO","depk":"CHALATENANGO","tipo":"Director","nombre":"No Definido","cod":"DS","fecha_dia":"27/02/2026"},
-    {"id":"27419","ce":"CENTRO ESCOLAR CASERIO EL MANZANILLO","dep":"LA UNIÓN","depk":"LA UNION","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27418","ce":"CENTRO ESCOLAR CASERÍO EL PEDERNAL","dep":"LA UNIÓN","depk":"LA UNION","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27417","ce":"CENTRO ESCOLAR CANTON EL MOLINO","dep":"LA UNIÓN","depk":"LA UNION","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27416","ce":"CENTRO ESCOLAR CANTÓN EL TABLÓN","dep":"SAN MIGUEL","depk":"SAN MIGUEL","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27415","ce":"CENTRO ESCOLAR CASERÍO NUEVA FORTUNA","dep":"USULUTÁN","depk":"USULUTAN","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27414","ce":"CENTRO ESCOLAR CASERÍO QUEBRACHO","dep":"USULUTÁN","depk":"USULUTAN","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27413","ce":"CENTRO ESCOLAR CANTON EL HULE CHACHO","dep":"USULUTÁN","depk":"USULUTAN","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27412","ce":"CENTRO ESCOLAR CANTÓN LA TIRANA","dep":"USULUTÁN","depk":"USULUTAN","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27410","ce":"CENTRO ESCOLAR CASERIO EL PORTEZUELO","dep":"SONSONATE","depk":"SONSONATE","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27409","ce":"CENTRO ESCOLAR CASERÍO EL SALAMAR","dep":"LA PAZ","depk":"LA PAZ","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27408","ce":"CENTRO ESCOLAR CASERÍO LOS PINOS","dep":"AHUACHAPÁN","depk":"AHUACHAPAN","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27407","ce":"CENTRO ESCOLAR CASERIO EL PORTEZUELO","dep":"SONSONATE","depk":"SONSONATE","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/02/2026"},
-    {"id":"27431","ce":"CENTRO ESCOLAR CASERIO EL DESPOBLADO","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"18/02/2026"},
-    {"id":"27430","ce":"CENTRO ESCOLAR CASERÍO BARRA SALADA","dep":"SONSONATE","depk":"SONSONATE","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"18/02/2026"},
-    {"id":"27428","ce":"CENTRO ESCOLAR CATOLICO SAN JORGE","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"18/02/2026"},
-    {"id":"27429","ce":"CENTRO ESCOLAR CASERÍO LOS ENCUENTROS","dep":"SONSONATE","depk":"SONSONATE","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"18/02/2026"},
-    {"id":"27427","ce":"CENTRO ESCOLAR CASERÍO LOS SITIOS","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"18/02/2026"},
-    {"id":"27426","ce":"CENTRO ESCOLAR CASERÍO EL PINALITO","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"18/02/2026"},
-    {"id":"27425","ce":"CENTRO ESCOLAR CASERÍO LAS PAVAS","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"18/02/2026"},
-    {"id":"27424","ce":"CENTRO ESCOLAR CASERÍO EL GUAMILAR","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"18/02/2026"},
-    {"id":"27423","ce":"CENTRO ESCOLAR CASERÍO SAN JOSE LAS CRUCES","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"18/02/2026"},
-    {"id":"27422","ce":"CENTRO ESCOLAR CASERÍO CERRO LAS FLORES","dep":"SANTA ANA","depk":"SANTA ANA","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"18/02/2026"},
-    {"id":"27421","ce":"CENTRO ESCOLAR CASERÍO EL HUISCOYOL","dep":"SAN MIGUEL","depk":"SAN MIGUEL","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"18/02/2026"},
-    {"id":"19051","ce":"CENTRO ESCOLAR URBANIZACION LAS MARGARITAS","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"No Definido","cod":"DS","fecha_dia":"15/02/2026"},
-    {"id":"19002","ce":"COMPLEJO EDUCATIVO FE Y ALEGRIA","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"No Definido","cod":"OB","fecha_dia":"13/02/2026"},
-    {"id":"19001","ce":"ESCUELA DE EDUCACION PARVULARIA DE COMASAGUA","dep":"LA LIBERTAD","depk":"LA LIBERTAD","tipo":"Director","nombre":"No Definido","cod":"OB","fecha_dia":"13/02/2026"},
-    {"id":"27432","ce":"ESCUELA DE EDUCACION ESPECIAL","dep":"LA LIBERTAD","depk":"LA LIBERTAD","tipo":"Director","nombre":"No Definido","cod":"OB","fecha_dia":"10/02/2026"},
-    {"id":"27405","ce":"COMPLEJO EDUCATIVO CATOLICO","dep":"SAN SALVADOR","depk":"SAN SALVADOR","tipo":"Director","nombre":"No Definido","cod":"NC","fecha_dia":"20/03/2025"}
-];
+// DATA COMPLETA EXTRAÍDA DEL CSV V2 (92 REGISTROS)
+const RAW = [{"id": "27891", "ce": "CENTRO ESCOLAR CASERIO QUEBRADA HONDA, CANTON EL ALGODON", "dep": "LA UNIÓN", "depk": "LA UNIÓN", "tipo": "Director", "nombre": "CONSUELO REGINA BENÍTEZ GUZMAN", "cod": "DS", "fecha_dia": "31/03/2026"}, {"id": "27890", "ce": "CENTRO ESCOLAR CASERÍO EL AMATILLO, CANTÓN SAN JOSÉ DE LA MONTAÑA", "dep": "CHALATENANGO", "depk": "CHALATENANGO", "tipo": "Director", "nombre": "Ana Cecilia Menjivar López", "cod": "DS", "fecha_dia": "31/03/2026"}, {"id": "27889", "ce": "CENTRO ESCOLAR CANTÓN SAN FRANCISCO", "dep": "SAN VICENTE", "depk": "SAN VICENTE", "tipo": "Director", "nombre": "ROSA DYNA GUADALUPE ARIAS DE CORDOVA", "cod": "DS", "fecha_dia": "31/03/2026"}, {"id": "27887", "ce": "COMPLEJO EDUCATIVO COLONIA QUIÑONEZ", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "CARMEN VERA ALICE LINARES", "cod": "RG", "fecha_dia": "31/03/2026"}, {"id": "27438", "ce": "CENTRO ESCOLAR CASERIO EL SALAMAR, CANTON EL LLANO", "dep": "USULUTÁN", "depk": "USULUTÁN", "tipo": "Director", "nombre": "FRANCISCO JOSUE CRUZ OCHOA", "cod": "NC", "fecha_dia": "26/03/2026"}, {"id": "27436", "ce": "COMPLEJO EDUCATIVO CANTÓN EL PEDREGAL", "dep": "LA PAZ", "depk": "LA PAZ", "tipo": "Director", "nombre": "VERONICA BEATRIZ ALFARO DE RODRIGUEZ", "cod": "DS", "fecha_dia": "26/03/2026"}, {"id": "27435", "ce": "CENTRO ESCOLAR CONSTITUCION 1950", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Docente", "nombre": "Nora Silvia Prieto de Ayala", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27434", "ce": "CENTRO ESCOLAR NUEVO LOURDES", "dep": "LA LIBERTAD", "depk": "LA LIBERTAD", "tipo": "Docente", "nombre": "ILIANA IVETTE RODAS GARCÍA", "cod": "OB", "fecha_dia": "26/03/2026"}, {"id": "27404", "ce": "CENTRO ESCOLAR INGENIERO RAMÓN ENRIQUE VENTURA PORTILLO", "dep": "SAN MIGUEL", "depk": "SAN MIGUEL", "tipo": "Director", "nombre": "XIOMARA GUADALUPE MORENO PERLA", "cod": "NC", "fecha_dia": "26/03/2026"}, {"id": "27393", "ce": "CENTRO ESCOLAR CASERÍO LA JOYA, CANTÓN LA PANDEADURA", "dep": "AHUACHAPÁN", "depk": "AHUACHAPÁN", "tipo": "Director", "nombre": "CIDA JEANETT LAGUAN ALARCÓN", "cod": "DS", "fecha_dia": "26/03/2026"}, {"id": "27385", "ce": "CENTRO ESCOLAR CASERIO EL TABLON, CANTON SAN JUAN DE MERINOS", "dep": "SAN VICENTE", "depk": "SAN VICENTE", "tipo": "Director", "nombre": "STEISY NOHEMY GOMEZ AGUILAR", "cod": "DS", "fecha_dia": "26/03/2026"}, {"id": "27384", "ce": "CENTRO ESCOLAR CANTÓN LAS DELICIAS", "dep": "LA LIBERTAD", "depk": "LA LIBERTAD", "tipo": "Director", "nombre": "RAUL AMILCAR LANDAVERDE MEJIA", "cod": "NC", "fecha_dia": "26/03/2026"}, {"id": "27382", "ce": "COMPLEJO EDUCATIVO CATÓLICO NUESTRA SEÑORA DE LAS GRACIAS", "dep": "LA LIBERTAD", "depk": "LA LIBERTAD", "tipo": "Director", "nombre": "RICARDO ULISES PÉREZ ALFARO", "cod": "DS", "fecha_dia": "26/03/2026"}, {"id": "27381", "ce": "ESCUELA DE EDUCACION ESPECIAL MONSEÑOR RODRIGO ORLANDO CABRERA", "dep": "USULUTÁN", "depk": "USULUTÁN", "tipo": "Director", "nombre": "ANA ONFALIA HERNÁNDEZ RUIZ", "cod": "DS", "fecha_dia": "26/03/2026"}, {"id": "27380", "ce": "CENTRO ESCOLAR COLONIA SAN MAURICIO", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "ANA MARGARITA AYALA ARIAS", "cod": "OB", "fecha_dia": "26/03/2026"}, {"id": "27379", "ce": "CENTRO ESCOLAR CANTÓN SAN JOSÉ SHANGALLO", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "ROMEO MIGUEL ROGEL", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27378", "ce": "INSTITUTO NACIONAL DE LA COLONIA SANTA LUCIA", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "JORGE PORFIRIO SEVILLANO PAREDES", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27377", "ce": "COMPLEJO EDUCATIVO REPÚBLICA DE COREA", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "ANA BERNARDA MARAVILLA MELÉNDEZ", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27375", "ce": "CENTRO ESCOLAR GENERAL FRANCISCO MORAZÁN", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "CLAUDIA CAROLINA HERNÁNDEZ DE OLIVA", "cod": "DS", "fecha_dia": "26/03/2026"}, {"id": "27374", "ce": "COMPLEJO EDUCATIVO COLONIA EL MILAGRO", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "ANGEL DE JESUS CRUZ LEMUS", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27373", "ce": "CENTRO ESCOLAR GENERAL FRANCISCO MENENDEZ", "dep": "AHUACHAPÁN", "depk": "AHUACHAPÁN", "tipo": "Director", "nombre": "JUAN ANTONIO GÓCHEZ MENÉNDEZ", "cod": "DS", "fecha_dia": "26/03/2026"}, {"id": "27372", "ce": "CENTRO ESCOLAR CANTÓN EL TEJAR", "dep": "LA UNIÓN", "depk": "LA UNIÓN", "tipo": "Director", "nombre": "ANA JESSICA HERNÁNDEZ FERRUFINO", "cod": "DS", "fecha_dia": "26/03/2026"}, {"id": "27371", "ce": "CENTRO ESCOLAR CASERIO SAN JUAN ARRIBA, CANTÓN SAN JUAN", "dep": "MORAZÁN", "depk": "MORAZÁN", "tipo": "Director", "nombre": "MIRNA DOLORES MERLOS MERLOS", "cod": "DS", "fecha_dia": "26/03/2026"}, {"id": "27335", "ce": "COMPLEJO EDUCATIVO CASERÍO LOTIFICACIÓN SAN IGNACIO, CANTÓN GALEANO", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "MARGARITO ELIAS GUZMAN", "cod": "NC", "fecha_dia": "26/03/2026"}, {"id": "27330", "ce": "CENTRO ESCOLAR CASERÍO EL OCOTILLO, CANTÓN LA UVILLA", "dep": "CABAÑAS", "depk": "CABAÑAS", "tipo": "Director", "nombre": "ÁNGEL ANTONIO AYALA HENRÍQUEZ", "cod": "OB", "fecha_dia": "26/03/2026"}, {"id": "27328", "ce": "INSTITUTO NACIONAL MAESTRO ALBERTO MASFERRER", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Docente", "nombre": "Ronald Osvaldo Cruz Tanchez", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27327", "ce": "CENTRO ESCOLAR CANTON EL ANGEL", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Docente", "nombre": "MARIO ARNULFO MENDEZ VASQUEZ", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27326", "ce": "CENTRO ESCOLAR CANTON EL ANGEL", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Docente", "nombre": "BLANCA ESTELA HUEZO RAMIREZ", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27323", "ce": "CENTRO ESCOLAR CANTON EL ANGEL", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Docente", "nombre": "DIANA AUDELIA PLEITEZ BERRIOS", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27322", "ce": "CENTRO ESCOLAR CANTON EL ANGEL", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Docente", "nombre": "SILVIA GUADALUPE HERNANDEZ", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27321", "ce": "COMPLEJO EDUCATIVO JORGE LARDE", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Docente", "nombre": "Edyt del Carmen Alvarenga de Rivas", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27320", "ce": "CENTRO ESCOLAR EDELMIRA MOLINA", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Docente", "nombre": "María Esmeralda Rivera de Quintanilla", "cod": "RG", "fecha_dia": "26/03/2026"}, {"id": "27347", "ce": "CENTRO ESCOLAR CANTÓN EL GUAYABO", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Docente", "nombre": "LUIS FELIPE SANCHEZ MIJANGO", "cod": "RG", "fecha_dia": "23/03/2026"}, {"id": "27344", "ce": "CENTRO ESCOLAR CASERIO ROSARIO CEREN, CANTON JOYA DE CEREN", "dep": "SONSONATE", "depk": "SONSONATE", "tipo": "Director", "nombre": "Max Francisco Rodriguez Murcia", "cod": "DS", "fecha_dia": "23/03/2026"}, {"id": "27342", "ce": "INSTITUTO NACIONAL DE APASTEPEQUE", "dep": "SAN VICENTE", "depk": "SAN VICENTE", "tipo": "Director", "nombre": "CRISTINA GUADALUPE MONTERROSA DE ARITA", "cod": "OB", "fecha_dia": "23/03/2026"}, {"id": "27341", "ce": "CENTRO ESCOLAR CASERÍO SAN JOSÉ LA CEIBA, CANTÓN SAN FERNANDO", "dep": "SAN VICENTE", "depk": "SAN VICENTE", "tipo": "Director", "nombre": "CAROLINA GUADALUPE RAMIREZ MARTINEZ", "cod": "OB", "fecha_dia": "23/03/2026"}, {"id": "27338", "ce": "CENTRO ESCOLAR ASENTAMIENTO BUENA VISTA, CANTÓN LA UNIÓN", "dep": "SONSONATE", "depk": "SONSONATE", "tipo": "Director", "nombre": "William Armando López Mendoza", "cod": "NC", "fecha_dia": "23/03/2026"}, {"id": "27337", "ce": "CENTRO ESCOLAR CANTÓN EL BALSAMAR", "dep": "SONSONATE", "depk": "SONSONATE", "tipo": "Director", "nombre": "WILMER GABRIEL TOBAR VILLANUEVA", "cod": "NC", "fecha_dia": "23/03/2026"}, {"id": "27336", "ce": "CENTRO ESCOLAR PROFESOR FELIX CANIZALEZ P.", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Irma Elena Posada de Landaverde", "cod": "NC", "fecha_dia": "23/03/2026"}, {"id": "27334", "ce": "ESCUELA DE EDUCACIÓN PARVULARIA PRESBÍTERO MATÍAS ROMERO", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Claudia Yanira Perez Lucha", "cod": "NC", "fecha_dia": "23/03/2026"}, {"id": "27333", "ce": "CENTRO ESCOLAR MONSEÑOR GREGORIO ROSA CHÁVEZ", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "Marta del Carmen Bonilla Molina", "cod": "NC", "fecha_dia": "23/03/2026"}, {"id": "27331", "ce": "CENTRO ESCOLAR RICARDO TRIGUEROS DE LEÓN", "dep": "AHUACHAPÁN", "depk": "AHUACHAPÁN", "tipo": "Director", "nombre": "Miguel Antonio Cabezas", "cod": "NC", "fecha_dia": "23/03/2026"}, {"id": "27350", "ce": "CENTRO ESCOLAR CANTON SAN JOSE", "dep": "LA UNIÓN", "depk": "LA UNIÓN", "tipo": "Director", "nombre": "NILSAN ABIGAIL MARTINEZ CRUZ", "cod": "OB", "fecha_dia": "22/03/2026"}, {"id": "27411", "ce": "CENTRO ESCOLAR CASERÍO HUILIHUISTE, CANTÓN SAN ANTONIO", "dep": "USULUTÁN", "depk": "USULUTÁN", "tipo": "Director", "nombre": "ETENIA SUJEY SERPAS DE CASTRO", "cod": "NC", "fecha_dia": "20/03/2026"}, {"id": "27433", "ce": "CENTRO ESCOLAR MILAGRO DE LA PAZ", "dep": "SAN MIGUEL", "depk": "SAN MIGUEL", "tipo": "Director", "nombre": "JULIA LIZZETTE RODRIGUEZ", "cod": "NC", "fecha_dia": "19/03/2026"}, {"id": "27369", "ce": "COMPLEJO EDUCATIVO CANTÓN PASO DE GUALACHE", "dep": "USULUTÁN", "depk": "USULUTÁN", "tipo": "Director", "nombre": "Liz Osiris Valle Escobar", "cod": "OB", "fecha_dia": "19/03/2026"}, {"id": "27365", "ce": "CENTRO ESCOLAR SANTIAGO DE MARÍA", "dep": "USULUTÁN", "depk": "USULUTÁN", "tipo": "Director", "nombre": "German Nelson Solís Hernández", "cod": "RG", "fecha_dia": "19/03/2026"}, {"id": "27439", "ce": "COMPLEJO EDUCATIVO FE Y ALEGRIA", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "Mario Alfonso Vallecillos Pérez", "cod": "LD", "fecha_dia": "17/03/2026"}, {"id": "27437", "ce": "CENTRO ESCOLAR DE SANTA CRUZ ANALQUITO", "dep": "CUSCATLÁN", "depk": "CUSCATLÁN", "tipo": "Director", "nombre": "José Lucas De León Hernández", "cod": "RG", "fecha_dia": "16/03/2026"}, {"id": "27388", "ce": "CENTRO ESCOLAR PROFESOR OSCAR ARMANDO GUERRA CASTRO", "dep": "LA LIBERTAD", "depk": "LA LIBERTAD", "tipo": "Director", "nombre": "GERMAN ARMANDO GOMEZ", "cod": "DS", "fecha_dia": "10/03/2026"}, {"id": "27387", "ce": "COMPLEJO EDUCATIVO COLONIA LAS CAÑAS", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "Daniel Díaz Guzmán", "cod": "RG", "fecha_dia": "10/03/2026"}, {"id": "27386", "ce": "CENTRO ESCOLAR CASERÍO LAS MARÍAS, CANTÓN LAS MARIAS", "dep": "SONSONATE", "depk": "SONSONATE", "tipo": "Director", "nombre": "Luisa Rubidia Alvarado Méndez", "cod": "OB", "fecha_dia": "10/03/2026"}, {"id": "27391", "ce": "COMPLEJO EDUCATIVO COLONIA VILLA ALEGRE", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "Edwin Fernando Herrera Guillén", "cod": "DS", "fecha_dia": "09/03/2026"}, {"id": "27389", "ce": "CENTRO ESCOLAR CANTON LAS CAÑAS", "dep": "CHALATENANGO", "depk": "CHALATENANGO", "tipo": "Director", "nombre": "SILVIA DINORA CARRERO ELIAS", "cod": "DS", "fecha_dia": "09/03/2026"}, {"id": "27392", "ce": "INSTITUTO NACIONAL DE SAN ANTONIO SILVA", "dep": "SAN MIGUEL", "depk": "SAN MIGUEL", "tipo": "Director", "nombre": "WALTER ORLANDO GÓMEZ ARTOLA", "cod": "RG", "fecha_dia": "08/03/2026"}, {"id": "27394", "ce": "CENTRO ESCOLAR CANTÓN PILETAS", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Sonia Carolina Martínez Argueta", "cod": "OB", "fecha_dia": "05/03/2026"}, {"id": "27395", "ce": "CENTRO ESCOLAR CANTÓN LOS MAGUEYES", "dep": "AHUACHAPÁN", "depk": "AHUACHAPÁN", "tipo": "Director", "nombre": "Mártir Zacarías Gutiérrez López", "cod": "NC", "fecha_dia": "04/03/2026"}, {"id": "27399", "ce": "CENTRO ESCOLAR CASERÍO VALLE NUEVO, CANTÓN LAS PIEDRAS", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Cesia Carolina Gutiérrez de Aguilar", "cod": "NC", "fecha_dia": "02/03/2026"}, {"id": "27398", "ce": "CENTRO ESCOLAR CASERIO EL AHOGADO, CANTON LA ISLA", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "RAFAEL ANTONIO ESCALANTE", "cod": "NC", "fecha_dia": "02/03/2026"}, {"id": "27397", "ce": "CENTRO ESCOLAR CASERÍO LA CAÑADA, CANTÓN QUEBRACHO", "dep": "SAN MIGUEL", "depk": "SAN MIGUEL", "tipo": "Director", "nombre": "NOHEMY MARGOTH GÓMEZ PADILLA", "cod": "NC", "fecha_dia": "02/03/2026"}, {"id": "27396", "ce": "CENTRO ESCOLAR CASERÍO LA LIMA, CANTÓN EL PALMAR", "dep": "LA LIBERTAD", "depk": "LA LIBERTAD", "tipo": "Director", "nombre": "HERBERT JOSE ROBERTO JOVEL NOVELLINO", "cod": "DS", "fecha_dia": "02/03/2026"}, {"id": "27400", "ce": "CENTRO ESCOLAR HUMBERTO PARADA SANDOVAL", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Francisco Alexander Sanabria", "cod": "RG", "fecha_dia": "01/03/2026"}, {"id": "27402", "ce": "COMPLEJO EDUCATIVO JUTTA STEINER DE TORUÑO", "dep": "LA LIBERTAD", "depk": "LA LIBERTAD", "tipo": "Director", "nombre": "JOSE EDWARDS MONROY FLORES", "cod": "OB", "fecha_dia": "28/02/2026"}, {"id": "27403", "ce": "CENTRO ESCOLAR CANTÓN SANTA RITA CIMARRON", "dep": "CHALATENANGO", "depk": "CHALATENANGO", "tipo": "Director", "nombre": "DAVID ROBERTO TEJADA TEJADA", "cod": "DS", "fecha_dia": "27/02/2026"}, {"id": "27419", "ce": "CENTRO ESCOLAR CASERIO EL MANZANILLO, CANTON EL MOLINO", "dep": "LA UNIÓN", "depk": "LA UNIÓN", "tipo": "Director", "nombre": "MAREL VILORIO VELASQUEZ", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27418", "ce": "CENTRO ESCOLAR CASERÍO EL PEDERNAL, CANTÓN EL MOLINO", "dep": "LA UNIÓN", "depk": "LA UNIÓN", "tipo": "Director", "nombre": "ALBA LUZ MALDONADO DE ZAVALA", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27417", "ce": "CENTRO ESCOLAR CANTON EL MOLINO", "dep": "LA UNIÓN", "depk": "LA UNIÓN", "tipo": "Director", "nombre": "DARWIN DAVID AMAYA FLORES", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27416", "ce": "CENTRO ESCOLAR CANTÓN EL TABLÓN", "dep": "SAN MIGUEL", "depk": "SAN MIGUEL", "tipo": "Director", "nombre": "OMAR ANTONIO GALDÁMEZ MENDOZA", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27415", "ce": "CENTRO ESCOLAR CASERÍO NUEVA FORTUNA, CANTÓN JOYA DEL PILAR", "dep": "USULUTÁN", "depk": "USULUTÁN", "tipo": "Director", "nombre": "Reina de la Paz Orellana Vigil", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27414", "ce": "CENTRO ESCOLAR CASERÍO QUEBRACHO, CANTÓN SAMURIA", "dep": "USULUTÁN", "depk": "USULUTÁN", "tipo": "Director", "nombre": "María Irma Solis Franco", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27413", "ce": "CENTRO ESCOLAR CANTON EL HULE CHACHO", "dep": "USULUTÁN", "depk": "USULUTÁN", "tipo": "Director", "nombre": "LUZ MARIA CORVERA RAMOS", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27412", "ce": "CENTRO ESCOLAR CANTÓN LA TIRANA", "dep": "USULUTÁN", "depk": "USULUTÁN", "tipo": "Director", "nombre": "VICTORIA DEL CARMEN PERDOMO", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27410", "ce": "CENTRO ESCOLAR CASERIO EL PORTEZUELO", "dep": "SONSONATE", "depk": "SONSONATE", "tipo": "Director", "nombre": "Juan José Deleon Marroquin", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27409", "ce": "CENTRO ESCOLAR CASERÍO EL SALAMAR, CANTÓN SAN SEBASTIAN EL CHINGO", "dep": "LA PAZ", "depk": "LA PAZ", "tipo": "Director", "nombre": "SONIA PATRICIA ALVARADO MARINERO", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27408", "ce": "CENTRO ESCOLAR CASERÍO LOS PINOS, CANTÓN SAN RAFAEL", "dep": "AHUACHAPÁN", "depk": "AHUACHAPÁN", "tipo": "Director", "nombre": "Vitelio Ernesto González", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27407", "ce": "CENTRO ESCOLAR CASERIO EL PORTEZUELO", "dep": "SONSONATE", "depk": "SONSONATE", "tipo": "Director", "nombre": "Juan José Deleon Marroquin", "cod": "NC", "fecha_dia": "20/02/2026"}, {"id": "27431", "ce": "CENTRO ESCOLAR CASERIO EL DESPOBLADO, CANTON MALPASO", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Salvador Humberto Morán Alemán", "cod": "NC", "fecha_dia": "18/02/2026"}, {"id": "27430", "ce": "CENTRO ESCOLAR CASERÍO BARRA SALADA, CANTÓN SALINAS DE AYACACHAPA", "dep": "SONSONATE", "depk": "SONSONATE", "tipo": "Director", "nombre": "Sonia Regina Olivares Rivera", "cod": "NC", "fecha_dia": "18/02/2026"}, {"id": "27428", "ce": "CENTRO ESCOLAR CATOLICO SAN JORGE", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Doris Concepción Guevara de Palma", "cod": "NC", "fecha_dia": "18/02/2026"}, {"id": "27429", "ce": "CENTRO ESCOLAR CASERÍO LOS ENCUENTROS, CANTÓN ACACHAPA ARRIBA", "dep": "SONSONATE", "depk": "SONSONATE", "tipo": "Director", "nombre": "WALTER ERNESTO MEDINA SANDOVAL", "cod": "NC", "fecha_dia": "18/02/2026"}, {"id": "27427", "ce": "CENTRO ESCOLAR CASERÍO LOS SITIOS, CANTÓN SAN JOSÉ CAMULIAN", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Kevin Byron Estevez Linares", "cod": "NC", "fecha_dia": "18/02/2026"}, {"id": "27426", "ce": "CENTRO ESCOLAR CASERÍO EL PINALITO, CANTÓN SAN MIGUEL INGENIO", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Karla Santos Durán", "cod": "NC", "fecha_dia": "18/02/2026"}, {"id": "27425", "ce": "CENTRO ESCOLAR CASERÍO LAS PAVAS, CANTÓN LAS PAVAS", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "José Hernán Barrera", "cod": "NC", "fecha_dia": "18/02/2026"}, {"id": "27424", "ce": "CENTRO ESCOLAR CASERÍO EL GUAMILAR, CANTÓN EL ROSARIO", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Lorena Carolina Vásquez de Martínez", "cod": "NC", "fecha_dia": "18/02/2026"}, {"id": "27423", "ce": "CENTRO ESCOLAR CASERÍO SAN JOSE LAS CRUCES, CANTÓN SAN MIGUEL INGENIO", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Alejandra García Escante", "cod": "NC", "fecha_dia": "18/02/2026"}, {"id": "27422", "ce": "CENTRO ESCOLAR CASERÍO CERRO LAS FLORES, CANTÓN EL CARMEN", "dep": "SANTA ANA", "depk": "SANTA ANA", "tipo": "Director", "nombre": "Rafael Ernesto Asencio Mendoza", "cod": "NC", "fecha_dia": "18/02/2026"}, {"id": "27421", "ce": "CENTRO ESCOLAR CASERÍO EL HUISCOYOL, CANTÓN LA LAGUNA", "dep": "SAN MIGUEL", "depk": "SAN MIGUEL", "tipo": "Director", "nombre": "MARIO ATILIO DÍAZ GÓMEZ", "cod": "NC", "fecha_dia": "18/02/2026"}, {"id": "19051", "ce": "CENTRO ESCOLAR URBANIZACION LAS MARGARITAS", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "Sonia Callejas", "cod": "DS", "fecha_dia": "15/02/2026"}, {"id": "19002", "ce": "COMPLEJO EDUCATIVO FE Y ALEGRIA", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "Mario Alfonso Vallecillos Pérez", "cod": "OB", "fecha_dia": "13/02/2026"}, {"id": "19001", "ce": "ESCUELA DE EDUCACION PARVULARIA DE COMASAGUA", "dep": "LA LIBERTAD", "depk": "LA LIBERTAD", "tipo": "Director", "nombre": "Juana Francisca Osegueda de Meléndez", "cod": "OB", "fecha_dia": "13/02/2026"}, {"id": "27432", "ce": "ESCUELA DE EDUCACION ESPECIAL NUEVA SAN SALVADOR", "dep": "LA LIBERTAD", "depk": "LA LIBERTAD", "tipo": "Director", "nombre": "Meybel Lisseth Estupinian de Arévalo", "cod": "OB", "fecha_dia": "10/02/2026"}, {"id": "27405", "ce": "COMPLEJO EDUCATIVO CATOLICO NUESTRA SEÑORA DEL ROSARIO", "dep": "SAN SALVADOR", "depk": "SAN SALVADOR", "tipo": "Director", "nombre": "No Definido", "cod": "NC", "fecha_dia": "20/03/2025"}];
 
-// PROCESO DE REINCIDENCIA
 const HISTORIAL = {}; RAW.forEach(r => { if(r.nombre !== "No Definido") HISTORIAL[r.nombre] = (HISTORIAL[r.nombre]||0)+1; });
 
 let f_tipo = new Set(['Director','Docente']), sk='veces', sd=-1;
