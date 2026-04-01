@@ -3,105 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auditoría Docente — Data Saneada 2026</title>
+    <title>Consola de Auditoría Docente — El Salvador</title>
     <style>
-        :root {
-            --azul: #1B3A6B; --azul-mid: #2E5FA3; --azul-light: #D6E4F7;
-            --verde: #1A6B4A; --gris: #4A5568; --alerta: #B45309; --critico: #7F1D1D;
-        }
+        :root { --azul: #1B3A6B; --azul-mid: #2E5FA3; --gris: #4A5568; --alerta: #B45309; --critico: #7F1D1D; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F7FAFC; color: #2D3748; font-size: 13px; }
         .page { max-width: 1600px; margin: 0 auto; padding: 1.5rem; }
-        .header { margin-bottom: 1.5rem; border-bottom: 2px solid var(--azul); padding-bottom: 10px; }
+        .header { margin-bottom: 1rem; border-bottom: 2px solid var(--azul); padding-bottom: 10px; }
         .header h1 { font-size: 22px; color: var(--azul); font-weight: 800; }
-        
         .grid-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
         .kpi-card { background: #fff; border-radius: 10px; padding: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-left: 5px solid var(--azul); }
-        .kpi-label { font-size: 10px; color: var(--gris); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
-        .kpi-val { font-size: 24px; font-weight: 800; color: var(--azul); }
-
-        .sub-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
-        .panel-cargo { background: #fff; border-radius: 10px; padding: 12px; display: flex; justify-content: space-around; border: 1px solid #E2E8F0; border-left-width: 5px; }
-        .stat-group { text-align: center; }
+        .kpi-val { font-size: 24px; font-weight: 800; color: var(--azul); display: block; }
+        .sub-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+        .panel-cargo { background: #fff; border-radius: 10px; padding: 12px; display: flex; justify-content: space-around; border: 1px solid #E2E8F0; border-left: 5px solid #ccc; }
         .stat-val { display: block; font-size: 18px; font-weight: 800; color: var(--azul-mid); }
-        .stat-label { font-size: 9px; color: var(--gris); text-transform: uppercase; }
-
-        .filter-panel { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #E2E8F0; }
-        .f-row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; align-items: flex-end; }
+        .filter-panel { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #E2E8F0; }
+        .f-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
         .f-group { display: flex; flex-direction: column; gap: 5px; }
         .f-label { font-size: 11px; font-weight: 700; color: var(--gris); text-transform: uppercase; }
         input, select { padding: 9px; border: 1px solid #CBD5E0; border-radius: 8px; font-size: 12px; background: #fff; width: 100%; }
-
-        .tabla-wrap { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #E2E8F0; }
-        table { width: 100%; border-collapse: collapse; }
+        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #E2E8F0; }
         thead tr { background: var(--azul); color: #fff; }
         th { padding: 12px 15px; text-align: left; font-size: 11px; text-transform: uppercase; }
         tbody td { padding: 12px 15px; border-bottom: 1px solid #F0F4F8; vertical-align: middle; }
-        
-        .r-badge { display: inline-flex; align-items: center; justify-content:center; width: 26px; height: 26px; border-radius: 50%; font-weight: 800; }
-        .r-high { background: var(--critico); color: #fff; }
-        .r-low { background: #EDF2F7; color: var(--gris); }
+        .r-badge { display: inline-flex; align-items: center; justify-content:center; width: 26px; height: 26px; border-radius: 50%; font-weight: 800; background: #EDF2F7; }
+        .r-high { background: var(--critico) !important; color: #fff !important; }
         .name-cell { text-transform: uppercase; font-weight: 700; color: var(--azul); }
     </style>
 </head>
 <body>
-
 <div class="page">
-    <div class="header"><h1>Auditoría de Reincidencia — El Salvador 2026</h1></div>
-
+    <div class="header"><h1>Consola de Auditoría Docente — El Salvador</h1></div>
     <div class="grid-stats">
-        <div class="kpi-card"><div class="kpi-label">Tickets Totales</div><div class="kpi-val">92</div></div>
-        <div class="kpi-card"><div class="kpi-label">Deptos Afectados</div><div class="kpi-val" id="st-dep">0</div></div>
-        <div class="kpi-card"><div class="kpi-label">CEs Afectados</div><div class="kpi-val" id="st-ce">0</div></div>
+        <div class="kpi-card">TICKETS ANALIZADOS<span class="kpi-val">92</span></div>
+        <div class="kpi-card">DEPTOS AFECTADOS<span class="kpi-val" id="st-dep">0</span></div>
+        <div class="kpi-card">CEs AFECTADOS<span class="kpi-val" id="st-ce">0</span></div>
     </div>
-
     <div class="sub-row">
         <div class="panel-cargo" style="border-left-color: var(--alerta);">
-            <div class="stat-group"><span class="stat-val" id="m-t">0</span><span class="stat-label">Tickets Maestro</span></div>
-            <div class="stat-group"><span class="stat-val" id="m-2">0</span><span class="stat-label">2 Reinc.</span></div>
-            <div class="stat-group"><span class="stat-val" id="m-3">0</span><span class="stat-label">+2 Reinc.</span></div>
+            <div>DOCENTES<br><span class="stat-val" id="m-t">0</span></div><div>REINC. 2<br><span class="stat-val" id="m-2">0</span></div><div>REINC. 3+<br><span class="stat-val" id="m-3">0</span></div>
         </div>
         <div class="panel-cargo" style="border-left-color: var(--azul-mid);">
-            <div class="stat-group"><span class="stat-val" id="d-t">0</span><span class="stat-label">Tickets Director</span></div>
-            <div class="stat-group"><span class="stat-val" id="d-2">0</span><span class="stat-label">2 Reinc.</span></div>
-            <div class="stat-group"><span class="stat-val" id="d-3">0</span><span class="stat-label">+2 Reinc.</span></div>
+            <div>DIRECTORES<br><span class="stat-val" id="d-t">0</span></div><div>REINC. 2<br><span class="stat-val" id="d-2">0</span></div><div>REINC. 3+<br><span class="stat-val" id="d-3">0</span></div>
         </div>
     </div>
-
     <div class="filter-panel">
         <div class="f-row">
-            <div class="f-group" style="flex:1"><label class="f-label">Nombre del Personal</label><input id="b-n" type="text" placeholder="Buscar..." oninput="render()"></div>
-            <div class="f-group" style="width:150px"><label class="f-label">Cargo</label>
-                <select id="f-ca" onchange="render()"><option value="todos">Todos</option><option value="Director">Director</option><option value="Docente">Docente</option></select>
-            </div>
-            <div class="f-group" style="width:180px">
-                <label class="f-label">Buscador ID Centro</label>
-                <input list="ids-list" id="b-id" placeholder="Escriba ID..." oninput="render()">
-                <datalist id="ids-list"></datalist>
-            </div>
-            <div class="f-group" style="flex:1"><label class="f-label">Nombre Centro Educativo</label><input id="b-ce" type="text" placeholder="Escuela..." oninput="render()"></div>
-        </div>
-        <div class="f-row" style="margin-bottom:0">
-            <div class="f-group" style="flex:1"><label class="f-label">Departamento</label><select id="f-de" onchange="render()"><option value="todos">-- Todos --</option></select></div>
-            <div class="f-group" style="flex:1"><label class="f-label">Reincidencia</label><select id="f-re" onchange="render()"><option value="todos">Todas</option><option value="1">1 Reporte</option><option value="2">2 Reportes</option><option value="3">3 o más</option></select></div>
-            <div class="f-group"><label class="f-label">Desde</label><input type="date" id="f-i" onchange="render()"></div>
-            <div class="f-group"><label class="f-label">Hasta</label><input type="date" id="f-f" onchange="render()"></div>
+            <div class="f-group" style="flex:1"><label class="f-label">Nombre Persona</label><input id="b-n" type="text" oninput="render()"></div>
+            <div class="f-group" style="width:130px"><label class="f-label">Cargo</label><select id="f-ca" onchange="render()"><option value="todos">Todos</option><option value="Director">Director</option><option value="Docente">Docente</option></select></div>
+            <div class="f-group" style="width:130px"><label class="f-label">ID Centro</label><input list="ids-list" id="b-id" oninput="render()"><datalist id="ids-list"></datalist></div>
+            <div class="f-group" style="flex:1"><label class="f-label">Nombre CE</label><input id="b-ce" type="text" oninput="render()"></div>
+            <div class="f-group" style="width:140px"><label class="f-label">Desde</label><input type="date" id="f-i" onchange="render()"></div>
+            <div class="f-group" style="width:140px"><label class="f-label">Hasta</label><input type="date" id="f-f" onchange="render()"></div>
+            <div class="f-group" style="width:140px"><label class="f-label">Departamento</label><select id="f-de" onchange="render()"><option value="todos">Todos</option></select></div>
         </div>
     </div>
-
     <div class="tabla-wrap">
         <table>
-            <thead><tr><th>Nombre</th><th style="text-align:center">Rep.</th><th>Centro Educativo</th><th>ID CE</th><th>Cod.</th><th>Depto</th><th>Fecha</th></tr></thead>
+            <thead><tr><th>Nombre</th><th style="text-align:center">Rep.</th><th>Centro Educativo</th><th>ID CE</th><th>Depto</th><th>Última Fecha</th></tr></thead>
             <tbody id="res"></tbody>
         </table>
     </div>
 </div>
-
 <script>
-const TICKETS = [{"n":"CONSUELO REGINA BENÍTEZ GUZMAN","c":"Director","e":"CE CASERIO QUEBRADA HONDA","id":"13559","d":"LA UNIÓN","f":"2026-03-31","co":"DS"},{"n":"ANA CECILIA MENJIVAR LÓPEZ","c":"Director","e":"CE CASERÍO EL AMATILLO","id":"86321","d":"CHALATENANGO","f":"2026-03-31","co":"DS"},{"n":"ROSA DYNA GUADALUPE ARIAS DE CORDOVA","c":"Director","e":"CE CANTÓN SAN FRANCISCO","id":"78051","d":"SAN VICENTE","f":"2026-03-31","co":"DS"},{"n":"CARMEN VERA ALICE LINARES","c":"Director","e":"C.E. COLONIA QUIÑONEZ","id":"10484","d":"SANTA ANA","f":"2026-03-31","co":"RG"},{"n":"FRANCISCO JOSUE CRUZ OCHOA","c":"Director","e":"CE CASERIO EL SALAMAR","id":"12612","d":"USULUTÁN","f":"2026-03-26","co":"NC"},{"n":"VERONICA BEATRIZ ALFARO DE RODRIGUEZ","c":"Director","e":"C.E. CANTÓN EL PEDREGAL","id":"12301","d":"LA PAZ","f":"2026-03-26","co":"DS"},{"n":"NORA SILVIA PRIETO DE AYALA","c":"Docente","e":"CE CONSTITUCION 1950","id":"11746","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"ILIANA IVETTE RODAS GARCÍA","c":"Docente","e":"CE NUEVO LOURDES","id":"10928","d":"LA LIBERTAD","f":"2026-03-26","co":"OB"},{"n":"XIOMARA GUADALUPE MORENO PERLA","c":"Director","e":"CE RAMÓN ENRIQUE VENTURA","id":"12869","d":"SAN MIGUEL","f":"2026-03-26","co":"NC"},{"n":"CIDA JEANETT LAGUAN ALARCÓN","c":"Director","e":"CE CASERÍO LA JOYA","id":"10014","d":"AHUACHAPÁN","f":"2026-03-26","co":"DS"},{"n":"STEISY NOHEMY GOMEZ AGUILAR","c":"Director","e":"CE CASERIO EL TABLON","id":"12061","d":"SAN VICENTE","f":"2026-03-26","co":"DS"},{"n":"RAUL AMILCAR LANDAVERDE MEJIA","c":"Director","e":"CE CANTÓN LAS DELICIAS","id":"11162","d":"LA LIBERTAD","f":"2026-03-26","co":"NC"},{"n":"RICARDO ULISES PÉREZ ALFARO","c":"Director","e":"C.E. CATÓLICO NUESTRA SEÑORA","id":"60155","d":"LA LIBERTAD","f":"2026-03-26","co":"DS"},{"n":"ANA ONFALIA HERNÁNDEZ RUIZ","c":"Director","e":"ESC. ED. ESPECIAL MONSEÑOR CABRERA","id":"12586","d":"USULUTÁN","f":"2026-03-26","co":"DS"},{"n":"ANA MARGARITA AYALA ARIAS","c":"Director","e":"CE COLONIA SAN MAURICIO","id":"11749","d":"SAN SALVADOR","f":"2026-03-26","co":"OB"},{"n":"ROMEO MIGUEL ROGEL","c":"Director","e":"CE CANTÓN SAN JOSÉ SHANGALLO","id":"11719","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"JORGE PORFIRIO SEVILLANO PAREDES","c":"Director","e":"INS. NACIONAL COL. SANTA LUCIA","id":"11728","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"ANA BERNARDA MARAVILLA MELÉNDEZ","c":"Director","e":"C.E. REPÚBLICA DE COREA","id":"11711","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"CLAUDIA CAROLINA HERNÁNDEZ DE OLIVA","c":"Director","e":"CE GRAL. FRANCISCO MORAZÁN","id":"11707","d":"SAN SALVADOR","f":"2026-03-26","co":"DS"},{"n":"ANGEL DE JESUS CRUZ LEMUS","c":"Director","e":"C.E. COLONIA EL MILAGRO","id":"11720","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"JUAN ANTONIO GÓCHEZ MENÉNDEZ","c":"Director","e":"CE GRAL. FRANCISCO MENENDEZ","id":"10013","d":"AHUACHAPÁN","f":"2026-03-26","co":"DS"},{"n":"ANA JESSICA HERNÁNDEZ FERRUFINO","c":"Director","e":"CE CANTÓN EL TEJAR","id":"13459","d":"LA UNIÓN","f":"2026-03-26","co":"DS"},{"n":"MIRNA DOLORES MERLOS MERLOS","c":"Director","e":"CE CASERIO SAN JUAN ARRIBA","id":"13233","d":"MORAZÁN","f":"2026-03-26","co":"DS"},{"n":"MARGARITO ELIAS GUZMAN","c":"Director","e":"C.E. LOTIFICACIÓN SAN IGNACIO","id":"10484","d":"SANTA ANA","f":"2026-03-26","co":"NC"},{"n":"ÁNGEL ANTONIO AYALA HENRÍQUEZ","c":"Director","e":"CE CASERÍO EL OCOTILLO","id":"11867","d":"CABAÑAS","f":"2026-03-26","co":"OB"},{"n":"RONALD OSVALDO CRUZ TANCHEZ","c":"Docente","e":"INS. NACIONAL ALBERTO MASFERRER","id":"11690","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"MARIO ARNULFO MENDEZ VASQUEZ","c":"Docente","e":"CE CANTON EL ANGEL","id":"11756","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"BLANCA ESTELA HUEZO RAMIREZ","c":"Docente","e":"CE CANTON EL ANGEL","id":"11756","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"DIANA AUDELIA PLEITEZ BERRIOS","c":"Docente","e":"CE CANTON EL ANGEL","id":"11756","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"SILVIA GUADALUPE HERNANDEZ","c":"Docente","e":"CE CANTON EL ANGEL","id":"11756","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"EDYT DEL CARMEN ALVARENGA DE RIVAS","c":"Docente","e":"C.E. JORGE LARDE","id":"11757","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"MARÍA ESMERALDA RIVERA DE QUINTANILLA","c":"Docente","e":"CE EDELMIRA MOLINA","id":"11758","d":"SAN SALVADOR","f":"2026-03-26","co":"RG"},{"n":"LUIS FELIPE SANCHEZ MIJANGO","c":"Docente","e":"CE CANTÓN EL GUAYABO","id":"11835","d":"SAN SALVADOR","f":"2026-03-23","co":"RG"},{"n":"MAX FRANCISCO RODRIGUEZ MURCIA","c":"Director","e":"CE CASERIO ROSARIO CEREN","id":"11531","d":"SONSONATE","f":"2026-03-23","co":"DS"},{"n":"CRISTINA GUADALUPE MONTERROSA DE ARITA","c":"Director","e":"INS. NACIONAL DE APASTEPEQUE","id":"12028","d":"SAN VICENTE","f":"2026-03-23","co":"OB"},{"n":"CAROLINA GUADALUPE RAMIREZ MARTINEZ","c":"Director","e":"CE CASERÍO SAN JOSÉ LA CEIBA","id":"12048","d":"SAN VICENTE","f":"2026-03-23","co":"OB"},{"n":"WILLIAM ARMANDO LÓPEZ MENDOZA","c":"Director","e":"CE ASENTAMIENTO BUENA VISTA","id":"11342","d":"SONSONATE","f":"2026-03-23","co":"NC"},{"n":"WILMER GABRIEL TOBAR VILLANUEVA","c":"Director","e":"CE CANTÓN EL BALSAMAR","id":"11353","d":"SONSONATE","f":"2026-03-23","co":"NC"},{"n":"IRMA ELENA POSADA DE LANDAVERDE","c":"Director","e":"CE PROFESOR FELIX CANIZALEZ","id":"10291","d":"SANTA ANA","f":"2026-03-23","co":"NC"},{"n":"CLAUDIA YANIRA PEREZ LUCHA","c":"Director","e":"ESC. PARVULARIA MATÍAS ROMERO","id":"10243","d":"SANTA ANA","f":"2026-03-23","co":"NC"},{"n":"MARTA DEL CARMEN BONILLA MOLINA","c":"Director","e":"CE MONSEÑOR GREGORIO ROSA CHÁVEZ","id":"11832","d":"SAN SALVADOR","f":"2026-03-23","co":"NC"},{"n":"MIGUEL ANTONIO CABEZAS","c":"Director","e":"CE RICARDO TRIGUEROS DE LEÓN","id":"10015","d":"AHUACHAPÁN","f":"2026-03-23","co":"NC"},{"n":"NILSAN ABIGAIL MARTINEZ CRUZ","c":"Director","e":"CE CANTON SAN JOSE","id":"13415","d":"LA UNIÓN","f":"2026-03-22","co":"OB"},{"n":"ETENIA SUJEY SERPAS DE CASTRO","c":"Director","e":"CE CASERÍO HUILIHUISTE","id":"12660","d":"USULUTÁN","f":"2026-03-20","co":"NC"},{"n":"JULIA LIZZETTE RODRIGUEZ","c":"Director","e":"CE MILAGRO DE LA PAZ","id":"12864","d":"SAN MIGUEL","f":"2026-03-19","co":"NC"},{"n":"LIZ OSIRIS VALLE ESCOBAR","c":"Director","e":"C.E. CANTÓN PASO DE GUALACHE","id":"12604","d":"USULUTÁN","f":"2026-03-19","co":"OB"},{"n":"GERMAN NELSON SOLÍS HERNÁNDEZ","c":"Director","e":"CE SANTIAGO DE MARÍA","id":"12648","d":"USULUTÁN","f":"2026-03-19","co":"RG"},{"n":"MARIO ALFONSO VALLECILLOS PÉREZ","c":"Director","e":"C.E. FE Y ALEGRIA","id":"11751","d":"SAN SALVADOR","f":"2026-03-17","co":"LD"},{"n":"JOSÉ LUCAS DE LEÓN HERNÁNDEZ","c":"Director","e":"CE SANTA CRUZ ANALQUITO","id":"12185","d":"CUSCATLÁN","f":"2026-03-16","co":"RG"},{"n":"GERMAN ARMANDO GOMEZ","c":"Director","e":"CE PROF. OSCAR ARMANDO GUERRA","id":"10928","d":"LA LIBERTAD","f":"2026-03-10","co":"DS"},{"n":"DANIEL DÍAZ GUZMÁN","c":"Director","e":"C.E. COLONIA LAS CAÑAS","id":"11746","d":"SAN SALVADOR","f":"2026-03-10","co":"RG"},{"n":"LUISA RUBIDIA ALVARADO MÉNDEZ","c":"Director","e":"CE CASERÍO LAS MARÍAS","id":"11531","d":"SONSONATE","f":"2026-03-10","co":"OB"},{"n":"EDWIN FERNANDO HERRERA GUILLÉN","c":"Director","e":"C.E. COLONIA VILLA ALEGRE","id":"11746","d":"SAN SALVADOR","f":"2026-03-09","co":"DS"},{"n":"SILVIA DINORA CARRERO ELIAS","c":"Director","e":"CE CANTON LAS CAÑAS","id":"11746","d":"CHALATENANGO","f":"2026-03-09","co":"DS"},{"n":"WALTER ORLANDO GÓMEZ ARTOLA","c":"Director","e":"INS. NACIONAL SAN ANTONIO SILVA","id":"12869","d":"SAN MIGUEL","f":"2026-03-08","co":"RG"},{"n":"SONIA CAROLINA MARTÍNEZ ARGUETA","c":"Director","e":"CE CANTÓN PILETAS","id":"11353","d":"SANTA ANA","f":"2026-03-05","co":"OB"},{"n":"MÁRTIR ZACARÍAS GUTIÉRREZ LÓPEZ","c":"Director","e":"CE CANTÓN LOS MAGUEYES","id":"10014","d":"AHUACHAPÁN","f":"2026-03-04","co":"NC"},{"n":"CESIA CAROLINA GUTIÉRREZ DE AGUILAR","c":"Director","e":"CE CASERÍO VALLE NUEVO","id":"11342","d":"SANTA ANA","f":"2026-03-02","co":"NC"},{"n":"RAFAEL ANTONIO ESCALANTE","c":"Director","e":"CE CASERIO EL AHOGADO","id":"11343","d":"SANTA ANA","f":"2026-03-02","co":"NC"},{"n":"NOHEMY MARGOTH GÓMEZ PADILLA","c":"Director","e":"CE CASERÍO LA CAÑADA","id":"12869","d":"SAN MIGUEL","f":"2026-03-02","co":"NC"},{"n":"HERBERT JOSE ROBERTO JOVEL NOVELLINO","c":"Director","e":"CE CASERÍO LA LIMA","id":"10928","d":"LA LIBERTAD","f":"2026-03-02","co":"DS"},{"n":"FRANCISCO ALEXANDER SANABRIA","c":"Director","e":"CE HUMBERTO PARADA SANDOVAL","id":"10243","d":"SANTA ANA","f":"2026-03-01","co":"RG"},{"n":"JOSE EDWARDS MONROY FLORES","c":"Director","e":"C.E. JUTTA STEINER","id":"11162","d":"LA LIBERTAD","f":"2026-02-28","co":"OB"},{"n":"DAVID ROBERTO TEJADA TEJADA","c":"Director","e":"CE CANTÓN SANTA RITA CIMARRON","id":"11746","d":"CHALATENANGO","f":"2026-02-27","co":"DS"},{"n":"MAREL VILORIO VELASQUEZ","c":"Director","e":"CE CASERIO EL MANZANILLO","id":"13459","d":"LA UNIÓN","f":"2026-02-20","co":"NC"},{"n":"ALBA LUZ MALDONADO DE ZAVALA","c":"Director","e":"CE CASERÍO EL PEDERNAL","id":"13459","d":"LA UNIÓN","f":"2026-02-20","co":"NC"},{"n":"DARWIN DAVID AMAYA FLORES","c":"Director","e":"CE CANTON EL MOLINO","id":"13459","d":"LA UNIÓN","f":"2026-02-20","co":"NC"},{"n":"OMAR ANTONIO GALDÁMEZ MENDOZA","c":"Director","e":"CE CANTÓN EL TABLÓN","id":"12869","d":"SAN MIGUEL","f":"2026-02-20","co":"NC"},{"n":"REINA DE LA PAZ ORELLANA VIGIL","c":"Director","e":"CE CASERÍO NUEVA FORTUNA","id":"12612","d":"USULUTÁN","f":"2026-02-20","co":"NC"},{"n":"MARÍA IRMA SOLIS FRANCO","c":"Director","e":"CE CASERÍO QUEBRACHO","id":"12612","d":"USULUTÁN","f":"2026-02-20","co":"NC"},{"n":"LUZ MARIA CORVERA RAMOS","c":"Director","e":"CE CANTON EL HULE CHACHO","id":"12612","d":"USULUTÁN","f":"2026-02-20","co":"NC"},{"n":"VICTORIA DEL CARMEN PERDOMO","c":"Director","e":"CE CANTÓN LA TIRANA","id":"12612","d":"USULUTÁN","f":"2026-02-20","co":"NC"},{"n":"JUAN JOSÉ DELEON MARROQUIN","c":"Director","e":"CE CASERIO EL PORTEZUELO","id":"10427","d":"SANTA ANA","f":"2026-02-20","co":"NC"},{"n":"SONIA PATRICIA ALVARADO MARINERO","c":"Director","e":"CE CASERÍO EL SALAMAR","id":"12301","d":"LA PAZ","f":"2026-02-20","co":"NC"},{"n":"VITELIO ERNESTO GONZÁLEZ","c":"Director","e":"CE CASERÍO LOS PINOS","id":"10014","d":"AHUACHAPÁN","f":"2026-02-20","co":"NC"},{"n":"SALVADOR HUMBERTO MORÁN ALEMÁN","c":"Director","e":"CE CASERIO EL DESPOBLADO","id":"10291","d":"SANTA ANA","f":"2026-02-18","co":"NC"},{"n":"SONIA REGINA OLIVARES RIVERA","c":"Director","e":"CE CASERÍO BARRA SALADA","id":"11531","d":"SONSONATE","f":"2026-02-18","co":"NC"},{"n":"DORIS CONCEPCIÓN GUEVARA DE PALMA","c":"Director","e":"CE CATÓLICO SAN JORGE","id":"10015","d":"SANTA ANA","f":"2026-02-18","co":"NC"},{"n":"WALTER ERNESTO MEDINA SANDOVAL","c":"Director","e":"CE CASERÍO LOS ENCUENTROS","id":"11531","d":"SONSONATE","f":"2026-02-18","co":"NC"},{"n":"KEVIN BYRON ESTEVEZ LINARES","c":"Director","e":"CE CASERÍO LOS SITIOS","id":"12028","d":"SANTA ANA","f":"2026-02-18","co":"NC"},{"n":"KARLA SANTOS DURÁN","c":"Director","e":"CE CASERÍO EL PINALITO","id":"12048","d":"SANTA ANA","f":"2026-02-18","co":"NC"},{"n":"JOSÉ HERNÁN BARRERA","c":"Director","e":"CE CASERÍO LAS PAVAS","id":"11352","d":"SANTA ANA","f":"2026-02-18","co":"NC"},{"n":"LORENA CAROLINA VÁSQUEZ DE MARTÍNEZ","c":"Director","e":"CE CASERÍO EL GUAMILAR","id":"86274","d":"SANTA ANA","f":"2026-02-18","co":"NC"},{"n":"ALEJANDRA GARCÍA ESCANTE","c":"Director","e":"CE CASERÍO SAN JOSE LAS CRUCES","id":"13415","d":"SANTA ANA","f":"2026-02-18","co":"NC"},{"n":"RAFAEL ERNESTO ASENCIO MENDOZA","c":"Director","e":"CE CASERÍO CERRO LAS FLORES","id":"12660","d":"SANTA ANA","f":"2026-02-18","co":"NC"},{"n":"MARIO ATILIO DÍAZ GÓMEZ","c":"Director","e":"CE CASERÍO EL HUISCOYOL","id":"12864","d":"SAN MIGUEL","f":"2026-02-18","co":"NC"},{"n":"SONIA CALLEJAS","c":"Director","e":"CE URBANIZACION LAS MARGARITAS","id":"11746","d":"SAN SALVADOR","f":"2026-02-15","co":"DS"},{"n":"MARIO ALFONSO VALLECILLOS PÉREZ","c":"Director","e":"C.E. FE Y ALEGRIA","id":"11751","d":"SAN SALVADOR","f":"2026-02-13","co":"OB"},{"n":"JUANA FRANCISCA OSEGUEDA DE MELÉNDEZ","c":"Director","e":"ESC. PARVULARIA COMASAGUA","id":"11053","d":"LA LIBERTAD","f":"2026-02-13","co":"OB"},{"n":"MEYBEL LISSETH ESTUPINIAN DE ARÉVALO","c":"Director","e":"ESC. ED. ESPECIAL NUEVA SAN SALVADOR","id":"60155","d":"LA LIBERTAD","f":"2026-02-10","co":"OB"}
-];
+const TICKETS = [{"n":"CONSUELO REGINA BENÍTEZ GUZMAN","c":"Director","e":"CENTRO ESCOLAR CASERIO QUEBRADA HONDA, CANTON EL ALGODON","id":"13559","d":"LA UNIÓN","f":"31/03/2026","co":"DS"},{"n":"ANA CECILIA MENJIVAR LÓPEZ","c":"Director","e":"CENTRO ESCOLAR CASERÍO EL AMATILLO, CANTÓN SAN JOSÉ DE LA MONTAÑA","id":"86321","d":"CHALATENANGO","f":"31/03/2026","co":"DS"},{"n":"ROSA DYNA GUADALUPE ARIAS DE CORDOVA","c":"Director","e":"CENTRO ESCOLAR CANTÓN SAN FRANCISCO","id":"78051","d":"SAN VICENTE","f":"31/03/2026","co":"DS"},{"n":"CARMEN VERA ALICE LINARES","c":"Director","e":"COMPLEJO EDUCATIVO COLONIA QUIÑONEZ","id":"10484","d":"SANTA ANA","f":"31/03/2026","co":"RG"},{"n":"FRANCISCO JOSUE CRUZ OCHOA","c":"Director","e":"CENTRO ESCOLAR CASERIO EL SALAMAR, CANTON EL LLANO","id":"12612","d":"USULUTÁN","f":"26/03/2026","co":"NC"},{"n":"VERONICA BEATRIZ ALFARO DE RODRIGUEZ","c":"Director","e":"COMPLEJO EDUCATIVO CANTÓN EL PEDREGAL","id":"11922","d":"LA PAZ","f":"26/03/2026","co":"DS"},{"n":"NORA SILVIA PRIETO DE AYALA","c":"Docente","e":"CENTRO ESCOLAR CONSTITUCION 1950","id":"11641","d":"SAN SALVADOR","f":"26/03/2026","co":"RG"},{"n":"ILIANA IVETTE RODAS GARCÍA","c":"Docente","e":"CENTRO ESCOLAR NUEVO LOURDES","id":"10050", "d":"LA LIBERTAD", "f": "26/03/2026", "co": "OB"}, {"n": "XIOMARA GUADALUPE MORENO PERLA", "c": "Director", "e": "CENTRO ESCOLAR INGENIERO RAMÓN ENRIQUE VENTURA PORTILLO", "id": "60217", "d": "SAN MIGUEL", "f": "26/03/2026", "co": "NC"}, {"n": "CIDA JEANETT LAGUAN ALARCÓN", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO LA JOYA, CANTÓN LA PANDEADURA", "id": "86493", "d": "AHUACHAPÁN", "f": "26/03/2026", "co": "DS"}, {"n": "STEISY NOHEMY GOMEZ AGUILAR", "c": "Director", "e": "CENTRO ESCOLAR CASERIO EL TABLON, CANTON SAN JUAN DE MERINOS", "id": "12338", "d": "SAN VICENTE", "f": "26/03/2026", "co": "DS"}, {"n": "RAUL AMILCAR LANDAVERDE MEJIA", "c": "Director", "e": "CENTRO ESCOLAR CANTÓN LAS DELICIAS", "id": "11217", "d": "LA LIBERTAD", "f": "26/03/2026", "co": "NC"}, {"n": "RICARDO ULISES PÉREZ ALFARO", "c": "Director", "e": "COMPLEJO EDUCATIVO CATÓLICO NUESTRA SEÑORA DE LAS GRACIAS", "id": "88109", "d": "LA LIBERTAD", "f": "26/03/2026", "co": "DS"}, {"n": "ANA ONFALIA HERNÁNDEZ RUIZ", "c": "Director", "e": "ESCUELA DE EDUCACION ESPECIAL MONSEÑOR RODRIGO ORLANDO CABRERA", "id": "12721", "d": "USULUTÁN", "f": "26/03/2026", "co": "DS"}, {"n": "ANA MARGARITA AYALA ARIAS", "c": "Director", "e": "CENTRO ESCOLAR COLONIA SAN MAURICIO", "id": "11432", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "OB"}, {"n": "ROMEO MIGUEL ROGEL", "c": "Director", "e": "CENTRO ESCOLAR CANTÓN SAN JOSÉ SHANGALLO", "id": "60311", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "RG"}, {"n": "JORGE PORFIRIO SEVILLANO PAREDES", "c": "Director", "e": "INSTITUTO NACIONAL DE LA COLONIA SANTA LUCIA", "id": "14808", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "RG"}, {"n": "ANA BERNARDA MARAVILLA MELÉNDEZ", "c": "Director", "e": "COMPLEJO EDUCATIVO REPÚBLICA DE COREA", "id": "11723", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "RG"}, {"n": "CLAUDIA CAROLINA HERNÁNDEZ DE OLIVA", "c": "Director", "e": "CENTRO ESCOLAR GENERAL FRANCISCO MORAZÁN", "id": "11532", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "DS"}, {"n": "ANGEL DE JESUS CRUZ LEMUS", "c": "Director", "e": "COMPLEJO EDUCATIVO COLONIA EL MILAGRO", "id": "11482", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "RG"}, {"n": "JUAN ANTONIO GÓCHEZ MENÉNDEZ", "c": "Director", "e": "CENTRO ESCOLAR GENERAL FRANCISCO MENENDEZ", "id": "10076", "d": "AHUACHAPÁN", "f": "26/03/2026", "co": "DS"}, {"n": "ANA JESSICA HERNÁNDEZ FERRUFINO", "c": "Director", "e": "CENTRO ESCOLAR CANTÓN EL TEJAR", "id": "86034", "d": "LA UNIÓN", "f": "26/03/2026", "co": "DS"}, {"n": "MIRNA DOLORES MERLOS MERLOS", "c": "Director", "e": "CENTRO ESCOLAR CASERIO SAN JUAN ARRIBA, CANTÓN SAN JUAN", "id": "84074", "d": "MORAZÁN", "f": "26/03/2026", "co": "DS"}, {"n": "MARGARITO ELIAS GUZMAN", "c": "Director", "e": "COMPLEJO EDUCATIVO CASERÍO LOTIFICACIÓN SAN IGNACIO, CANTÓN GALEANO", "id": "62014", "d": "SANTA ANA", "f": "26/03/2026", "co": "NC"}, {"n": "ÁNGEL ANTONIO AYALA HENRÍQUEZ", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO EL OCOTILLO, CANTÓN LA UVILLA", "id": "76054", "d": "CABAÑAS", "f": "26/03/2026", "co": "OB"}, {"n": "RONALD OSVALDO CRUZ TANCHEZ", "c": "Docente", "e": "INSTITUTO NACIONAL MAESTRO ALBERTO MASFERRER", "id": "11420", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "RG"}, {"n": "MARIO ARNULFO MENDEZ VASQUEZ", "c": "Docente", "e": "CENTRO ESCOLAR CANTON EL ANGEL", "id": "11331", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "RG"}, {"n": "BLANCA ESTELA HUEZO RAMIREZ", "c": "Docente", "e": "CENTRO ESCOLAR CANTON EL ANGEL", "id": "11331", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "RG"}, {"n": "DIANA AUDELIA PLEITEZ BERRIOS", "c": "Docente", "e": "CENTRO ESCOLAR CANTON EL ANGEL", "id": "11331", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "RG"}, {"n": "SILVIA GUADALUPE HERNANDEZ", "c": "Docente", "e": "CENTRO ESCOLAR CANTON EL ANGEL", "id": "11331", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "RG"}, {"n": "EDYT DEL CARMEN ALVARENGA DE RIVAS", "c": "Docente", "e": "COMPLEJO EDUCATIVO JORGE LARDE", "id": "11507", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "RG"}, {"n": "MARÍA ESMERALDA RIVERA DE QUINTANILLA", "c": "Docente", "e": "CENTRO ESCOLAR EDELMIRA MOLINA", "id": "11770", "d": "SAN SALVADOR", "f": "26/03/2026", "co": "RG"}, {"n": "LUIS FELIPE SANCHEZ MIJANGO", "c": "Docente", "e": "CENTRO ESCOLAR CANTÓN EL GUAYABO", "id": "70048", "d": "SAN SALVADOR", "f": "23/03/2026", "co": "RG"}, {"n": "MAX FRANCISCO RODRIGUEZ MURCIA", "c": "Director", "e": "CENTRO ESCOLAR CASERIO ROSARIO CEREN, CANTON JOYA DE CEREN", "id": "10620", "d": "SONSONATE", "f": "23/03/2026", "co": "DS"}, {"n": "CRISTINA GUADALUPE MONTERROSA DE ARITA", "c": "Director", "e": "INSTITUTO NACIONAL DE APASTEPEQUE", "id": "12316", "d": "SAN VICENTE", "f": "23/03/2026", "co": "OB"}, {"n": "CAROLINA GUADALUPE RAMIREZ MARTINEZ", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO SAN JOSÉ LA CEIBA, CANTÓN SAN FERNANDO", "id": "78080", "d": "SAN VICENTE", "f": "23/03/2026", "co": "OB"}, {"n": "WILLIAM ARMANDO LÓPEZ MENDOZA", "c": "Director", "e": "CENTRO ESCOLAR ASENTAMIENTO BUENA VISTA, CANTÓN LA UNIÓN", "id": "60281", "d": "SONSONATE", "f": "23/03/2026", "co": "NC"}, {"n": "WILMER GABRIEL TOBAR VILLANUEVA", "c": "Director", "e": "CENTRO ESCOLAR CANTÓN EL BALSAMAR", "id": "64026", "d": "SONSONATE", "f": "23/03/2026", "co": "NC"}, {"n": "IRMA ELENA POSADA DE LANDAVERDE", "c": "Director", "e": "CENTRO ESCOLAR PROFESOR FELIX CANIZALEZ P.", "id": "10497", "d": "SANTA ANA", "f": "23/03/2026", "co": "NC"}, {"n": "CLAUDIA YANIRA PEREZ LUCHA", "c": "Director", "e": "ESCUELA DE EDUCACIÓN PARVULARIA PRESBÍTERO MATÍAS ROMERO", "id": "10196", "d": "SANTA ANA", "f": "23/03/2026", "co": "NC"}, {"n": "MARTA DEL CARMEN BONILLA MOLINA", "c": "Director", "e": "CENTRO ESCOLAR MONSEÑOR GREGORIO ROSA CHÁVEZ", "id": "60306", "d": "SAN SALVADOR", "f": "23/03/2026", "co": "NC"}, {"n": "MIGUEL ANTONIO CABEZAS", "c": "Director", "e": "CENTRO ESCOLAR RICARDO TRIGUEROS DE LEÓN", "id": "10006", "d": "AHUACHAPÁN", "f": "23/03/2026", "co": "NC"}, {"n": "NILSAN ABIGAIL MARTINEZ CRUZ", "c": "Director", "e": "CENTRO ESCOLAR CANTON SAN JOSE", "id": "13540", "d": "LA UNIÓN", "f": "22/03/2026", "co": "OB"}, {"n": "ETENIA SUJEY SERPAS DE CASTRO", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO HUILIHUISTE, CANTÓN SAN ANTONIO", "id": "60184", "d": "USULUTÁN", "f": "20/03/2026", "co": "NC"}, {"n": "JULIA LIZZETTE RODRIGUEZ", "c": "Director", "e": "CENTRO ESCOLAR MILAGRO DE LA PAZ", "id": "13073", "d": "SAN MIGUEL", "f": "19/03/2026", "co": "NC"}, {"n": "LIZ OSIRIS VALLE ESCOBAR", "c": "Director", "e": "COMPLEJO EDUCATIVO CANTÓN PASO DE GUALACHE", "id": "12726", "d": "USULUTÁN", "f": "19/03/2026", "co": "OB"}, {"n": "GERMAN NELSON SOLÍS HERNÁNDEZ", "c": "Director", "e": "CENTRO ESCOLAR SANTIAGO DE MARÍA", "id": "12724", "d": "USULUTÁN", "f": "19/03/2026", "co": "RG"}, {"n": "MARIO ALFONSO VALLECILLOS PÉREZ", "c": "Director", "e": "COMPLEJO EDUCATIVO FE Y ALEGRIA", "id": "11751", "d": "SAN SALVADOR", "f": "17/03/2026", "co": "LD"}, {"n": "JOSÉ LUCAS DE LEÓN HERNÁNDEZ", "c": "Director", "e": "CENTRO ESCOLAR DE SANTA CRUZ ANALQUITO", "id": "11883", "d": "CUSCATLÁN", "f": "16/03/2026", "co": "RG"}, {"n": "GERMAN ARMANDO GOMEZ", "c": "Director", "e": "CENTRO ESCOLAR PROFESOR OSCAR ARMANDO GUERRA CASTRO", "id": "11015", "d": "LA LIBERTAD", "f": "10/03/2026", "co": "DS"}, {"n": "DANIEL DÍAZ GUZMÁN", "c": "Director", "e": "COMPLEJO EDUCATIVO COLONIA LAS CAÑAS", "id": "11407", "d": "SAN SALVADOR", "f": "10/03/2026", "co": "RG"}, {"n": "LUISA RUBIDIA ALVARADO MÉNDEZ", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO LAS MARÍAS, CANTÓN LAS MARIAS", "id": "64039", "d": "SONSONATE", "f": "10/03/2026", "co": "OB"}, {"n": "EDWIN FERNANDO HERRERA GUILLÉN", "c": "Director", "e": "COMPLEJO EDUCATIVO COLONIA VILLA ALEGRE", "id": "11712", "d": "SAN SALVADOR", "f": "09/03/2026", "co": "DS"}, {"n": "SILVIA DINORA CARRERO ELIAS", "c": "Director", "e": "CENTRO ESCOLAR CANTON LAS CAÑAS", "id": "10874", "d": "CHALATENANGO", "f": "09/03/2026", "co": "DS"}, {"n": "WALTER ORLANDO GÓMEZ ARTOLA", "c": "Director", "e": "INSTITUTO NACIONAL DE SAN ANTONIO SILVA", "id": "12982", "d": "SAN MIGUEL", "f": "08/03/2026", "co": "RG"}, {"n": "SONIA CAROLINA MARTÍNEZ ARGUETA", "c": "Director", "e": "CENTRO ESCOLAR CANTÓN PILETAS", "id": "62005", "d": "SANTA ANA", "f": "05/03/2026", "co": "OB"}, {"n": "MÁRTIR ZACARÍAS GUTIÉRREZ LÓPEZ", "c": "Director", "e": "CENTRO ESCOLAR CANTÓN LOS MAGUEYES", "id": "10022", "d": "AHUACHAPÁN", "f": "04/03/2026", "co": "NC"}, {"n": "CESIA CAROLINA GUTIÉRREZ DE AGUILAR", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO VALLE NUEVO, CANTÓN LAS PIEDRAS", "id": "60289", "d": "SANTA ANA", "f": "02/03/2026", "co": "NC"}, {"n": "RAFAEL ANTONIO ESCALANTE", "c": "Director", "e": "CENTRO ESCOLAR CASERIO EL AHOGADO, CANTON LA ISLA", "id": "10336", "d": "SANTA ANA", "f": "02/03/2026", "co": "NC"}, {"n": "NOHEMY MARGOTH GÓMEZ PADILLA", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO LA CAÑADA, CANTÓN QUEBRACHO", "id": "82103", "d": "SAN MIGUEL", "f": "02/03/2026", "co": "NC"}, {"n": "HERBERT JOSE ROBERTO JOVEL NOVELLINO", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO LA LIMA, CANTÓN EL PALMAR", "id": "68165", "d": "LA LIBERTAD", "f": "02/03/2026", "co": "DS"}, {"n": "FRANCISCO ALEXANDER SANABRIA", "c": "Director", "e": "CENTRO ESCOLAR HUMBERTO PARADA SANDOVAL", "id": "10343", "d": "SANTA ANA", "f": "01/03/2026", "co": "RG"}, {"n": "JOSE EDWARDS MONROY FLORES", "c": "Director", "e": "COMPLEJO EDUCATIVO JUTTA STEINER DE TORUÑO", "id": "11009", "d": "LA LIBERTAD", "f": "28/02/2026", "co": "OB"}, {"n": "DAVID ROBERTO TEJADA TEJADA", "c": "Director", "e": "CENTRO ESCOLAR CANTÓN SANTA RITA CIMARRON", "id": "66087", "d": "CHALATENANGO", "f": "27/02/2026", "co": "DS"}, {"n": "MAREL VILORIO VELASQUEZ", "c": "Director", "e": "CENTRO ESCOLAR CASERIO EL MANZANILLO, CANTON EL MOLINO", "id": "13350", "d": "LA UNIÓN", "f": "20/02/2026", "co": "NC"}, {"n": "ALBA LUZ MALDONADO DE ZAVALA", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO EL PEDERNAL, CANTÓN EL MOLINO", "id": "86539", "d": "LA UNIÓN", "f": "20/02/2026", "co": "NC"}, {"n": "DARWIN DAVID AMAYA FLORES", "c": "Director", "e": "CENTRO ESCOLAR CANTON EL MOLINO", "id": "13351", "d": "LA UNIÓN", "f": "20/02/2026", "co": "NC"}, {"n": "OMAR ANTONIO GALDÁMEZ MENDOZA", "c": "Director", "e": "CENTRO ESCOLAR CANTÓN EL TABLÓN", "id": "86296", "d": "SAN MIGUEL", "f": "20/02/2026", "co": "NC"}, {"n": "REINA DE LA PAZ ORELLANA VIGIL", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO NUEVA FORTUNA, CANTÓN JOYA DEL PILAR", "id": "80105", "d": "USULUTÁN", "f": "20/02/2026", "co": "NC"}, {"n": "MARÍA IRMA SOLIS FRANCO", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO QUEBRACHO, CANTÓN SAMURIA", "id": "86198", "d": "USULUTÁN", "f": "20/02/2026", "co": "NC"}, {"n": "LUZ MARIA CORVERA RAMOS", "c": "Director", "e": "CENTRO ESCOLAR CANTON EL HULE CHACHO", "id": "12573", "d": "USULUTÁN", "f": "20/02/2026", "co": "NC"}, {"n": "VICTORIA DEL CARMEN PERDOMO", "c": "Director", "e": "CENTRO ESCOLAR CANTÓN LA TIRANA", "id": "60253", "d": "USULUTÁN", "f": "20/02/2026", "co": "NC"}, {"n": "JUAN JOSÉ DELEON MARROQUIN", "c": "Director", "e": "CENTRO ESCOLAR CASERIO EL PORTEZUELO", "id": "10427", "d": "SONSONATE", "f": "20/02/2026", "co": "NC"}, {"n": "SONIA PATRICIA ALVARADO MARINERO", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO EL SALAMAR, CANTÓN SAN SEBASTIAN EL CHINGO", "id": "74088", "d": "LA PAZ", "f": "20/02/2026", "co": "NC"}, {"n": "VITELIO ERNESTO GONZÁLEZ", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO LOS PINOS, CANTÓN SAN RAFAEL", "id": "60263", "d": "AHUACHAPÁN", "f": "20/02/2026", "co": "NC"}, {"n": "JUAN JOSÉ DELEON MARROQUIN", "c": "Director", "e": "CENTRO ESCOLAR CASERIO EL PORTEZUELO", "id": "10427", "d": "SONSONATE", "f": "20/02/2026", "co": "NC"}, {"n": "SALVADOR HUMBERTO MORÁN ALEMÁN", "c": "Director", "e": "CENTRO ESCOLAR CASERIO EL DESPOBLADO, CANTON MALPASO", "id": "10323", "d": "SANTA ANA", "f": "18/02/2026", "co": "NC"}, {"n": "SONIA REGINA OLIVARES RIVERA", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO BARRA SALADA, CANTÓN SALINAS DE AYACACHAPA", "id": "64115", "d": "SONSONATE", "f": "18/02/2026", "co": "NC"}, {"n": "DORIS CONCEPCIÓN GUEVARA DE PALMA", "c": "Director", "e": "CENTRO ESCOLAR CATOLICO SAN JORGE", "id": "88117", "d": "SANTA ANA", "f": "18/02/2026", "co": "NC"}, {"n": "WALTER ERNESTO MEDINA SANDOVAL", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO LOS ENCUENTROS, CANTÓN ACACHAPA ARRIBA", "id": "64033", "d": "SONSONATE", "f": "18/02/2026", "co": "NC"}, {"n": "KEVIN BYRON ESTEVEZ LINARES", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO LOS SITIOS, CANTÓN SAN JOSÉ CAMULIAN", "id": "86481", "d": "SANTA ANA", "f": "18/02/2026", "co": "NC"}, {"n": "KARLA SANTOS DURÁN", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO EL PINALITO, CANTÓN SAN MIGUEL INGENIO", "id": "86279", "d": "SANTA ANA", "f": "18/02/2026", "co": "NC"}, {"n": "JOSÉ HERNÁN BARRERA", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO LAS PAVAS, CANTÓN LAS PAVAS", "id": "86276", "d": "SANTA ANA", "f": "18/02/2026", "co": "NC"}, {"n": "LORENA CAROLINA VÁSQUEZ DE MARTÍNEZ", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO EL GUAMILAR, CANTÓN EL ROSARIO", "id": "86274", "d": "SANTA ANA", "f": "18/02/2026", "co": "NC"}, {"n": "ALEJANDRA GARCÍA ESCANTE", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO SAN JOSE LAS CRUCES, CANTÓN SAN MIGUEL INGENIO", "id": "62033", "d": "SANTA ANA", "f": "18/02/2026", "co": "NC"}, {"n": "RAFAEL ERNESTO ASENCIO MENDOZA", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO CERRO LAS FLORES, CANTÓN EL CARMEN", "id": "62018", "d": "SANTA ANA", "f": "18/02/2026", "co": "NC"}, {"n": "MARIO ATILIO DÍAZ GÓMEZ", "c": "Director", "e": "CENTRO ESCOLAR CASERÍO EL HUISCOYOL, CANTÓN LA LAGUNA", "id": "82106", "d": "SAN MIGUEL", "f": "18/02/2026", "co": "NC"}, {"n": "SONIA CALLEJAS", "c": "Director", "e": "CENTRO ESCOLAR URBANIZACION LAS MARGARITAS", "id": "13713", "d": "SAN SALVADOR", "f": "15/02/2026", "co": "DS"}, {"n": "MARIO ALFONSO VALLECILLOS PÉREZ", "c": "Director", "e": "COMPLEJO EDUCATIVO FE Y ALEGRIA", "id": "11751", "d": "SAN SALVADOR", "f": "13/02/2026", "co": "OB"}, {"n": "DIANA LISETTE PANAMEÑO DE SOL", "c": "Director", "e": "ESCUELA DE EDUCACION PARVULARIA DE COMASAGUA", "id": "11053", "d": "LA LIBERTAD", "f": "13/02/2026", "co": "OB"}, {"n": "CARMEN ELENA GONZALEZ", "c": "Director", "e": "ESCUELA DE EDUCACION ESPECIAL NUEVA SAN SALVADOR", "id": "11125", "d": "LA LIBERTAD", "f": "10/02/2026", "co": "OB"}, {"n": "SOR ANTOLINA CERÓN CERÓN", "c": "Director", "e": "COMPLEJO EDUCATIVO CATOLICO NUESTRA SEÑORA DEL ROSARIO", "id": "88043", "d": "SAN SALVADOR", "f": "20/03/2025", "co": "NC"}];
 
 function clean(s){ return s ? s.toString().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() : ""; }
+
+function parseDate(s){ 
+    const p = s.split('/'); 
+    return new Date(p[2], p[1]-1, p[0]); 
+}
 
 function render(){
     const nom = clean(document.getElementById('b-n').value);
@@ -109,58 +81,52 @@ function render(){
     const cid = document.getElementById('b-id').value;
     const nce = clean(document.getElementById('b-ce').value);
     const dep = document.getElementById('f-de').value;
-    const rei = document.getElementById('f-re').value;
     const ini = document.getElementById('f-i').value;
     const fin = document.getElementById('f-f').value;
 
-    const exp = {};
+    const counts = {};
+    TICKETS.forEach(t => { counts[t.n] = (counts[t.n] || 0) + 1; });
+
+    const agrupados = {};
     TICKETS.forEach(t => {
-        const dReg = t.f;
-        const mF = (!ini || dReg >= ini) && (!f || dReg <= fin);
+        const k = t.n.toUpperCase();
+        const dReg = parseDate(t.f);
+        const mF = (!ini || dReg >= new Date(ini+"T00:00:00")) && (!fin || dReg <= new Date(fin+"T23:59:59"));
         const mD = (dep==='todos' || t.d === dep);
         const mID = (!cid || t.id.includes(cid));
         const mCE = (!nce || clean(t.e).includes(nce));
         const mN = (!nom || clean(t.n).includes(nom));
 
-        if(mD && mID && mCE && mN){
-            const k = t.n.toUpperCase();
-            if(!exp[k]) exp[k] = {n:k, c:t.c, cnt:0, e:t.e, id:t.id, co:t.co, f:t.f, d:t.d};
-            exp[k].cnt++;
+        if(mF && mD && mID && mCE && mN){
+            if(!agrupados[k]){
+                agrupados[k] = {...t, n:k, cnt: counts[k]};
+            }
         }
     });
 
-    let fil = Object.values(exp).filter(e => {
-        if(car !== 'todos' && e.c !== car) return false;
-        if(rei !== 'todos'){
-            if(rei === '3') return e.cnt >= 3;
-            return e.cnt == rei;
-        }
-        return true;
-    });
+    const fil = Object.values(agrupados).filter(e => car === 'todos' || e.c === car);
 
-    const m = fil.filter(e => e.c === 'Docente');
-    const d = fil.filter(e => e.c === 'Director');
     document.getElementById('st-dep').innerText = new Set(fil.map(e=>e.d)).size;
     document.getElementById('st-ce').innerText = new Set(fil.map(e=>e.id)).size;
-    document.getElementById('m-t').innerText = m.reduce((a,b)=>a+b.cnt, 0);
-    document.getElementById('m-2').innerText = m.filter(e=>e.cnt == 2).length;
-    document.getElementById('m-3').innerText = m.filter(e=>e.cnt >= 3).length;
-    document.getElementById('d-t').innerText = d.reduce((a,b)=>a+b.cnt, 0);
-    document.getElementById('d-2').innerText = d.filter(e=>e.cnt == 2).length;
-    document.getElementById('d-3').innerText = d.filter(e=>e.cnt >= 3).length;
+    
+    const m = fil.filter(e => e.c === 'Docente');
+    const d = fil.filter(e => e.c === 'Director');
+    document.getElementById('m-t').innerText = m.length;
+    document.getElementById('m-2').innerText = m.filter(e=>e.cnt === 2).length;
+    document.getElementById('m-3').innerText = m.filter(e=>e.cnt > 2).length;
+    document.getElementById('d-t').innerText = d.length;
+    document.getElementById('d-2').innerText = d.filter(e=>e.cnt === 2).length;
+    document.getElementById('d-3').innerText = d.filter(e=>e.cnt > 2).length;
 
     const tr = document.getElementById('res'); tr.innerHTML = '';
     fil.sort((a,b)=> b.cnt - a.cnt).forEach(e => {
-        tr.innerHTML += `<tr><td class="name-cell">${e.n}<br><small style="color:#666">${e.c}</small></td><td align="center"><span class="r-badge ${e.cnt>1?'r-high':'r-low'}">${e.cnt}</span></td><td>${e.e}</td><td>${e.id}</td><td>${e.co}</td><td>${e.d}</td><td>${e.f}</td></tr>`;
+        tr.innerHTML += `<tr><td class="name-cell">${e.n}<br><small style="color:#666">${e.c}</small></td><td align="center"><span class="r-badge ${e.cnt>1?'r-high':''}">${e.cnt}</span></td><td>${e.e}</td><td>${e.id}</td><td>${e.d}</td><td>${e.f}</td></tr>`;
     });
 }
 
 window.onload = () => {
-    const ids = [...new Set(TICKETS.map(t=>t.id))].sort();
-    const dl = document.getElementById('ids-list');
-    ids.forEach(id => dl.innerHTML += `<option value="${id}">`);
-    const ds = document.getElementById('f-de');
-    [...new Set(TICKETS.map(t=>t.d))].sort().forEach(d => ds.innerHTML += `<option value="${d}">${d}</option>`);
+    [...new Set(TICKETS.map(t=>t.id))].sort().forEach(id => document.getElementById('ids-list').innerHTML += `<option value="${id}">`);
+    [...new Set(TICKETS.map(t=>t.d))].sort().forEach(d => document.getElementById('f-de').innerHTML += `<option value="${d}">${d}</option>`);
     render();
 }
 </script>
