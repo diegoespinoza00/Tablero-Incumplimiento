@@ -41,26 +41,33 @@
     </div>
     <div class="sub-row">
         <div class="panel-cargo" style="border-left-color: var(--alerta);">
-            <div>DOCENTES<br><span class="stat-val" id="m-t">0</span></div><div>REINC. 2<br><span class="stat-val" id="m-2">0</span></div><div>REINC. 3+<br><span class="stat-val" id="m-3">0</span></div>
+            <div>DOCENTES<br><span class="stat-val" id="m-t">0</span></div><div>R2<br><span class="stat-val" id="m-2">0</span></div><div>R3+<br><span class="stat-val" id="m-3">0</span></div>
         </div>
         <div class="panel-cargo" style="border-left-color: var(--azul-mid);">
-            <div>DIRECTORES<br><span class="stat-val" id="d-t">0</span></div><div>REINC. 2<br><span class="stat-val" id="d-2">0</span></div><div>REINC. 3+<br><span class="stat-val" id="d-3">0</span></div>
+            <div>DIRECTORES<br><span class="stat-val" id="d-t">0</span></div><div>R2<br><span class="stat-val" id="d-2">0</span></div><div>R3+<br><span class="stat-val" id="d-3">0</span></div>
         </div>
     </div>
     <div class="filter-panel">
         <div class="f-row">
-            <div class="f-group" style="flex:1"><label class="f-label">Nombre Persona</label><input id="b-n" type="text" oninput="render()"></div>
+            <div class="f-group" style="flex:1"><label class="f-label">Nombre</label><input id="b-n" type="text" oninput="render()"></div>
             <div class="f-group" style="width:130px"><label class="f-label">Cargo</label><select id="f-ca" onchange="render()"><option value="todos">Todos</option><option value="Director">Director</option><option value="Docente">Docente</option></select></div>
             <div class="f-group" style="width:130px"><label class="f-label">ID Centro</label><input list="ids-list" id="b-id" oninput="render()"><datalist id="ids-list"></datalist></div>
-            <div class="f-group" style="flex:1"><label class="f-label">Nombre CE</label><input id="b-ce" type="text" oninput="render()"></div>
+            <div class="f-group" style="width:140px"><label class="f-label">Reincidencia</label>
+                <select id="f-re" onchange="render()">
+                    <option value="todos">Todas</option>
+                    <option value="2">2 Reportes</option>
+                    <option value="3">3 Reportes</option>
+                    <option value="4">4 o más</option>
+                </select>
+            </div>
             <div class="f-group" style="width:140px"><label class="f-label">Desde</label><input type="date" id="f-i" onchange="render()"></div>
             <div class="f-group" style="width:140px"><label class="f-label">Hasta</label><input type="date" id="f-f" onchange="render()"></div>
-            <div class="f-group" style="width:140px"><label class="f-label">Departamento</label><select id="f-de" onchange="render()"><option value="todos">Todos</option></select></div>
+            <div class="f-group" style="width:140px"><label class="f-label">Depto</label><select id="f-de" onchange="render()"><option value="todos">Todos</option></select></div>
         </div>
     </div>
     <div class="tabla-wrap">
         <table>
-            <thead><tr><th>Nombre</th><th style="text-align:center">Rep.</th><th>Centro Educativo</th><th>ID CE</th><th>Depto</th><th>Última Fecha</th></tr></thead>
+            <thead><tr><th>Nombre</th><th style="text-align:center">Rep.</th><th>Último Centro Educativo</th><th>ID CE</th><th>Depto</th><th>Fecha</th></tr></thead>
             <tbody id="res"></tbody>
         </table>
     </div>
@@ -81,6 +88,7 @@ function render(){
     const cid = document.getElementById('b-id').value;
     const nce = clean(document.getElementById('b-ce').value);
     const dep = document.getElementById('f-de').value;
+    const rei = document.getElementById('f-re').value;
     const ini = document.getElementById('f-i').value;
     const fin = document.getElementById('f-f').value;
 
@@ -98,13 +106,21 @@ function render(){
         const mN = (!nom || clean(t.n).includes(nom));
 
         if(mF && mD && mID && mCE && mN){
-            if(!agrupados[k]){
-                agrupados[k] = {...t, n:k, cnt: counts[k]};
+            if(!agrupados[k] || parseDate(t.f) > parseDate(agrupados[k].f)){
+                agrupados[k] = {...t, n: k, cnt: counts[k]};
             }
         }
     });
 
-    const fil = Object.values(agrupados).filter(e => car === 'todos' || e.c === car);
+    let fil = Object.values(agrupados).filter(e => {
+        const matchCargo = (car === 'todos' || e.c === car);
+        if(!matchCargo) return false;
+        if(rei !== 'todos'){
+            if(rei === '4') return e.cnt >= 4;
+            return e.cnt == parseInt(rei);
+        }
+        return true;
+    });
 
     document.getElementById('st-dep').innerText = new Set(fil.map(e=>e.d)).size;
     document.getElementById('st-ce').innerText = new Set(fil.map(e=>e.id)).size;
@@ -113,10 +129,10 @@ function render(){
     const d = fil.filter(e => e.c === 'Director');
     document.getElementById('m-t').innerText = m.length;
     document.getElementById('m-2').innerText = m.filter(e=>e.cnt === 2).length;
-    document.getElementById('m-3').innerText = m.filter(e=>e.cnt > 2).length;
+    document.getElementById('m-3').innerText = m.filter(e=>e.cnt >= 3).length;
     document.getElementById('d-t').innerText = d.length;
     document.getElementById('d-2').innerText = d.filter(e=>e.cnt === 2).length;
-    document.getElementById('d-3').innerText = d.filter(e=>e.cnt > 2).length;
+    document.getElementById('d-3').innerText = d.filter(e=>e.cnt >= 3).length;
 
     const tr = document.getElementById('res'); tr.innerHTML = '';
     fil.sort((a,b)=> b.cnt - a.cnt).forEach(e => {
