@@ -2,150 +2,214 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Consola de Auditoría Docente 2026</title>
+    <title>DASHBOARD DE AUDITORÍA DOCENTE 2026</title>
     <style>
-        :root { --az: #1B3A6B; --rj: #7F1D1D; --am: #B45309; }
-        body { font-family: sans-serif; background: #F7FAFC; padding: 20px; font-size: 13px; color: #2D3748; }
-        .page { max-width: 1550px; margin: auto; }
-        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px; }
-        .kpi { background: #fff; padding: 15px; border-radius: 8px; border-left: 5px solid var(--az); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .kpi b { display: block; font-size: 24px; color: var(--az); }
-        .sub { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .pan { background: #fff; padding: 12px; border-radius: 8px; border: 1px solid #ddd; display: flex; justify-content: space-around; }
-        .v { font-weight: 800; color: var(--az); font-size: 16px; }
-        .filters { background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ddd; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
-        input, select { padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 12px; }
-        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; }
-        th { background: var(--az); color: #fff; padding: 10px; text-align: left; font-size: 11px; text-transform: uppercase; }
-        td { padding: 10px; border-bottom: 1px solid #eee; }
-        .r-b { display: inline-block; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-weight: bold; background: #eee; }
-        .r-h { background: var(--rj) !important; color: #fff !important; }
+        :root { --az-osc: #0F172A; --az-med: #1E293B; --az-pri: #2563EB; --rj-cri: #991B1B; --am-ale: #D97706; --vi-pro: #7C3AED; --na-fal: #EA580C; --gris-bg: #F8FAFC; --borde: #E2E8F0; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--gris-bg); padding: 25px; font-size: 12px; color: #1E293B; margin: 0; }
+        .page { max-width: 1750px; margin: auto; }
+        .header { margin-bottom: 20px; border-bottom: 3px solid var(--az-osc); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 18px; font-weight: 900; color: var(--az-osc); margin: 0; text-transform: uppercase; letter-spacing: -0.5px; }
+        
+        .grid-kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px; }
+        .kpi { background: #fff; padding: 20px; border-radius: 12px; border: 1px solid var(--borde); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); position: relative; }
+        .kpi::after { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 6px; background: var(--az-pri); }
+        .kpi span { font-size: 10px; font-weight: 800; color: #64748B; text-transform: uppercase; }
+        .kpi b { display: block; font-size: 32px; color: var(--az-osc); letter-spacing: -1px; }
+
+        .score-board { background: #fff; padding: 15px; border-radius: 12px; border: 1px solid var(--borde); display: flex; justify-content: space-around; align-items: center; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .sc-val { display: block; font-size: 20px; font-weight: 800; color: var(--az-pri); }
+        .sc-lab { font-size: 10px; font-weight: 700; color: #64748B; text-transform: uppercase; }
+
+        .filters { background: var(--az-osc); padding: 20px; border-radius: 12px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; color: #fff; }
+        .filters label { display: block; font-size: 9px; font-weight: 700; text-transform: uppercase; color: #94A3B8; margin-bottom: 5px; }
+        input, select { padding: 9px; border: 1px solid #334155; border-radius: 8px; font-size: 11px; background: #1E293B; color: #fff; outline: none; width: 100%; }
+
+        .table-container { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid var(--borde); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #F8FAFC; color: #475569; padding: 15px; text-align: left; font-size: 11px; font-weight: 800; text-transform: uppercase; border-bottom: 2px solid var(--borde); }
+        td { padding: 14px 15px; border-bottom: 1px solid #F1F5F9; vertical-align: middle; }
+
+        .r-badge { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; font-weight: 900; background: #F1F5F9; border: 1px solid var(--borde); }
+        .r-high { background: var(--rj-cri) !important; color: #fff !important; }
+        
+        .name-main { font-weight: 800; color: var(--az-osc); display: block; text-transform: uppercase; }
+        .name-sub { font-size: 10px; color: #64748B; font-weight: 600; text-transform: uppercase; }
+
+        .col-falta { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+        .falta-circle { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; font-weight: 900; font-size: 10px; color: #fff; border: 2px solid rgba(255,255,255,0.5); }
+        .falta-desc { font-size: 9px; font-weight: 800; color: #64748B; text-transform: uppercase; line-height: 1; }
+
+        .f-red { background-color: var(--rj-cri); } 
+        .f-yellow { background-color: var(--am-ale); } 
+        .f-blue { background-color: var(--az-pri); }
+        .f-grey { background-color: #64748B; }
     </style>
 </head>
 <body>
+
 <div class="page">
-    <div class="stats">
-        <div class="kpi">TICKETS ANALIZADOS<b id="st-tot">92</b></div>
-        <div class="kpi">DEPARTAMENTOS AFECTADOS<b id="st-dep">0</b></div>
-        <div class="kpi">CENTROS AFECTADOS<b id="st-ce">0</b></div>
+    <div class="header">
+        <h1>SISTEMA DE AUDITORÍA DOCENTE — EL SALVADOR</h1>
+        <div style="font-weight: 800; color: var(--az-pri);">VERSIÓN 4.0</div>
     </div>
-    <div class="sub">
-        <div class="pan" style="border-left: 5px solid var(--am);">DOCENTES: <span class="v" id="m-t">0</span> | R2: <span class="v" id="m-2">0</span> | R3+: <span class="v" id="m-3">0</span></div>
-        <div class="pan" style="border-left: 5px solid var(--az);">DIRECTORES: <span class="v" id="d-t">0</span> | R2: <span class="v" id="d-2">0</span> | R3+: <span class="v" id="d-3">0</span></div>
+
+    <div class="grid-kpi">
+        <div class="kpi"><span>TOTAL SOLICITUDES</span><b id="st-tot">0</b></div>
+        <div class="kpi"><span>DEPARTAMENTOS</span><b id="st-dep">0</b></div>
+        <div class="kpi"><span>CENTROS EDUCATIVOS</span><b id="st-ce">0</b></div>
     </div>
+
+    <div class="score-board">
+        <div style="text-align:center"><span class="sc-lab">DOCENTES</span><span class="sc-val" id="m-t">0</span></div>
+        <div style="text-align:center"><span class="sc-lab">R2</span><span class="sc-val" id="m-2">0</span></div>
+        <div style="text-align:center"><span class="sc-lab">R3+</span><span class="sc-val" id="m-3">0</span></div>
+        <div style="border-left: 1px solid #ddd; height: 30px;"></div>
+        <div style="text-align:center"><span class="sc-lab">DIRECTORES</span><span class="sc-val" id="d-t">0</span></div>
+        <div style="text-align:center"><span class="sc-lab">R2</span><span class="sc-val" id="d-2">0</span></div>
+        <div style="text-align:center"><span class="sc-lab">R3+</span><span class="sc-val" id="d-3">0</span></div>
+    </div>
+
     <div class="filters">
-        <input id="b-n" type="text" placeholder="Nombre Persona..." oninput="render()" style="flex:1">
-        <input list="ids" id="b-id" placeholder="CÓDIGO CE..." oninput="render()" style="width:110px"><datalist id="ids"></datalist>
-        <select id="f-re" onchange="render()"><option value="todos">Reincidencias</option><option value="2">2 Reportes</option><option value="3">3 Reportes</option><option value="4">4 o mas</option></select>
-        <input type="date" id="f-i" onchange="render()">
-        <input type="date" id="f-f" onchange="render()">
-        <select id="f-de" onchange="render()"><option value="todos">Departamentos</option></select>
-        <select id="f-ca" onchange="render()"><option value="todos">Cargos</option><option value="Director">Director</option><option value="Docente">Docente</option></select>
+        <div style="flex:1.5">
+            <label>Nombre del Personal</label>
+            <input list="list-n" id="b-n" oninput="render()" placeholder="BUSCAR NOMBRE...">
+            <datalist id="list-n"></datalist>
+        </div>
+        <div style="flex:1.5">
+            <label>Nombre del Centro</label>
+            <input list="list-e" id="b-ce" oninput="render()" placeholder="BUSCAR ESCUELA...">
+            <datalist id="list-e"></datalist>
+        </div>
+        <div style="width:100px">
+            <label>Código CE</label>
+            <input list="list-id" id="b-id" oninput="render()" placeholder="ID...">
+            <datalist id="list-id"></datalist>
+        </div>
+        <div style="width:130px"><label>Reincidencia</label><select id="f-re" onchange="render()"><option value="todos">TODAS</option><option value="2">2 REPORTES</option><option value="3">3 REPORTES</option><option value="4">4 O MÁS</option></select></div>
+        <div style="width:130px"><label>Desde</label><input type="date" id="f-i" onchange="render()"></div>
+        <div style="width:130px"><label>Hasta</label><input type="date" id="f-f" onchange="render()"></div>
+        <div style="width:130px"><label>Departamento</label><select id="f-de" onchange="render()"><option value="todos">TODOS</option></select></div>
+        <div style="width:110px"><label>Cargo</label><select id="f-ca" onchange="render()"><option value="todos">AMBOS</option><option value="Director">DIRECTOR</option><option value="Docente">DOCENTE</option></select></div>
     </div>
-    <table>
-        <thead><tr><th>NOMBRE</th><th style="text-align:center">REPORTE</th><th>CENTRO EDUCATIVO</th><th>CÓDIGO CE</th><th>DEPARTAMENTO</th><th>FECHA</th></tr></thead>
-        <tbody id="res"></tbody>
-    </table>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th width="22%">NOMBRE DEL PERSONAL</th>
+                    <th width="8%" style="text-align:center">REPORTE</th>
+                    <th width="18%" style="text-align:center">FALTA DETECTADA</th>
+                    <th width="22%">CENTRO EDUCATIVO</th>
+                    <th width="10%">CÓDIGO CE</th>
+                    <th width="15%">DEPARTAMENTO / FECHA</th>
+                </tr>
+            </thead>
+            <tbody id="res"></tbody>
+        </table>
+    </div>
 </div>
+
 <script>
 const D = [
-{n:'CONSUELO REGINA BENITEZ GUZMAN',c:'Director',e:'CE CASERIO QUEBRADA HONDA',id:'13559',d:'LA UNIÓN',f:'2026-03-31'},
-{n:'ANA CECILIA MENJIVAR LOPEZ',c:'Director',e:'CE CASERIO EL AMATILLO',id:'86321',d:'CHALATENANGO',f:'2026-03-31'},
-{n:'ROSA DYNA GUADALUPE ARIAS DE CORDOVA',c:'Director',e:'CE CANTON SAN FRANCISCO',id:'78051',d:'SAN VICENTE',f:'2026-03-31'},
-{n:'CARMEN VERA ALICE LINARES',c:'Director',e:'CE COLONIA QUIÑONEZ',id:'10484',d:'SANTA ANA',f:'2026-03-31'},
-{n:'FRANCISCO JOSUE CRUZ OCHOA',c:'Director',e:'CE CASERIO EL SALAMAR',id:'12612',d:'USULUTÁN',f:'2026-03-26'},
-{n:'VERONICA BEATRIZ ALFARO DE RODRIGUEZ',c:'Director',e:'CE CANTON EL PEDREGAL',id:'11922',d:'LA PAZ',f:'2026-03-26'},
-{n:'NORA SILVIA PRIETO DE AYALA',c:'Docente',e:'CE CONSTITUCION 1950',id:'11641',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'ILIANA IVETTE RODAS GARCIA',c:'Docente',e:'CE NUEVO LOURDES',id:'10050',d:'LA LIBERTAD',f:'2026-03-26'},
-{n:'XIOMARA GUADALUPE MORENO PERLA',c:'Director',e:'CE RAMON ENRIQUE VENTURA',id:'60217',d:'SAN MIGUEL',f:'2026-03-26'},
-{n:'CIDA JEANETT LAGUAN ALARCON',c:'Director',e:'CE CASERIO LA JOYA',id:'86493',d:'AHUACHAPÁN',f:'2026-03-26'},
-{n:'STEISY NOHEMY GOMEZ AGUILAR',c:'Director',e:'CE CASERIO EL TABLON',id:'12338',d:'SAN VICENTE',f:'2026-03-26'},
-{n:'RAUL AMILCAR LANDAVERDE MEJIA',c:'Director',e:'CE CANTON LAS DELICIAS',id:'11217',d:'LA LIBERTAD',f:'2026-03-26'},
-{n:'RICARDO ULISES PEREZ ALFARO',c:'Director',e:'CE CATOLICO NTRA SRA GRACIAS',id:'88109',d:'LA LIBERTAD',f:'2026-03-26'},
-{n:'ANA ONFALIA HERNANDEZ RUIZ',c:'Director',e:'EEE MSÑOR RODRIGO CABRERA',id:'12721',d:'USULUTÁN',f:'2026-03-26'},
-{n:'ANA MARGARITA AYALA ARIAS',c:'Director',e:'CE COLONIA SAN MAURICIO',id:'11432',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'ROMEO MIGUEL ROGEL',c:'Director',e:'CE CANTON SAN JOSE SHANGALLO',id:'60311',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'JORGE PORFIRIO SEVILLANO PAREDES',c:'Director',e:'IN COLONIA SANTA LUCIA',id:'14808',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'ANA BERNARDA MARAVILLA MELENDEZ',c:'Director',e:'CE REPUBLICA DE COREA',id:'11723',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'CLAUDIA CAROLINA HERNANDEZ DE OLIVA',c:'Director',e:'CE GRAL. FCO MORAZAN',id:'11532',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'ANGEL DE JESUS CRUZ LEMUS',c:'Director',e:'CE COLONIA EL MILAGRO',id:'11482',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'JUAN ANTONIO GOCHEZ MENENDEZ',c:'Director',e:'CE GRAL. FRANCISCO MENENDEZ',id:'10076',d:'AHUACHAPÁN',f:'2026-03-26'},
-{n:'ANA JESSICA HERNANDEZ FERRUFINO',c:'Director',e:'CE CANTON EL TEJAR',id:'86034',d:'LA UNIÓN',f:'2026-03-26'},
-{n:'MIRNA DOLORES MERLOS MERLOS',c:'Director',e:'CE CASERIO SAN JUAN ARRIBA',id:'84074',d:'MORAZÁN',f:'2026-03-26'},
-{n:'MARGARITO ELIAS GUZMAN',c:'Director',e:'CE CASERIO LOT. SAN IGNACIO',id:'62014',d:'SANTA ANA',f:'2026-03-26'},
-{n:'ANGEL ANTONIO AYALA HENRIQUEZ',c:'Director',e:'CE CASERIO EL OCOTILLO',id:'76054',d:'CABAÑAS',f:'2026-03-26'},
-{n:'RONALD OSVALDO CRUZ TANCHEZ',c:'Docente',e:'IN ALBERTO MASFERRER',id:'11420',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'MARIO ARNULFO MENDEZ VASQUEZ',c:'Docente',e:'CE CANTON EL ANGEL',id:'11331',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'BLANCA ESTELA HUEZO RAMIREZ',c:'Docente',e:'CE CANTON EL ANGEL',id:'11331',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'DIANA AUDELIA PLEITEZ BERRIOS',c:'Docente',e:'CE CANTON EL ANGEL',id:'11331',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'SILVIA GUADALUPE HERNANDEZ',c:'Docente',e:'CE CANTON EL ANGEL',id:'11331',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'EDYT DEL CARMEN ALVARENGA DE RIVAS',c:'Docente',e:'CE JORGE LARDE',id:'11507',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'MARIA ESMERALDA RIVERA DE QUINTANILLA',c:'Docente',e:'CE EDELMIRA MOLINA',id:'11770',d:'SAN SALVADOR',f:'2026-03-26'},
-{n:'LUIS FELIPE SANCHEZ MIJANGO',c:'Docente',e:'CE CANTON EL GUAYABO',id:'70048',d:'SAN SALVADOR',f:'2026-03-23'},
-{n:'MAX FRANCISCO RODRIGUEZ MURCIA',c:'Director',e:'CE CASERIO ROSARIO CEREN',id:'10620',d:'SONSONATE',f:'2026-03-23'},
-{n:'CRISTINA GUADALUPE MONTERROSA',c:'Director',e:'IN DE APASTEPEQUE',id:'12316',d:'SAN VICENTE',f:'2026-03-23'},
-{n:'CAROLINA GUADALUPE RAMIREZ',c:'Director',e:'CE CASERIO SAN JOSE LA CEIBA',id:'78080',d:'SAN VICENTE',f:'2026-03-23'},
-{n:'WILLIAM ARMANDO LOPEZ MENDOZA',c:'Director',e:'CE BUENA VISTA',id:'60281',d:'SONSONATE',f:'2026-03-23'},
-{n:'WILMER GABRIEL TOBAR VILLANUEVA',c:'Director',e:'CE CANTON EL BALSAMAR',id:'64026',d:'SONSONATE',f:'2026-03-23'},
-{n:'IRMA ELENA POSADA DE LANDAVERDE',c:'Director',e:'CE PROF. FELIX CANIZALEZ',id:'10497',d:'SANTA ANA',f:'2026-03-23'},
-{n:'CLAUDIA YANIRA PEREZ LUCHA',c:'Director',e:'EP MATIAS ROMERO',id:'10196',d:'SANTA ANA',f:'2026-03-23'},
-{n:'MARTA DEL CARMEN BONILLA MOLINA',c:'Director',e:'CE MSÑOR GREGORIO ROSA CHAVEZ',id:'60306',d:'SAN SALVADOR',f:'2026-03-23'},
-{n:'MIGUEL ANTONIO CABEZAS',c:'Director',e:'CE RICARDO TRIGUEROS DE LEON',id:'10006',d:'AHUACHAPÁN',f:'2026-03-23'},
-{n:'NILSAN ABIGAIL MARTINEZ CRUZ',c:'Director',e:'CE CANTON SAN JOSE',id:'13540',d:'LA UNIÓN',f:'2026-03-22'},
-{n:'ETENIA SUJEY SERPAS DE CASTRO',c:'Director',e:'CE CASERIO HUILIHUISTE',id:'60184',d:'USULUTÁN',f:'2026-03-20'},
-{n:'JULIA LIZZETTE RODRIGUEZ',c:'Director',e:'CE MILAGRO DE LA PAZ',id:'13073',d:'SAN MIGUEL',f:'19/03/2026'},
-{n:'LIZ OSIRIS VALLE ESCOBAR',c:'Director',e:'CE CANTON PASO DE GUALACHE',id:'12726',d:'USULUTÁN',f:'19/03/2026'},
-{n:'GERMAN NELSON SOLIS HERNANDEZ',c:'Director',e:'CE SANTIAGO DE MARIA',id:'12724',d:'USULUTÁN',f:'19/03/2026'},
-{n:'MARIO ALFONSO VALLECILLOS PEREZ',c:'Director',e:'CE FE Y ALEGRIA',id:'11751',d:'SAN SALVADOR',f:'2026-03-17'},
-{n:'JOSE LUCAS DE LEON HERNANDEZ',c:'Director',e:'CE SANTA CRUZ ANALQUITO',id:'11883',d:'CUSCATLÁN',f:'2026-03-16'},
-{n:'GERMAN ARMANDO GOMEZ',c:'Director',e:'CE PROF. OSCAR ARMANDO GUERRA',id:'11015',d:'LA LIBERTAD',f:'2026-03-10'},
-{n:'DANIEL DIAZ GUZMAN',c:'Director',e:'CE COLONIA LAS CAÑAS',id:'11407',d:'SAN SALVADOR',f:'2026-03-10'},
-{n:'LUISA RUBIDIA ALVARADO MENDEZ',c:'Director',e:'CE CASERIO LAS MARIAS',id:'64039',d:'SONSONATE',f:'2026-03-10'},
-{n:'EDWIN FERNANDO HERRERA GUILLEN',c:'Director',e:'CE COLONIA VILLA ALEGRE',id:'11712',d:'SAN SALVADOR',f:'2026-03-09'},
-{n:'SILVIA DINORA CARRERO ELIAS',c:'Director',e:'CE CANTON LAS CAÑAS',id:'10874',d:'CHALATENANGO',f:'2026-03-09'},
-{n:'WALTER ORLANDO GOMEZ ARTOLA',c:'Director',e:'IN SAN ANTONIO SILVA',id:'12982',d:'SAN MIGUEL',f:'2026-03-08'},
-{n:'SONIA CAROLINA MARTINEZ ARGUETA',c:'Director',e:'CE CANTON PILETAS',id:'62005',d:'SANTA ANA',f:'2026-03-05'},
-{n:'MARTIR ZACARIAS GUTIERREZ LOPEZ',c:'Director',e:'CE CANTON LOS MAGUEYES',id:'10022',d:'AHUACHAPÁN',f:'2026-03-04'},
-{n:'CESIA CAROLINA GUTIERREZ AGUILAR',c:'Director',e:'CE CASERIO VALLE NUEVO',id:'60289',d:'SANTA ANA',f:'2026-03-02'},
-{n:'RAFAEL ANTONIO ESCALANTE',c:'Director',e:'CE CASERIO EL AHOGADO',id:'10336',d:'SANTA ANA',f:'2026-03-02'},
-{n:'NOHEMY MARGOTH GOMEZ PADILLA',c:'Director',e:'CE CASERIO LA CAÑADA',id:'82103',d:'SAN MIGUEL',f:'2026-03-02'},
-{n:'HERBERT JOSE JOVEL NOVELLINO',c:'Director',e:'CE CASERIO LA LIMA',id:'68165',d:'LA LIBERTAD',f:'2026-03-02'},
-{n:'FRANCISCO ALEXANDER SANABRIA',c:'Director',e:'CE HUMBERTO PARADA SANDOVAL',id:'10343',d:'SANTA ANA',f:'2026-03-01'},
-{n:'JOSE EDWARDS MONROY FLORES',c:'Director',e:'CE JUTTA STEINER DE TORUÑO',id:'11009',d:'LA LIBERTAD',f:'2026-02-28'},
-{n:'DAVID ROBERTO TEJADA TEJADA',c:'Director',e:'CE CANTON SANTA RITA CIMARRON',id:'66087',d:'CHALATENANGO',f:'2026-02-27'},
-{n:'MAREL VILORIO VELASQUEZ',c:'Director',e:'CE CASERIO EL MANZANILLO',id:'13350',d:'LA UNIÓN',f:'2026-02-20'},
-{n:'ALBA LUZ MALDONADO DE ZAVALA',c:'Director',e:'CE CASERIO EL PEDERNAL',id:'86539',d:'LA UNIÓN',f:'2026-02-20'},
-{n:'DARWIN DAVID AMAYA FLORES',c:'Director',e:'CE CANTON EL MOLINO',id:'13351',d:'LA UNIÓN',f:'2026-02-20'},
-{n:'OMAR ANTONIO GALDAMEZ MENDOZA',c:'Director',e:'CE CANTON EL TABLON',id:'86296',d:'SAN MIGUEL',f:'2026-02-20'},
-{n:'REINA DE LA PAZ ORELLANA VIGIL',c:'Director',e:'CE CASERIO NUEVA FORTUNA',id:'80105',d:'USULUTÁN',f:'2026-02-20'},
-{n:'MARIA IRMA SOLIS FRANCO',c:'Director',e:'CE CASERIO QUEBRACHO',id:'86198',d:'USULUTÁN',f:'2026-02-20'},
-{n:'LUZ MARIA CORVERA RAMOS',c:'Director',e:'CE CANTON EL HULE CHACHO',id:'12573',d:'USULUTÁN',f:'2026-02-20'},
-{n:'VICTORIA DEL CARMEN PERDOMO',c:'Director',e:'CE CANTON LA TIRANA',id:'60253',d:'USULUTÁN',f:'2026-02-20'},
-{n:'JUAN JOSE DELEON MARROQUIN',c:'Director',e:'CE CASERIO EL PORTEZUELO',id:'10427',d:'SONSONATE',f:'2026-02-20'},
-{n:'SONIA PATRICIA ALVARADO MARINERO',c:'Director',e:'CE CASERIO EL SALAMAR',id:'74088',d:'LA PAZ',f:'2026-02-20'},
-{n:'VITELIO ERNESTO GONZALEZ',c:'Director',e:'CE CASERIO LOS PINOS',id:'60263',d:'AHUACHAPÁN',f:'2026-02-20'},
-{n:'JUAN JOSE DELEON MARROQUIN',c:'Director',e:'CE CASERIO EL PORTEZUELO',id:'10427',d:'SONSONATE',f:'2026-02-20'},
-{n:'SALVADOR HUMBERTO MORAN ALEMAN',c:'Director',e:'CE CASERIO EL DESPOBLADO',id:'10323',d:'SANTA ANA',f:'2026-02-18'},
-{n:'SONIA REGINA OLIVARES RIVERA',c:'Director',e:'CE CASERIO BARRA SALADA',id:'64115',d:'SONSONATE',f:'2026-02-18'},
-{n:'DORIS CONCEPCION GUEVARA',c:'Director',e:'CE CATOLICO SAN JORGE',id:'88117',d:'SANTA ANA',f:'2026-02-18'},
-{n:'WALTER ERNESTO MEDINA SANDOVAL',c:'Director',e:'CE CASERIO LOS ENCUENTROS',id:'64033',d:'SONSONATE',f:'2026-02-18'},
-{n:'KEVIN BYRON ESTEVEZ LINARES',c:'Director',e:'CE CASERIO LOS SITIOS',id:'86481',d:'SANTA ANA',f:'2026-02-18'},
-{n:'KARLA SANTOS DURAN',c:'Director',e:'CE CASERIO EL PINALITO',id:'86279',d:'SANTA ANA',f:'2026-02-18'},
-{n:'JOSE HERNAN BARRERA',c:'Director',e:'CE CASERIO LAS PAVAS',id:'86276',d:'SANTA ANA',f:'2026-02-18'},
-{n:'LORENA CAROLINA VASQUEZ',c:'Director',e:'CE CASERIO EL GUAMILAR',id:'86274',d:'SANTA ANA',f:'2026-02-18'},
-{n:'ALEJANDRA GARCIA ESCANTE',c:'Director',e:'CE CASERIO SAN JOSE CRUCES',id:'62033',d:'SANTA ANA',f:'2026-02-18'},
-{n:'RAFAEL ERNESTO ASENCIO MENDOZA',c:'Director',e:'CE CASERIO CERRO FLORES',id:'62018',d:'SANTA ANA',f:'2026-02-18'},
-{n:'MARIO ATILIO DIAZ GOMEZ',c:'Director',e:'CE CASERIO EL HUISCOYOL',id:'82106',d:'SAN MIGUEL',f:'2026-02-18'},
-{n:'SONIA CALLEJAS',c:'Director',e:'CE URB LAS MARGARITAS',id:'13713',d:'SAN SALVADOR',f:'2026-02-15'},
-{n:'MARIO ALFONSO VALLECILLOS PEREZ',c:'Director',e:'CE FE Y ALEGRIA',id:'11751',d:'SAN SALVADOR',f:'2026-02-13'},
-{n:'DIANA LISETTE PANAMEÑO DE SOL',c:'Director',e:'EP DE COMASAGUA',id:'11053',d:'LA LIBERTAD',f:'2026-02-13'},
-{n:'CARMEN ELENA GONZALEZ',c:'Director',e:'EEE NUEVA SAN SALVADOR',id:'11125',d:'LA LIBERTAD',f:'2026-02-10'},
-{n:'SOR ANTOLINA CERON CERON',c:'Director',e:'CE CATOLICO NTRA SRA ROSARIO',id:'88043',d:'SAN SALVADOR',f:'2025-03-20'}
+{n:'CONSUELO REGINA BENITEZ GUZMAN',c:'Director',e:'CE CASERIO QUEBRADA HONDA',id:'13559',d:'LA UNIÓN',f:'2026-03-31',co:'DS',cd:'DESACATO'},
+{n:'ANA CECILIA MENJIVAR LOPEZ',c:'Director',e:'CE CASERIO EL AMATILLO',id:'86321',d:'CHALATENANGO',f:'2026-03-31',co:'DS',cd:'DESACATO'},
+{n:'ROSA DYNA GUADALUPE ARIAS DE CORDOVA',c:'Director',e:'CE CANTON SAN FRANCISCO',id:'78051',d:'SAN VICENTE',f:'2026-03-31',co:'DS',cd:'DESACATO'},
+{n:'CARMEN VERA ALICE LINARES',c:'Director',e:'CE COLONIA QUIÑONEZ',id:'10484',d:'SANTA ANA',f:'2026-03-31',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'FRANCISCO JOSUE CRUZ OCHOA',c:'Director',e:'CE CASERIO EL SALAMAR',id:'12612',d:'USULUTÁN',f:'2026-03-26',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'VERONICA BEATRIZ ALFARO DE RODRIGUEZ',c:'Director',e:'CE CANTON EL PEDREGAL',id:'11922',d:'LA PAZ',f:'2026-03-26',co:'DS',cd:'DESACATO'},
+{n:'NORA SILVIA PRIETO DE AYALA',c:'Docente',e:'CE CONSTITUCION 1950',id:'11641',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'ILIANA IVETTE RODAS GARCIA',c:'Docente',e:'CE NUEVO LOURDES',id:'10050',d:'LA LIBERTAD',f:'2026-03-26',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'XIOMARA GUADALUPE MORENO PERLA',c:'Director',e:'CE RAMON ENRIQUE VENTURA',id:'60217',d:'SAN MIGUEL',f:'2026-03-26',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'CIDA JEANETT LAGUAN ALARCON',c:'Director',e:'CE CASERIO LA JOYA',id:'86493',d:'AHUACHAPÁN',f:'2026-03-26',co:'DS',cd:'DESACATO'},
+{n:'STEISY NOHEMY GOMEZ AGUILAR',c:'Director',e:'CE CASERIO EL TABLON',id:'12338',d:'SAN VICENTE',f:'2026-03-26',co:'DS',cd:'DESACATO'},
+{n:'RAUL AMILCAR LANDAVERDE MEJIA',c:'Director',e:'CE CANTON LAS DELICIAS',id:'11217',d:'LA LIBERTAD',f:'2026-03-26',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'RICARDO ULISES PEREZ ALFARO',c:'Director',e:'CE CATOLICO NTRA SRA GRACIAS',id:'88109',d:'LA LIBERTAD',f:'2026-03-26',co:'DS',cd:'DESACATO'},
+{n:'ANA ONFALIA HERNANDEZ RUIZ',c:'Director',e:'EEE MSÑOR RODRIGO CABRERA',id:'12721',d:'USULUTÁN',f:'2026-03-26',co:'DS',cd:'DESACATO'},
+{n:'ANA MARGARITA AYALA ARIAS',c:'Director',e:'CE COLONIA SAN MAURICIO',id:'11432',d:'SAN SALVADOR',f:'2026-03-26',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'ROMEO MIGUEL ROGEL',c:'Director',e:'CE CANTON SAN JOSE SHANGALLO',id:'60311',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'JORGE PORFIRIO SEVILLANO PAREDES',c:'Director',e:'IN COLONIA SANTA LUCIA',id:'14808',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'ANA BERNARDA MARAVILLA MELENDEZ',c:'Director',e:'CE REPUBLICA DE COREA',id:'11723',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'CLAUDIA CAROLINA HERNANDEZ DE OLIVA',c:'Director',e:'CE GRAL. FCO MORAZAN',id:'11532',d:'SAN SALVADOR',f:'2026-03-26',co:'DS',cd:'DESACATO'},
+{n:'ANGEL DE JESUS CRUZ LEMUS',c:'Director',e:'CE COLONIA EL MILAGRO',id:'11482',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'JUAN ANTONIO GOCHEZ MENENDEZ',c:'Director',e:'CE GRAL. FRANCISCO MENENDEZ',id:'10076',d:'AHUACHAPÁN',f:'2026-03-26',co:'DS',cd:'DESACATO'},
+{n:'ANA JESSICA HERNANDEZ FERRUFINO',c:'Director',e:'CE CANTON EL TEJAR',id:'86034',d:'LA UNIÓN',f:'2026-03-26',co:'DS',cd:'DESACATO'},
+{n:'MIRNA DOLORES MERLOS MERLOS',c:'Director',e:'CE CASERIO SAN JUAN ARRIBA',id:'84074',d:'MORAZÁN',f:'2026-03-26',co:'DS',cd:'DESACATO'},
+{n:'MARGARITO ELIAS GUZMAN',c:'Director',e:'CE CASERIO LOT. SAN IGNACIO',id:'62014',d:'SANTA ANA',f:'2026-03-26',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'ANGEL ANTONIO AYALA HENRIQUEZ',c:'Director',e:'CE CASERIO EL OCOTILLO',id:'76054',d:'CABAÑAS',f:'2026-03-26',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'RONALD OSVALDO CRUZ TANCHEZ',c:'Docente',e:'IN ALBERTO MASFERRER',id:'11420',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'MARIO ARNULFO MENDEZ VASQUEZ',c:'Docente',e:'CE CANTON EL ANGEL',id:'11331',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'BLANCA ESTELA HUEZO RAMIREZ',c:'Docente',e:'CE CANTON EL ANGEL',id:'11331',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'DIANA AUDELIA PLEITEZ BERRIOS',c:'Docente',e:'CE CANTON EL ANGEL',id:'11331',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'SILVIA GUADALUPE HERNANDEZ',c:'Docente',e:'CE CANTON EL ANGEL',id:'11331',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'EDYT DEL CARMEN ALVARENGA DE RIVAS',c:'Docente',e:'CE JORGE LARDE',id:'11507',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'MARIA ESMERALDA RIVERA DE QUINTANILLA',c:'Docente',e:'CE EDELMIRA MOLINA',id:'11770',d:'SAN SALVADOR',f:'2026-03-26',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'LUIS FELIPE SANCHEZ MIJANGO',c:'Docente',e:'CE CANTON EL GUAYABO',id:'70048',d:'SAN SALVADOR',f:'2026-03-23',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'MAX FRANCISCO RODRIGUEZ MURCIA',c:'Director',e:'CE CASERIO ROSARIO CEREN',id:'10620',d:'SONSONATE',f:'2026-03-23',co:'DS',cd:'DESACATO'},
+{n:'CRISTINA GUADALUPE MONTERROSA',c:'Director',e:'IN DE APASTEPEQUE',id:'12316',d:'SAN VICENTE',f:'2026-03-23',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'CAROLINA GUADALUPE RAMIREZ',c:'Director',e:'CE CASERIO SAN JOSE LA CEIBA',id:'78080',d:'SAN VICENTE',f:'2026-03-23',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'WILLIAM ARMANDO LOPEZ MENDOZA',c:'Director',e:'CE BUENA VISTA',id:'60281',d:'SONSONATE',f:'2026-03-23',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'WILMER GABRIEL TOBAR VILLANUEVA',c:'Director',e:'CE CANTON EL BALSAMAR',id:'64026',d:'SONSONATE',f:'2026-03-23',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'IRMA ELENA POSADA DE LANDAVERDE',c:'Director',e:'CE PROF. FELIX CANIZALEZ',id:'10497',d:'SANTA ANA',f:'2026-03-23',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'CLAUDIA YANIRA PEREZ LUCHA',c:'Director',e:'EP MATIAS ROMERO',id:'10196',d:'SANTA ANA',f:'2026-03-23',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'MARTA DEL CARMEN BONILLA MOLINA',c:'Director',e:'CE MSÑOR GREGORIO ROSA CHAVEZ',id:'60306',d:'SAN SALVADOR',f:'2026-03-23',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'MIGUEL ANTONIO CABEZAS',c:'Director',e:'CE RICARDO TRIGUEROS DE LEON',id:'10006',d:'AHUACHAPÁN',f:'2026-03-23',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'NILSAN ABIGAIL MARTINEZ CRUZ',c:'Director',e:'CE CANTON SAN JOSE',id:'13540',d:'LA UNIÓN',f:'2026-03-22',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'ETENIA SUJEY SERPAS DE CASTRO',c:'Director',e:'CE CASERIO HUILIHUISTE',id:'60184',d:'USULUTÁN',f:'2026-03-20',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'JULIA LIZZETTE RODRIGUEZ',c:'Director',e:'CE MILAGRO DE LA PAZ',id:'13073',d:'SAN MIGUEL',f:'19/03/2026',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'LIZ OSIRIS VALLE ESCOBAR',c:'Director',e:'CE CANTON PASO DE GUALACHE',id:'12726',d:'USULUTÁN',f:'19/03/2026',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'GERMAN NELSON SOLIS HERNANDEZ',c:'Director',e:'CE SANTIAGO DE MARIA',id:'12724',d:'USULUTÁN',f:'19/03/2026',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'MARIO ALFONSO VALLECILLOS PEREZ',c:'Director',e:'CE FE Y ALEGRIA',id:'11751',d:'SAN SALVADOR',f:'17/03/2026',co:'LD',cd:'LIDERAZGO DEFICIENTE'},
+{n:'JOSE LUCAS DE LEON HERNANDEZ',c:'Director',e:'CE SANTA CRUZ ANALQUITO',id:'11883',d:'CUSCATLÁN',f:'16/03/2026',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'GERMAN ARMANDO GOMEZ',c:'Director',e:'CE PROF. OSCAR ARMANDO GUERRA',id:'11015',d:'LA LIBERTAD',f:'10/03/2026',co:'DS',cd:'DESACATO'},
+{n:'DANIEL DIAZ GUZMAN',c:'Director',e:'CE COLONIA LAS CAÑAS',id:'11407',d:'SAN SALVADOR',f:'10/03/2026',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'LUISA RUBIDIA ALVARADO MENDEZ',c:'Director',e:'CE CASERIO LAS MARIAS',id:'64039',d:'SONSONATE',f:'2026-03-10',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'EDWIN FERNANDO HERRERA GUILLEN',c:'Director',e:'CE COLONIA VILLA ALEGRE',id:'11712',d:'SAN SALVADOR',f:'2026-03-09',co:'DS',cd:'DESACATO'},
+{n:'SILVIA DINORA CARRERO ELIAS',c:'Director',e:'CE CANTON LAS CAÑAS',id:'10874',d:'CHALATENANGO',f:'2026-03-09',co:'DS',cd:'DESACATO'},
+{n:'WALTER ORLANDO GOMEZ ARTOLA',c:'Director',e:'IN SAN ANTONIO SILVA',id:'12982',d:'SAN MIGUEL',f:'2026-03-08',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'SONIA CAROLINA MARTINEZ ARGUETA',c:'Director',e:'CE CANTON PILETAS',id:'62005',d:'SANTA ANA',f:'2026-03-05',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'MARTIR ZACARIAS GUTIERREZ LOPEZ',c:'Director',e:'CE CANTON LOS MAGUEYES',id:'10022',d:'AHUACHAPÁN',f:'2026-03-04',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'CESIA CAROLINA GUTIERREZ AGUILAR',c:'Director',e:'CE CASERIO VALLE NUEVO',id:'60289',d:'SANTA ANA',f:'2026-03-02',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'RAFAEL ANTONIO ESCALANTE',c:'Director',e:'CE CASERIO EL AHOGADO',id:'10336',d:'SANTA ANA',f:'2026-03-02',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'NOHEMY MARGOTH GOMEZ PADILLA',c:'Director',e:'CE CASERIO LA CAÑADA',id:'82103',d:'SAN MIGUEL',f:'2026-03-02',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'HERBERT JOSE JOVEL NOVELLINO',c:'Director',e:'CE CASERIO LA LIMA',id:'68165',d:'LA LIBERTAD',f:'2026-03-02',co:'DS',cd:'DESACATO'},
+{n:'FRANCISCO ALEXANDER SANABRIA',c:'Director',e:'CE HUMBERTO PARADA SANDOVAL',id:'10243',d:'SANTA ANA',f:'2026-03-01',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'JOSE EDWARDS MONROY FLORES',c:'Director',e:'CE JUTTA STEINER DE TORUÑO',id:'11009',d:'LA LIBERTAD',f:'2026-02-28',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'DAVID ROBERTO TEJADA TEJADA',c:'Director',e:'CE CANTON SANTA RITA CIMARRON',id:'66087',d:'CHALATENANGO',f:'2026-02-27',co:'DS',cd:'DESACATO'},
+{n:'MAREL VILORIO VELASQUEZ',c:'Director',e:'CE CASERIO EL MANZANILLO',id:'13350',d:'LA UNIÓN',f:'2020-02-20',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'ALBA LUZ MALDONADO DE ZAVALA',c:'Director',e:'CE CASERIO EL PEDERNAL',id:'86539',d:'LA UNIÓN',f:'2020-02-20',co:'OC',cd:'OMISIÓN DE CONTROL'},
+{n:'DARWIN DAVID AMAYA FLORES',c:'Director',e:'CE CANTON EL MOLINO',id:'13351',d:'LA UNIÓN',f:'2020-02-20',co:'IHC',cd:'INCUMPLIMIENTO H.'},
+{n:'OMAR ANTONIO GALDAMEZ MENDOZA',c:'Director',e:'CE CANTON EL TABLON',id:'86296',d:'SAN MIGUEL',f:'2020-02-20',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'REINA DE LA PAZ ORELLANA VIGIL',c:'Director',e:'CE CASERIO NUEVA FORTUNA',id:'80105',d:'USULUTÁN',f:'2020-02-20',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'MARIA IRMA SOLIS FRANCO',c:'Director',e:'CE CASERIO QUEBRACHO',id:'86198',d:'USULUTÁN',f:'2020-02-20',co:'OC',cd:'OMISIÓN DE CONTROL'},
+{n:'LUZ MARIA CORVERA RAMOS',c:'Director',e:'CE CANTON EL HULE CHACHO',id:'12573',d:'USULUTÁN',f:'2020-02-20',co:'OC',cd:'OMISIÓN DE CONTROL'},
+{n:'VICTORIA DEL CARMEN PERDOMO',c:'Director',e:'CE CANTON LA TIRANA',id:'60253',d:'USULUTÁN',f:'2020-02-20',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'JUAN JOSE DELEON MARROQUIN',c:'Director',e:'CE CASERIO EL PORTEZUELO',id:'10427',d:'SONSONATE',f:'2020-02-20',co:'OC',cd:'OMISIÓN DE CONTROL'},
+{n:'SONIA PATRICIA ALVARADO MARINERO',c:'Director',e:'CE CASERIO EL SALAMAR',id:'74088',d:'LA PAZ',f:'2020-02-20',co:'OC',cd:'OMISIÓN DE CONTROL'},
+{n:'VITELIO ERNESTO GONZALEZ',c:'Director',e:'CE CASERIO LOS PINOS',id:'60263',d:'AHUACHAPÁN',f:'2020-02-20',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'JUAN JOSE DELEON MARROQUIN',c:'Director',e:'CE CASERIO EL PORTEZUELO',id:'10427',d:'SONSONATE',f:'2020-02-20',co:'OC',cd:'OMISIÓN DE CONTROL'},
+{n:'SALVADOR HUMBERTO MORAN ALEMAN',c:'Director',e:'CE CASERIO EL DESPOBLADO',id:'10323',d:'SANTA ANA',f:'2026-02-18',co:'OC',cd:'OMISIÓN DE CONTROL'},
+{n:'SONIA REGINA OLIVARES RIVERA',c:'Director',e:'CE CASERIO BARRA SALADA',id:'64115',d:'SONSONATE',f:'2026-02-18',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'DORIS CONCEPCION GUEVARA',c:'Director',e:'CE CATOLICO SAN JORGE',id:'88117',d:'SANTA ANA',f:'2026-02-18',co:'OC',cd:'OMISIÓN DE CONTROL'},
+{n:'WALTER ERNESTO MEDINA SANDOVAL',c:'Director',e:'CE CASERIO LOS ENCUENTROS',id:'64033',d:'SONSONATE',f:'2026-02-18',co:'IHC',cd:'INCUMPLIMIENTO H.'},
+{n:'KEVIN BYRON ESTEVEZ LINARES',c:'Director',e:'CE CASERIO LOS SITIOS',id:'86481',d:'SANTA ANA',f:'2026-02-18',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'KARLA SANTOS DURAN',c:'Director',e:'CE CASERIO EL PINALITO',id:'86279',d:'SANTA ANA',f:'2026-02-18',co:'OC',cd:'OMISIÓN DE CONTROL'},
+{n:'JOSE HERNAN BARRERA',c:'Director',e:'CE CASERIO LAS PAVAS',id:'86276',d:'SANTA ANA',f:'2026-02-18',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'LORENA CAROLINA VASQUEZ',c:'Director',e:'CE CASERIO EL GUAMILAR',id:'86274',d:'SANTA ANA',f:'2026-02-18',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'ALEJANDRA GARCIA ESCANTE',c:'Director',e:'CE CASERIO SAN JOSE CRUCES',id:'62033',d:'SANTA ANA',f:'2026-02-18',co:'OC',cd:'OMISIÓN DE CONTROL'},
+{n:'RAFAEL ERNESTO ASENCIO MENDOZA',c:'Director',e:'CE CASERIO CERRO FLORES',id:'62018',d:'SANTA ANA',f:'2026-02-18',co:'OC',cd:'OMISIÓN DE CONTROL'},
+{n:'MARIO ATILIO DIAZ GOMEZ',c:'Director',e:'CE CASERIO EL HUISCOYOL',id:'82106',d:'SAN MIGUEL',f:'2026-02-18',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'SONIA CALLEJAS',c:'Director',e:'CE URB LAS MARGARITAS',id:'13713',d:'SAN SALVADOR',f:'2026-02-15',co:'DS',cd:'DESACATO'},
+{n:'MARIO ALFONSO VALLECILLOS PEREZ',c:'Director',e:'CE FE Y ALEGRIA',id:'11751',d:'SAN SALVADOR',f:'2026-02-13',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'DIANA LISETTE PANAMEÑO DE SOL',c:'Director',e:'EP DE COMASAGUA',id:'11053',d:'LA LIBERTAD',f:'2026-02-13',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'CARMEN ELENA GONZALEZ',c:'Director',e:'EEE NUEVA SAN SALVADOR',id:'11125',d:'LA LIBERTAD',f:'2026-02-10',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'SOR ANTOLINA CERON CERON',c:'Director',e:'CE CATOLICO NTRA SRA ROSARIO',id:'88043',d:'SAN SALVADOR',f:'2025-03-20',co:'NC',cd:'NO CONTESTA CANAL'}
 ];
 
 function clean(s){ return s?s.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim():''; }
 function render(){
     const nom = clean(document.getElementById('b-n').value);
+    const nce = clean(document.getElementById('b-ce').value);
     const cid = document.getElementById('b-id').value;
     const rei = document.getElementById('f-re').value;
     const ini = document.getElementById('f-i').value;
@@ -159,9 +223,10 @@ function render(){
         const k = t.n;
         const mF = (!ini || t.f >= ini) && (!fin || t.f <= fin);
         const mD = (dep==='todos' || t.d === dep);
-        const mI = (!cid || t.id.includes(cid));
         const mN = (!nom || clean(t.n).includes(nom));
-        if(mF && mD && mI && mN){
+        const mE = (!nce || clean(t.e).includes(nce));
+        const mI = (!cid || t.id.includes(cid));
+        if(mF && mD && mN && mE && mI){
             if(!agrupados[k] || t.f > agrupados[k].f) agrupados[k] = {...t, cnt: counts[k]};
         }
     });
@@ -174,6 +239,8 @@ function render(){
 
     document.getElementById('st-dep').innerText = new Set(fil.map(e=>e.d)).size;
     document.getElementById('st-ce').innerText = new Set(fil.map(e=>e.id)).size;
+    document.getElementById('st-tot').innerText = fil.reduce((a,b)=>a+b.cnt, 0);
+
     const m = fil.filter(e => e.c === 'Docente');
     const d = fil.filter(e => e.c === 'Director');
     document.getElementById('m-t').innerText = m.length;
@@ -185,11 +252,22 @@ function render(){
 
     const tr = document.getElementById('res'); tr.innerHTML = '';
     fil.sort((a,b)=> b.cnt - a.cnt).forEach(e => {
-        tr.innerHTML += `<tr><td><b style="color:var(--az)">${e.n}</b><br><small>${e.c}</small></td><td align="center"><span class="r-b ${e.cnt>1?'r-h':''}">${e.cnt}</span></td><td>${e.e}</td><td>${e.id}</td><td>${e.d}</td><td>${e.f}</td></tr>`;
+        let fC = (e.co==='LD'||e.co==='AD')?'f-red':(e.co==='RG'||e.co==='IHC')?'f-yellow':(e.co==='OB'||e.co==='OC')?'f-blue':'f-grey';
+        tr.innerHTML += `<tr>
+            <td><span class='name-main'>${e.n}</span><span class='name-sub'>${e.c}</span></td>
+            <td align="center"><span class='r-badge ${e.cnt>1?'r-high':''}'>${e.cnt}</span></td>
+            <td align="center"><div class='col-falta'><div class='falta-circle ${fC}'>${e.co}</div><span class='falta-desc'>${e.cd}</span></div></td>
+            <td><span class='ce-text'>${e.e}</span></td>
+            <td><b>${e.id}</b></td>
+            <td style='color:#64748B;font-weight:600;text-transform:uppercase'>${e.d}<br><small>${e.f}</small></td>
+        </tr>`;
     });
 }
+
 window.onload = () => {
-    [...new Set(D.map(t=>t.id))].sort().forEach(id => document.getElementById('ids').innerHTML += `<option value='${id}'>`);
+    [...new Set(D.map(t=>t.n))].sort().forEach(n => document.getElementById('list-n').innerHTML += `<option value='${n}'>`);
+    [...new Set(D.map(t=>t.e))].sort().forEach(e => document.getElementById('list-e').innerHTML += `<option value='${e}'>`);
+    [...new Set(D.map(t=>t.id))].sort().forEach(id => document.getElementById('list-id').innerHTML += `<option value='${id}'>`);
     [...new Set(D.map(t=>t.d))].sort().forEach(d => document.getElementById('f-de').innerHTML += `<option value='${d}'>${d}</option>`);
     render();
 }
