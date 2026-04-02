@@ -23,7 +23,7 @@
 
         .filters { background: var(--az-osc); padding: 20px; border-radius: 12px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; color: #fff; }
         .filters label { display: block; font-size: 9px; font-weight: 700; text-transform: uppercase; color: #94A3B8; margin-bottom: 5px; }
-        input, select { padding: 9px; border: 1px solid #334155; border-radius: 8px; font-size: 11px; background: #1E293B; color: #fff; outline: none; width: 100%; }
+        input, select { padding: 9px; border: 1px solid #334155; border-radius: 8px; font-size: 11px; background: #1E293B; color: #fff; outline: none; width: 100%; text-transform: uppercase; }
 
         .table-container { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid var(--borde); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         table { width: 100%; border-collapse: collapse; }
@@ -55,7 +55,7 @@
     </div>
 
     <div class="grid-kpi">
-        <div class="kpi"><span>TOTAL SOLICITUDES</span><b id="st-tot">0</b></div>
+        <div class="kpi"><span>TOTAL REPORTES</span><b id="st-tot">0</b></div>
         <div class="kpi"><span>DEPARTAMENTOS</span><b id="st-dep">0</b></div>
         <div class="kpi"><span>CENTROS EDUCATIVOS</span><b id="st-ce">0</b></div>
     </div>
@@ -64,9 +64,7 @@
         <div style="text-align:center"><span class="sc-lab">DIRECTORES TOTALES</span><span class="sc-val" id="d-t" style="color:var(--az-pri)">0</span></div>
         <div style="text-align:center"><span class="sc-lab">DIR. REINCIDENCIA 2</span><span class="sc-val" id="d-2" style="color:var(--az-pri)">0</span></div>
         <div style="text-align:center"><span class="sc-lab">DIR. REINCIDENCIA 3+</span><span class="sc-val" id="d-3" style="color:var(--az-pri)">0</span></div>
-        
         <div style="border-left: 1px solid #ddd; height: 30px;"></div>
-        
         <div style="text-align:center"><span class="sc-lab">DOCENTES TOTALES</span><span class="sc-val" id="m-t" style="color:var(--am-ale)">0</span></div>
         <div style="text-align:center"><span class="sc-lab">DOC. REINCIDENCIA 2</span><span class="sc-val" id="m-2" style="color:var(--am-ale)">0</span></div>
         <div style="text-align:center"><span class="sc-lab">DOC. REINCIDENCIA 3+</span><span class="sc-val" id="m-3" style="color:var(--am-ale)">0</span></div>
@@ -158,16 +156,16 @@ const D = [
 {n:'MIGUEL ANTONIO CABEZAS',c:'Director',e:'CE RICARDO TRIGUEROS DE LEON',id:'10006',d:'AHUACHAPÁN',f:'2026-03-23',co:'NC',cd:'NO CONTESTA CANAL'},
 {n:'NILSAN ABIGAIL MARTINEZ CRUZ',c:'Director',e:'CE CANTON SAN JOSE',id:'13540',d:'LA UNIÓN',f:'2026-03-22',co:'OB',cd:'OBSTRUCCIÓN'},
 {n:'ETENIA SUJEY SERPAS DE CASTRO',c:'Director',e:'CE CASERIO HUILIHUISTE',id:'60184',d:'USULUTÁN',f:'2026-03-20',co:'NC',cd:'NO CONTESTA CANAL'},
-{n:'JULIA LIZZETTE RODRIGUEZ',c:'Director',e:'CE MILAGRO DE LA PAZ',id:'13073',d:'SAN MIGUEL',f:'19/03/2026',co:'NC',cd:'NO CONTESTA CANAL'},
-{n:'LIZ OSIRIS VALLE ESCOBAR',c:'Director',e:'CE CANTON PASO DE GUALACHE',id:'12726',d:'USULUTÁN',f:'19/03/2026',co:'OB',cd:'OBSTRUCCIÓN'},
-{n:'GERMAN NELSON SOLIS HERNANDEZ',c:'Director',e:'CE SANTIAGO DE MARIA',id:'12724',d:'USULUTÁN',f:'19/03/2026',co:'RG',cd:'RESISTENCIA GRAVE'},
-{n:'MARIO ALFONSO VALLECILLOS PEREZ',c:'Director',e:'CE FE Y ALEGRIA',id:'11751',d:'SAN SALVADOR',f:'17/03/2026',co:'LD',cd:'LIDERAZGO DEFICIENTE'},
-{n:'JOSE LUCAS DE LEON HERNANDEZ',c:'Director',e:'CE SANTA CRUZ ANALQUITO',id:'11883',d:'CUSCATLÁN',f:'16/03/2026',co:'RG',cd:'RESISTENCIA GRAVE'},
-{n:'GERMAN ARMANDO GOMEZ',c:'Director',e:'CE PROF. OSCAR ARMANDO GUERRA',id:'11015',d:'LA LIBERTAD',f:'10/03/2026',co:'DS',cd:'DESACATO'},
-{n:'DANIEL DIAZ GUZMAN',c:'Director',e:'CE COLONIA LAS CAÑAS',id:'11407',d:'SAN SALVADOR',f:'10/03/2026',co:'RG',cd:'RESISTENCIA GRAVE'},
-{n:'LUISA RUBIDIA ALVARADO MENDEZ',c:'Director',e:'CE CASERIO LAS MARIAS',id:'64039',d:'SONSONATE',f:'10/03/2026',co:'OB',cd:'OBSTRUCCIÓN'},
-{n:'EDWIN FERNANDO HERRERA GUILLEN',c:'Director',e:'CE COLONIA VILLA ALEGRE',id:'11712',d:'SAN SALVADOR',f:'09/03/2026',co:'DS',cd:'DESACATO'},
-{n:'SILVIA DINORA CARRERO ELIAS',c:'Director',e:'CE CANTON LAS CAÑAS',id:'10874',d:'CHALATENANGO',f:'09/03/2026',co:'DS',cd:'DESACATO'},
+{n:'JULIA LIZZETTE RODRIGUEZ',c:'Director',e:'CE MILAGRO DE LA PAZ',id:'13073',d:'SAN MIGUEL',f:'2026-03-19',co:'NC',cd:'NO CONTESTA CANAL'},
+{n:'LIZ OSIRIS VALLE ESCOBAR',c:'Director',e:'CE CANTON PASO DE GUALACHE',id:'12726',d:'USULUTÁN',f:'2026-03-19',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'GERMAN NELSON SOLIS HERNANDEZ',c:'Director',e:'CE SANTIAGO DE MARIA',id:'12724',d:'USULUTÁN',f:'2026-03-19',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'MARIO ALFONSO VALLECILLOS PEREZ',c:'Director',e:'CE FE Y ALEGRIA',id:'11751',d:'SAN SALVADOR',f:'2026-03-17',co:'LD',cd:'LIDERAZGO DEFICIENTE'},
+{n:'JOSE LUCAS DE LEON HERNANDEZ',c:'Director',e:'CE SANTA CRUZ ANALQUITO',id:'11883',d:'CUSCATLÁN',f:'2026-03-16',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'GERMAN ARMANDO GOMEZ',c:'Director',e:'CE PROF. OSCAR ARMANDO GUERRA',id:'11015',d:'LA LIBERTAD',f:'2026-03-10',co:'DS',cd:'DESACATO'},
+{n:'DANIEL DIAZ GUZMAN',c:'Director',e:'CE COLONIA LAS CAÑAS',id:'11407',d:'SAN SALVADOR',f:'2026-03-10',co:'RG',cd:'RESISTENCIA GRAVE'},
+{n:'LUISA RUBIDIA ALVARADO MENDEZ',c:'Director',e:'CE CASERIO LAS MARIAS',id:'64039',d:'SONSONATE',f:'2026-03-10',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'EDWIN FERNANDO HERRERA GUILLEN',c:'Director',e:'CE COLONIA VILLA ALEGRE',id:'11712',d:'SAN SALVADOR',f:'2026-03-09',co:'DS',cd:'DESACATO'},
+{n:'SILVIA DINORA CARRERO ELIAS',c:'Director',e:'CE CANTON LAS CAÑAS',id:'10874',d:'CHALATENANGO',f:'2026-03-09',co:'DS',cd:'DESACATO'},
 {n:'WALTER ORLANDO GOMEZ ARTOLA',c:'Director',e:'IN SAN ANTONIO SILVA',id:'12982',d:'SAN MIGUEL',f:'2026-03-08',co:'RG',cd:'RESISTENCIA GRAVE'},
 {n:'SONIA CAROLINA MARTINEZ ARGUETA',c:'Director',e:'CE CANTON PILETAS',id:'62005',d:'SANTA ANA',f:'2026-03-05',co:'OB',cd:'OBSTRUCCIÓN'},
 {n:'MARTIR ZACARIAS GUTIERREZ LOPEZ',c:'Director',e:'CE CANTON LOS MAGUEYES',id:'10022',d:'AHUACHAPÁN',f:'2026-03-04',co:'NC',cd:'NO CONTESTA CANAL'},
@@ -181,7 +179,7 @@ const D = [
 {n:'MAREL VILORIO VELASQUEZ',c:'Director',e:'CE CASERIO EL MANZANILLO',id:'13350',d:'LA UNIÓN',f:'2020-02-20',co:'AD',cd:'ABANDONO DE DEBER'},
 {n:'ALBA LUZ MALDONADO DE ZAVALA',c:'Director',e:'CE CASERIO EL PEDERNAL',id:'86539',d:'LA UNIÓN',f:'2020-02-20',co:'OC',cd:'OMISIÓN DE CONTROL'},
 {n:'DARWIN DAVID AMAYA FLORES',c:'Director',e:'CE CANTON EL MOLINO',id:'13351',d:'LA UNIÓN',f:'2020-02-20',co:'IHC',cd:'INCUMPLIMIENTO H.'},
-{n:'OMAR ANTONIO GALDAMEZ MENDOZA',c:'Director',e:'CE CANTON EL TABLON',id:'86296',d:'SAN MIGUEL',f:'2020-02-20',co:'AD',cd:'ABANDONO DE DEBER'},
+{n:'OMAR ANTONIO GALDÁMEZ MENDOZA',c:'Director',e:'CE CANTON EL TABLON',id:'86296',d:'SAN MIGUEL',f:'2020-02-20',co:'AD',cd:'ABANDONO DE DEBER'},
 {n:'REINA DE LA PAZ ORELLANA VIGIL',c:'Director',e:'CE CASERIO NUEVA FORTUNA',id:'80105',d:'USULUTÁN',f:'2020-02-20',co:'AD',cd:'ABANDONO DE DEBER'},
 {n:'MARIA IRMA SOLIS FRANCO',c:'Director',e:'CE CASERIO QUEBRACHO',id:'86198',d:'USULUTÁN',f:'2020-02-20',co:'OC',cd:'OMISIÓN DE CONTROL'},
 {n:'LUZ MARIA CORVERA RAMOS',c:'Director',e:'CE CANTON EL HULE CHACHO',id:'12573',d:'USULUTÁN',f:'2020-02-20',co:'OC',cd:'OMISIÓN DE CONTROL'},
@@ -209,10 +207,11 @@ const D = [
 ];
 
 function clean(s){ return s?s.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim():''; }
+
 function render(){
     const nom = clean(document.getElementById('b-n').value);
     const esc = clean(document.getElementById('b-ce').value);
-    const cid = document.getElementById('b-id').value;
+    const cid = clean(document.getElementById('b-id').value);
     const rei = document.getElementById('f-re').value;
     const ini = document.getElementById('f-i').value;
     const fin = document.getElementById('f-f').value;
@@ -243,14 +242,16 @@ function render(){
     document.getElementById('st-ce').innerText = new Set(fil.map(e=>e.id)).size;
     document.getElementById('st-tot').innerText = fil.reduce((a,b)=>a+b.cnt, 0);
 
-    const m = fil.filter(e => e.c === 'Docente');
     const d = fil.filter(e => e.c === 'Director');
-    document.getElementById('m-t').innerText = m.length;
-    document.getElementById('m-2').innerText = m.filter(e=>e.cnt==2).length;
-    document.getElementById('m-3').innerText = m.filter(e=>e.cnt>=3).length;
+    const m = fil.filter(e => e.c === 'Docente');
+
     document.getElementById('d-t').innerText = d.length;
     document.getElementById('d-2').innerText = d.filter(e=>e.cnt==2).length;
     document.getElementById('d-3').innerText = d.filter(e=>e.cnt>=3).length;
+
+    document.getElementById('m-t').innerText = m.length;
+    document.getElementById('m-2').innerText = m.filter(e=>e.cnt==2).length;
+    document.getElementById('m-3').innerText = m.filter(e=>e.cnt>=3).length;
 
     const tr = document.getElementById('res'); tr.innerHTML = '';
     fil.sort((a,b)=> b.cnt - a.cnt).forEach(e => {
