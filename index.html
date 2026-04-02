@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>DASHBOARD DE AUDITORÍA DOCENTE 2026</title>
     <style>
-        :root { --az-osc: #0F172A; --az-med: #1E293B; --az-pri: #2563EB; --rj-cri: #991B1B; --am-ale: #D97706; --vi-pro: #7C3AED; --na-fal: #EA580C; --gris-bg: #F8FAFC; --borde: #E2E8F0; }
+        :root { --az-osc: #0F172A; --az-med: #1E293B; --az-pri: #2563EB; --rj-cri: #991B1B; --am-ale: #D97706; --gris-bg: #F8FAFC; --borde: #E2E8F0; }
         * { box-sizing: border-box; }
         body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--gris-bg); padding: 25px; font-size: 12px; color: #1E293B; margin: 0; }
         .page { max-width: 1750px; margin: auto; }
@@ -31,14 +31,14 @@
         td { padding: 14px 15px; border-bottom: 1px solid #F1F5F9; vertical-align: middle; }
 
         .r-badge { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; font-weight: 900; background: #F1F5F9; border: 1px solid var(--borde); }
-        .r-high { background: var(--rj-cri) !important; color: #fff !important; }
+        .r-high { background: var(--rj-cri) !important; color: #fff !important; border: none; }
         
         .name-main { font-weight: 800; color: var(--az-osc); display: block; text-transform: uppercase; }
         .name-sub { font-size: 10px; color: #64748B; font-weight: 600; text-transform: uppercase; }
 
         .col-falta { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
         .falta-circle { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; font-weight: 900; font-size: 10px; color: #fff; border: 2px solid rgba(255,255,255,0.5); }
-        .falta-desc { font-size: 9px; font-weight: 800; color: #64748B; text-transform: uppercase; line-height: 1; }
+        .falta-desc { font-size: 9px; font-weight: 800; color: #64748B; text-transform: uppercase; line-height: 1.1; }
 
         .f-red { background-color: var(--rj-cri); } 
         .f-yellow { background-color: var(--am-ale); } 
@@ -51,7 +51,7 @@
 <div class="page">
     <div class="header">
         <h1>SISTEMA DE AUDITORÍA DOCENTE — EL SALVADOR</h1>
-        <div style="font-weight: 800; color: var(--az-pri);">VERSIÓN 4.0</div>
+        <div style="font-weight: 800; color: var(--az-pri);">VERSIÓN EJECUTIVA 2026</div>
     </div>
 
     <div class="grid-kpi">
@@ -61,13 +61,15 @@
     </div>
 
     <div class="score-board">
-        <div style="text-align:center"><span class="sc-lab">DOCENTES</span><span class="sc-val" id="m-t">0</span></div>
-        <div style="text-align:center"><span class="sc-lab">R2</span><span class="sc-val" id="m-2">0</span></div>
-        <div style="text-align:center"><span class="sc-lab">R3+</span><span class="sc-val" id="m-3">0</span></div>
+        <div style="text-align:center"><span class="sc-lab">DIRECTORES TOTALES</span><span class="sc-val" id="d-t" style="color:var(--az-pri)">0</span></div>
+        <div style="text-align:center"><span class="sc-lab">DIR. REINCIDENCIA 2</span><span class="sc-val" id="d-2" style="color:var(--az-pri)">0</span></div>
+        <div style="text-align:center"><span class="sc-lab">DIR. REINCIDENCIA 3+</span><span class="sc-val" id="d-3" style="color:var(--az-pri)">0</span></div>
+        
         <div style="border-left: 1px solid #ddd; height: 30px;"></div>
-        <div style="text-align:center"><span class="sc-lab">DIRECTORES</span><span class="sc-val" id="d-t">0</span></div>
-        <div style="text-align:center"><span class="sc-lab">R2</span><span class="sc-val" id="d-2">0</span></div>
-        <div style="text-align:center"><span class="sc-lab">R3+</span><span class="sc-val" id="d-3">0</span></div>
+        
+        <div style="text-align:center"><span class="sc-lab">DOCENTES TOTALES</span><span class="sc-val" id="m-t" style="color:var(--am-ale)">0</span></div>
+        <div style="text-align:center"><span class="sc-lab">DOC. REINCIDENCIA 2</span><span class="sc-val" id="m-2" style="color:var(--am-ale)">0</span></div>
+        <div style="text-align:center"><span class="sc-lab">DOC. REINCIDENCIA 3+</span><span class="sc-val" id="m-3" style="color:var(--am-ale)">0</span></div>
     </div>
 
     <div class="filters">
@@ -86,10 +88,10 @@
             <input list="list-id" id="b-id" oninput="render()" placeholder="ID...">
             <datalist id="list-id"></datalist>
         </div>
-        <div style="width:130px"><label>Reincidencia</label><select id="f-re" onchange="render()"><option value="todos">TODAS</option><option value="2">2 REPORTES</option><option value="3">3 REPORTES</option><option value="4">4 O MÁS</option></select></div>
+        <div style="width:140px"><label>Reincidencia</label><select id="f-re" onchange="render()"><option value="todos">TODAS</option><option value="2">2 REPORTES</option><option value="3">3 REPORTES</option><option value="4">4 O MÁS</option></select></div>
         <div style="width:130px"><label>Desde</label><input type="date" id="f-i" onchange="render()"></div>
         <div style="width:130px"><label>Hasta</label><input type="date" id="f-f" onchange="render()"></div>
-        <div style="width:130px"><label>Departamento</label><select id="f-de" onchange="render()"><option value="todos">TODOS</option></select></div>
+        <div style="width:140px"><label>Departamento</label><select id="f-de" onchange="render()"><option value="todos">TODOS</option></select></div>
         <div style="width:110px"><label>Cargo</label><select id="f-ca" onchange="render()"><option value="todos">AMBOS</option><option value="Director">DIRECTOR</option><option value="Docente">DOCENTE</option></select></div>
     </div>
 
@@ -163,9 +165,9 @@ const D = [
 {n:'JOSE LUCAS DE LEON HERNANDEZ',c:'Director',e:'CE SANTA CRUZ ANALQUITO',id:'11883',d:'CUSCATLÁN',f:'16/03/2026',co:'RG',cd:'RESISTENCIA GRAVE'},
 {n:'GERMAN ARMANDO GOMEZ',c:'Director',e:'CE PROF. OSCAR ARMANDO GUERRA',id:'11015',d:'LA LIBERTAD',f:'10/03/2026',co:'DS',cd:'DESACATO'},
 {n:'DANIEL DIAZ GUZMAN',c:'Director',e:'CE COLONIA LAS CAÑAS',id:'11407',d:'SAN SALVADOR',f:'10/03/2026',co:'RG',cd:'RESISTENCIA GRAVE'},
-{n:'LUISA RUBIDIA ALVARADO MENDEZ',c:'Director',e:'CE CASERIO LAS MARIAS',id:'64039',d:'SONSONATE',f:'2026-03-10',co:'OB',cd:'OBSTRUCCIÓN'},
-{n:'EDWIN FERNANDO HERRERA GUILLEN',c:'Director',e:'CE COLONIA VILLA ALEGRE',id:'11712',d:'SAN SALVADOR',f:'2026-03-09',co:'DS',cd:'DESACATO'},
-{n:'SILVIA DINORA CARRERO ELIAS',c:'Director',e:'CE CANTON LAS CAÑAS',id:'10874',d:'CHALATENANGO',f:'2026-03-09',co:'DS',cd:'DESACATO'},
+{n:'LUISA RUBIDIA ALVARADO MENDEZ',c:'Director',e:'CE CASERIO LAS MARIAS',id:'64039',d:'SONSONATE',f:'10/03/2026',co:'OB',cd:'OBSTRUCCIÓN'},
+{n:'EDWIN FERNANDO HERRERA GUILLEN',c:'Director',e:'CE COLONIA VILLA ALEGRE',id:'11712',d:'SAN SALVADOR',f:'09/03/2026',co:'DS',cd:'DESACATO'},
+{n:'SILVIA DINORA CARRERO ELIAS',c:'Director',e:'CE CANTON LAS CAÑAS',id:'10874',d:'CHALATENANGO',f:'09/03/2026',co:'DS',cd:'DESACATO'},
 {n:'WALTER ORLANDO GOMEZ ARTOLA',c:'Director',e:'IN SAN ANTONIO SILVA',id:'12982',d:'SAN MIGUEL',f:'2026-03-08',co:'RG',cd:'RESISTENCIA GRAVE'},
 {n:'SONIA CAROLINA MARTINEZ ARGUETA',c:'Director',e:'CE CANTON PILETAS',id:'62005',d:'SANTA ANA',f:'2026-03-05',co:'OB',cd:'OBSTRUCCIÓN'},
 {n:'MARTIR ZACARIAS GUTIERREZ LOPEZ',c:'Director',e:'CE CANTON LOS MAGUEYES',id:'10022',d:'AHUACHAPÁN',f:'2026-03-04',co:'NC',cd:'NO CONTESTA CANAL'},
@@ -209,7 +211,7 @@ const D = [
 function clean(s){ return s?s.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim():''; }
 function render(){
     const nom = clean(document.getElementById('b-n').value);
-    const nce = clean(document.getElementById('b-ce').value);
+    const esc = clean(document.getElementById('b-ce').value);
     const cid = document.getElementById('b-id').value;
     const rei = document.getElementById('f-re').value;
     const ini = document.getElementById('f-i').value;
@@ -224,7 +226,7 @@ function render(){
         const mF = (!ini || t.f >= ini) && (!fin || t.f <= fin);
         const mD = (dep==='todos' || t.d === dep);
         const mN = (!nom || clean(t.n).includes(nom));
-        const mE = (!nce || clean(t.e).includes(nce));
+        const mE = (!esc || clean(t.e).includes(esc));
         const mI = (!cid || t.id.includes(cid));
         if(mF && mD && mN && mE && mI){
             if(!agrupados[k] || t.f > agrupados[k].f) agrupados[k] = {...t, cnt: counts[k]};
